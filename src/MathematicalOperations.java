@@ -12,4 +12,14 @@ public class MathematicalOperations {
     public static int binaryPlus(int x, int y) {
         return x+y;
     }
+    
+    /**
+     * Calculates distance to the 0.
+     * Added by Mehmet Burak Kurutmaz.
+     * @param x Operand
+     * @return Absolute value of x
+     */
+    public static double abs(double x) {
+        return (x<0) ? (-x) : x ;
+    }
 }
