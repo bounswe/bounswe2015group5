@@ -25,6 +25,16 @@ public class MathematicalOperations {
     public static int binaryMinus(int x, int y) {
         return x - y;
     }
+    /**
+     * Performs the identity operation
+     * Added by Arda Akdemir.
+     * @param x First operand
+     * @return x minus y
+     */
+    public static int unaryPlus(int x) {
+        return x;
+    }
+    
     
     /**
      * Calculates distance to the 0.
