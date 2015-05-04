@@ -29,4 +29,11 @@ public class TestMathematicalOperations {
         assertEquals(23, MathematicalOperations.abs(23),epsilon); //test when operand is positive
         assertEquals(0, MathematicalOperations.abs(0),epsilon); //test when operand is 0
     }
+
+    @Test
+    public void testTimes() throws Exception {
+        assertEquals(0, MathematicalOperations.binaryMinus(0, 50));
+        assertEquals(2000, MathematicalOperations.binaryMinus(100, 20));
+        assertEquals(-5, MathematicalOperations.binaryMinus(-5, 1));
+    }
 }
