@@ -25,6 +25,7 @@ public class MathematicalOperations {
     public static int binaryMinus(int x, int y) {
         return x - y;
     }
+
     /**
      * Performs the identity operation
      * Added by Arda Akdemir.
@@ -34,8 +35,7 @@ public class MathematicalOperations {
     public static int unaryPlus(int x) {
         return x;
     }
-    
-    
+
     /**
      * Calculates distance to the 0.
      * Added by Mehmet Burak Kurutmaz.
@@ -44,5 +44,16 @@ public class MathematicalOperations {
      */
     public static double abs(double x) {
         return (x<0) ? (-x) : x ;
+    }
+
+    /**
+     * Performs the times operation
+     * Added by Murat Can Karacabey.
+     * @param x First operand
+     * @param x Second operand
+     * @return x times y
+     */
+    public static int times(int x,int y) {
+        return x * y;
     }
 }
