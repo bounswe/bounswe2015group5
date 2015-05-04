@@ -32,8 +32,8 @@ public class TestMathematicalOperations {
 
     @Test
     public void testTimes() throws Exception {
-        assertEquals(0, MathematicalOperations.binaryMinus(0, 50));
-        assertEquals(2000, MathematicalOperations.binaryMinus(100, 20));
-        assertEquals(-5, MathematicalOperations.binaryMinus(-5, 1));
+        assertEquals(0, MathematicalOperations.times(0, 50));
+        assertEquals(2000, MathematicalOperations.times(100, 20));
+        assertEquals(-5, MathematicalOperations.times(-5, 1));
     }
 }

@@ -29,8 +29,8 @@ public class MathematicalOperations {
     /**
      * Performs the identity operation
      * Added by Arda Akdemir.
-     * @param x First operand
-     * @return x minus y
+     * @param x Operand
+     * @return identity of x
      */
     public static int unaryPlus(int x) {
         return x;
