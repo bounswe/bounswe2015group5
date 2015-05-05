@@ -36,4 +36,11 @@ public class TestMathematicalOperations {
         assertEquals(2000, MathematicalOperations.times(100, 20));
         assertEquals(-5, MathematicalOperations.times(-5, 1));
     }
+
+    @Test
+    public void testDivide() throws Exception {
+        assertEquals(1, MathematicalOperations.times(50, 50));
+        assertEquals(-5, MathematicalOperations.times(100, -20));
+        assertEquals(1, MathematicalOperations.times(130, 100));
+    }
 }
