@@ -56,4 +56,16 @@ public class MathematicalOperations {
     public static int times(int x,int y) {
         return x * y;
     }
+
+    /**
+     * Performs division of x by y.
+     * Added by Ömer Ulusal.
+     * @param x First operand
+     * @param y Second operand
+     * @return division of x by y.
+     */
+    public static int divide(int x, int y) {
+        return (y!=0) ? x/y : void;
+    }
+
 }
