@@ -65,7 +65,8 @@ public class MathematicalOperations {
      * @return division of x by y.
      */
     public static int divide(int x, int y) {
-        return (y!=0) ? x/y : void;
+        if (y == 0) throw new ArithmeticException("/ by zero");
+        return x/y;
     }
 
 }
