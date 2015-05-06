@@ -17,7 +17,7 @@ public class MathematicalOperations {
 
     /**
      * Performs subtraction of y from x.
-     * Added by Hakan Şahin.
+     * Added by Hakan Å�ahin.
      * @param x First operand
      * @param y Second operand
      * @return x minus y
@@ -59,7 +59,7 @@ public class MathematicalOperations {
 
     /**
      * Performs division of x by y.
-     * Added by Ömer Ulusal.
+     * Added by Ã–mer Ulusal.
      * @param x First operand
      * @param y Second operand
      * @return division of x by y.
@@ -69,4 +69,16 @@ public class MathematicalOperations {
         return x/y;
     }
 
+    /**
+     * @author Mustafa Tugrul
+     * returns the remainder from division. 
+     * @param x the number divided
+     * @param y the divisor
+     * @return the remainder, (or x mod y)
+     */
+    public static int remainder(int x, int y)
+    {
+    	if (y == 0) throw new ArithmeticException("/ by zero");
+        return x%y;
+    }
 }
