@@ -17,7 +17,7 @@ public class MathematicalOperations {
 
     /**
      * Performs subtraction of y from x.
-     * Added by Hakan Å�ahin.
+     * Added by Hakan Sahin.
      * @param x First operand
      * @param y Second operand
      * @return x minus y
@@ -59,7 +59,7 @@ public class MathematicalOperations {
 
     /**
      * Performs division of x by y.
-     * Added by Ã–mer Ulusal.
+     * Added by Omer Ulusal.
      * @param x First operand
      * @param y Second operand
      * @return division of x by y.
@@ -70,7 +70,7 @@ public class MathematicalOperations {
     }
 
     /**
-     * @author Mustafa Tugrul
+     * @author Mustafa Tugrul Ozsahin
      * returns the remainder from division. 
      * @param x the number divided
      * @param y the divisor
