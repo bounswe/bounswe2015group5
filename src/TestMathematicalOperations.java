@@ -44,4 +44,12 @@ public class TestMathematicalOperations {
         assertEquals(1, MathematicalOperations.divide(130, 100));
         assertEquals(Integer.MAX_VALUE, MathematicalOperations.divide(7, 0));
     }
+    
+    @Test
+    public void testRemainder() throws Exception {
+        assertEquals(0, MathematicalOperations.remainder(20, 4));
+        assertEquals(1, MathematicalOperations.remainder(121, 20));
+        assertEquals(7, MathematicalOperations.remainder(107, 10));
+    }
+
 }
