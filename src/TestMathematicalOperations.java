@@ -3,6 +3,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Contains JUnit tests for MathematicalOperations class.
  * Created by Can Guler on 03.05.2015.
  */
 public class TestMathematicalOperations {
