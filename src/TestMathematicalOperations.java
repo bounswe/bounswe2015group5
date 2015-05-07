@@ -83,8 +83,8 @@ public class TestMathematicalOperations {
 
     @Test(expected = ArithmeticException.class)
     public void testDivide() throws Exception {
-        assertEquals(-5, MathematicalOperations.times(100, -20));
-        assertEquals(1, MathematicalOperations.times(130, 100));
+        assertEquals(-5, MathematicalOperations.divide(100, -20));
+        assertEquals(1, MathematicalOperations.divide(130, 100));
         assertEquals(Integer.MAX_VALUE, MathematicalOperations.divide(7, 0));
     }
 
