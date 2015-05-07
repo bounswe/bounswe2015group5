@@ -7,7 +7,7 @@ public class MathematicalOperations {
 
     /**
      * Performs addition of x and y.
-     * Added by Can Guler.
+     * @author Can Guler.
      *
      * @param x First operand
      * @param y Second operand
@@ -19,7 +19,7 @@ public class MathematicalOperations {
 
     /**
      * Performs subtraction of y from x.
-     * Added by Hakan Sahin.
+     * @author Hakan Sahin.
      *
      * @param x First operand
      * @param y Second operand
@@ -31,7 +31,7 @@ public class MathematicalOperations {
 
     /**
      * Performs the identity operation
-     * Added by Arda Akdemir.
+     * @author Arda Akdemir.
      *
      * @param x Operand
      * @return identity of x
@@ -42,10 +42,10 @@ public class MathematicalOperations {
 
     /**
      * Returns the Additive inverse of the operand
+     * @author Abdullah Hanefi Onaldi
      *
      * @param x Operand
      * @return the additive inverse of the Operand
-     * @author Abdullah Hanefi Onaldi
      */
      public static int unaryMinus(int x) {
          return -x;
@@ -53,7 +53,7 @@ public class MathematicalOperations {
 
     /**
      * Calculates distance to the 0.
-     * Added by Mehmet Burak Kurutmaz.
+     * @author Mehmet Burak Kurutmaz.
      *
      * @param x Operand
      * @return Absolute value of x
@@ -64,7 +64,7 @@ public class MathematicalOperations {
 
     /**
      * Performs the times operation
-     * Added by Murat Can Karacabey.
+     * @author Murat Can Karacabey.
      *
      * @param x First operand
      * @param x Second operand
@@ -76,28 +76,27 @@ public class MathematicalOperations {
 
     /**
      * Performs division of x by y.
-     * Added by Omer Ulusal.
+     * @author Omer Ulusal.
      *
      * @param x First operand
      * @param y Second operand
      * @return division of x by y.
+     * @throws ArithmeticException
      */
     public static int divide(int x, int y) {
-        if (y == 0) throw new ArithmeticException("/ by zero");
         return x / y;
     }
 
     /**
      * Returns the remainder from division
+     * @author Mustafa Tugrul Ozsahin
      *
      * @param x the number divided
      * @param y the divisor
      * @return the remainder, (or x mod y)
-     * @author Mustafa Tugrul Ozsahin
      * @throws ArithmeticException
      */
     public static int remainder(int x, int y) {
-        if (y == 0) throw new ArithmeticException("/ by zero");
         return x % y;
     }
 }

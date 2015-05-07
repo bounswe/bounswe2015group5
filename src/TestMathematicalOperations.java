@@ -15,9 +15,9 @@ public class TestMathematicalOperations {
 
     /**
      * Unit test for binary plus operation
-     * Added by Can Guler
      *
      * @throws Exception
+     * @author Can Guler
      */
     @Test
     public void testBinaryPlus() throws Exception {
