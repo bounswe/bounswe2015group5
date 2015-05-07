@@ -1,4 +1,5 @@
 /**
+ * Contains simple mathematical operations.
  * Created by Can Guler on 03.05.2015.
  */
 
