@@ -7,17 +7,19 @@ public class MathematicalOperations {
     /**
      * Performs addition of x and y.
      * Added by Can Guler.
+     *
      * @param x First operand
      * @param y Second operand
      * @return Sum of x and y
      */
     public static int binaryPlus(int x, int y) {
-        return x+y;
+        return x + y;
     }
 
     /**
      * Performs subtraction of y from x.
      * Added by Hakan Sahin.
+     *
      * @param x First operand
      * @param y Second operand
      * @return x minus y
@@ -29,6 +31,7 @@ public class MathematicalOperations {
     /**
      * Performs the identity operation
      * Added by Arda Akdemir.
+     *
      * @param x Operand
      * @return identity of x
      */
@@ -39,46 +42,49 @@ public class MathematicalOperations {
     /**
      * Calculates distance to the 0.
      * Added by Mehmet Burak Kurutmaz.
+     *
      * @param x Operand
      * @return Absolute value of x
      */
     public static double abs(double x) {
-        return (x<0) ? (-x) : x ;
+        return (x < 0) ? (-x) : x;
     }
 
     /**
      * Performs the times operation
      * Added by Murat Can Karacabey.
+     *
      * @param x First operand
      * @param x Second operand
      * @return x times y
      */
-    public static int times(int x,int y) {
+    public static int times(int x, int y) {
         return x * y;
     }
 
     /**
      * Performs division of x by y.
      * Added by Omer Ulusal.
+     *
      * @param x First operand
      * @param y Second operand
      * @return division of x by y.
      */
     public static int divide(int x, int y) {
         if (y == 0) throw new ArithmeticException("/ by zero");
-        return x/y;
+        return x / y;
     }
 
     /**
-     * @author Mustafa Tugrul Ozsahin
-     * returns the remainder from division. 
+     * returns the remainder from division.
+     * Added by Mustafa Tugrul Ozsahin
+     *
      * @param x the number divided
      * @param y the divisor
      * @return the remainder, (or x mod y)
      */
-    public static int remainder(int x, int y)
-    {
-    	if (y == 0) throw new ArithmeticException("/ by zero");
-        return x%y;
+    public static int remainder(int x, int y) {
+        if (y == 0) throw new ArithmeticException("/ by zero");
+        return x % y;
     }
 }
