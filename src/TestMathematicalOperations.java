@@ -74,18 +74,19 @@ public class TestMathematicalOperations {
         assertEquals(-5, MathematicalOperations.times(-5, 1));
     }
 
+    /**
+     * Unit test for divide operation
+     *      
+     * @throws Exception
+     * @author Omer Ulusal
+     */
+
     @Test(expected = ArithmeticException.class)
     public void testDivide() throws Exception {
-<<<<<<< HEAD
         assertEquals(void, MathematicalOperations.times(50, 0)); //returns void when a number is divided by zero
         assertEquals(-5, MathematicalOperations.times(100, -20));
         assertEquals(1, MathematicalOperations.times(130, 100));
-=======
-        assertEquals(1, MathematicalOperations.divide(50, 50));
-        assertEquals(-5, MathematicalOperations.divide(100, -20));
-        assertEquals(1, MathematicalOperations.divide(130, 100));
         assertEquals(Integer.MAX_VALUE, MathematicalOperations.divide(7, 0));
->>>>>>> origin/master
     }
 
     /**
