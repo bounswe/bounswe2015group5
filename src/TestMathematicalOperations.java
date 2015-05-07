@@ -27,6 +27,12 @@ public class TestMathematicalOperations {
         assertEquals(2 * Integer.MAX_VALUE, MathematicalOperations.binaryPlus(Integer.MAX_VALUE, Integer.MAX_VALUE));
     }
 
+    /**
+     * Unit test for binary minus operation
+     *
+     * @throws Exception
+     * @author Hakan Sahin
+     */
     @Test
     public void testBinaryMinus() throws Exception {
         assertEquals(3, MathematicalOperations.binaryMinus(15, 12));
