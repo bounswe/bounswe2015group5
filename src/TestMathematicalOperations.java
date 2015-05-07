@@ -34,6 +34,21 @@ public class TestMathematicalOperations {
         assertEquals(64, MathematicalOperations.binaryMinus(-23, -87));
     }
 
+    /**
+     * Unit test for Unary Minus operation
+     *
+     * @throws Exception
+     * @author Abdullah Hanefi Onaldi
+     */
+
+    @Test
+    public void testUnaryMinus() throws Exception {
+        assertEquals(3, MathematicalOperations.unaryMinus(-3));
+        assertEquals(-119, MathematicalOperations.unaryMinus(119));
+        assertEquals(64, MathematicalOperations.unaryMinus(-64));
+    }
+
+
     @Test
     public void testAbs() throws Exception {
         assertEquals(8, MathematicalOperations.abs(-8), epsilon); //test when operand is negative

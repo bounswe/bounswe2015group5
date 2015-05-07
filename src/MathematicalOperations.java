@@ -41,6 +41,17 @@ public class MathematicalOperations {
     }
 
     /**
+     * Returns the Additive inverse of the operand
+     *
+     * @param x Operand
+     * @return the additive inverse of the Operand
+     * @author Abdullah Hanefi Onaldi
+     */
+     public static int unaryMinus(int x) {
+         return -x;
+     }
+
+    /**
      * Calculates distance to the 0.
      * Added by Mehmet Burak Kurutmaz.
      *
