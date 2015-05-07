@@ -77,12 +77,13 @@ public class MathematicalOperations {
     }
 
     /**
-     * returns the remainder from division.
-     * Added by Mustafa Tugrul Ozsahin
+     * Returns the remainder from division
      *
      * @param x the number divided
      * @param y the divisor
      * @return the remainder, (or x mod y)
+     * @author Mustafa Tugrul Ozsahin
+     * @throws ArithmeticException
      */
     public static int remainder(int x, int y) {
         if (y == 0) throw new ArithmeticException("/ by zero");

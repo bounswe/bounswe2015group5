@@ -56,6 +56,13 @@ public class TestMathematicalOperations {
         assertEquals(Integer.MAX_VALUE, MathematicalOperations.divide(7, 0));
     }
 
+    /**
+     * Unit test for remainder operation
+     *      
+     * @throws Exception
+     * @author Mustafa Tugrul Ozsahin
+     */
+    
     @Test
     public void testRemainder() throws Exception {
         assertEquals(0, MathematicalOperations.remainder(20, 4));
