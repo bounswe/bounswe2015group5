@@ -48,7 +48,12 @@ public class TestMathematicalOperations {
         assertEquals(64, MathematicalOperations.unaryMinus(-64));
     }
 
-
+    /**
+     * Unit test for absolute value operation
+     * 
+     * @author Mehmet Burak Kurutmaz
+     * @throws Exception
+     */
     @Test
     public void testAbs() throws Exception {
         assertEquals(8, MathematicalOperations.abs(-8), epsilon); //test when operand is negative
