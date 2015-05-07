@@ -61,7 +61,7 @@ public class MathematicalOperations {
      * Performs the times operation
      * @author Murat Can Karacabey.
      * @param x First operand
-     * @param x Second operand
+     * @param y Second operand
      * @return x times y
      */
     public static int times(int x, int y) {

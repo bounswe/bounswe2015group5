@@ -41,6 +41,20 @@ public class TestMathematicalOperations {
     }
 
     /**
+     * Unit test for Unary Plus operation
+     *
+     * @throws Exception
+     * @author Hakan Sahin
+     */
+
+    @Test
+    public void testUnaryPlus() throws Exception {
+        assertEquals(3, MathematicalOperations.unaryPlus(3));
+        assertEquals(-119, MathematicalOperations.unaryPlus(-119));
+        assertEquals(0, MathematicalOperations.unaryPlus(0));
+    }
+
+    /**
      * Unit test for Unary Minus operation
      *
      * @throws Exception
@@ -67,6 +81,12 @@ public class TestMathematicalOperations {
         assertEquals(0, MathematicalOperations.abs(0), epsilon); //test when operand is 0
     }
 
+    /**
+     * Unit test for times operation
+     *
+     * @author Murat Can Karacabey
+     * @throws Exception
+     */
     @Test
     public void testTimes() throws Exception {
         assertEquals(0, MathematicalOperations.times(0, 50));
