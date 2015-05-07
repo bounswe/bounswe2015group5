@@ -7,7 +7,10 @@ import static org.junit.Assert.*;
  */
 public class TestMathematicalOperations {
 
-    private static final double epsilon = 1e-15; //epsilon for double operations
+    /**
+     * Epsilon for floating point operations.
+     */
+    private static final double epsilon = 1e-15;
 
     /**
      * Unit test for binary plus operation
