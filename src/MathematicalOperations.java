@@ -77,7 +77,7 @@ public class MathematicalOperations {
      * @throws ArithmeticException
      */
     public static int divide(int x, int y) {
-        return (y != 0) ? (x/y) : void;
+        return x / y;
     }
 
     /**
