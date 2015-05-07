@@ -1,4 +1,8 @@
 # Created by https://www.gitignore.io
+### Doxygen generated docs ###
+latex/
+html/
+
 
 ### Linux ###
 *~
