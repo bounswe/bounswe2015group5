@@ -3,19 +3,36 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by can on 03.05.2015.
+ * Contains JUnit tests for MathematicalOperations class.
+ * Created by Can Guler on 03.05.2015.
  */
 public class TestMathematicalOperations {
-	
-	private static final double epsilon = 1e-15; //epsilon for double operations
 
+    /**
+     * Epsilon for floating point operations.
+     */
+    private static final double epsilon = 1e-15;
+
+    /**
+     * Unit test for binary plus operation
+     *
+     * @throws Exception
+     * @author Can Guler
+     */
     @Test
     public void testBinaryPlus() throws Exception {
         assertEquals(1, MathematicalOperations.binaryPlus(3, -2));
         assertEquals(0, MathematicalOperations.binaryPlus(3, -3));
         assertEquals(1355, MathematicalOperations.binaryPlus(1333, 22));
+        assertEquals(2 * Integer.MAX_VALUE, MathematicalOperations.binaryPlus(Integer.MAX_VALUE, Integer.MAX_VALUE));
     }
 
+    /**
+     * Unit test for binary minus operation
+     *
+     * @throws Exception
+     * @author Hakan Sahin
+     */
     @Test
     public void testBinaryMinus() throws Exception {
         assertEquals(3, MathematicalOperations.binaryMinus(15, 12));
@@ -23,11 +40,31 @@ public class TestMathematicalOperations {
         assertEquals(64, MathematicalOperations.binaryMinus(-23, -87));
     }
 
+    /**
+     * Unit test for Unary Minus operation
+     *
+     * @throws Exception
+     * @author Abdullah Hanefi Onaldi
+     */
+
+    @Test
+    public void testUnaryMinus() throws Exception {
+        assertEquals(3, MathematicalOperations.unaryMinus(-3));
+        assertEquals(-119, MathematicalOperations.unaryMinus(119));
+        assertEquals(64, MathematicalOperations.unaryMinus(-64));
+    }
+
+    /**
+     * Unit test for absolute value operation
+     * 
+     * @author Mehmet Burak Kurutmaz
+     * @throws Exception
+     */
     @Test
     public void testAbs() throws Exception {
-        assertEquals(8, MathematicalOperations.abs(-8),epsilon); //test when operand is negative
-        assertEquals(23, MathematicalOperations.abs(23),epsilon); //test when operand is positive
-        assertEquals(0, MathematicalOperations.abs(0),epsilon); //test when operand is 0
+        assertEquals(8, MathematicalOperations.abs(-8), epsilon); //test when operand is negative
+        assertEquals(23, MathematicalOperations.abs(23), epsilon); //test when operand is positive
+        assertEquals(0, MathematicalOperations.abs(0), epsilon); //test when operand is 0
     }
 
     @Test
@@ -37,10 +74,32 @@ public class TestMathematicalOperations {
         assertEquals(-5, MathematicalOperations.times(-5, 1));
     }
 
-    @Test
+    @Test(expected = ArithmeticException.class)
     public void testDivide() throws Exception {
+<<<<<<< HEAD
         assertEquals(void, MathematicalOperations.times(50, 0)); //returns void when a number is divided by zero
         assertEquals(-5, MathematicalOperations.times(100, -20));
         assertEquals(1, MathematicalOperations.times(130, 100));
+=======
+        assertEquals(1, MathematicalOperations.divide(50, 50));
+        assertEquals(-5, MathematicalOperations.divide(100, -20));
+        assertEquals(1, MathematicalOperations.divide(130, 100));
+        assertEquals(Integer.MAX_VALUE, MathematicalOperations.divide(7, 0));
+>>>>>>> origin/master
     }
+
+    /**
+     * Unit test for remainder operation
+     *      
+     * @throws Exception
+     * @author Mustafa Tugrul Ozsahin
+     */
+    
+    @Test
+    public void testRemainder() throws Exception {
+        assertEquals(0, MathematicalOperations.remainder(20, 4));
+        assertEquals(1, MathematicalOperations.remainder(121, 20));
+        assertEquals(7, MathematicalOperations.remainder(107, 10));
+    }
+
 }
