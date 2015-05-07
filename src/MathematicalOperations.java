@@ -8,7 +8,6 @@ public class MathematicalOperations {
     /**
      * Performs addition of x and y.
      * @author Can Guler.
-     *
      * @param x First operand
      * @param y Second operand
      * @return Sum of x and y
@@ -20,7 +19,6 @@ public class MathematicalOperations {
     /**
      * Performs subtraction of y from x.
      * @author Hakan Sahin.
-     *
      * @param x First operand
      * @param y Second operand
      * @return x minus y
@@ -32,7 +30,6 @@ public class MathematicalOperations {
     /**
      * Performs the identity operation
      * @author Arda Akdemir.
-     *
      * @param x Operand
      * @return identity of x
      */
@@ -43,7 +40,6 @@ public class MathematicalOperations {
     /**
      * Returns the Additive inverse of the operand
      * @author Abdullah Hanefi Onaldi
-     *
      * @param x Operand
      * @return the additive inverse of the Operand
      */
@@ -54,7 +50,6 @@ public class MathematicalOperations {
     /**
      * Calculates distance to the 0.
      * @author Mehmet Burak Kurutmaz.
-     *
      * @param x Operand
      * @return Absolute value of x
      */
@@ -65,7 +60,6 @@ public class MathematicalOperations {
     /**
      * Performs the times operation
      * @author Murat Can Karacabey.
-     *
      * @param x First operand
      * @param x Second operand
      * @return x times y
@@ -77,7 +71,6 @@ public class MathematicalOperations {
     /**
      * Performs division of x by y.
      * @author Omer Ulusal.
-     *
      * @param x First operand
      * @param y Second operand
      * @return division of x by y.
@@ -90,7 +83,6 @@ public class MathematicalOperations {
     /**
      * Returns the remainder from division
      * @author Mustafa Tugrul Ozsahin
-     *
      * @param x the number divided
      * @param y the divisor
      * @return the remainder, (or x mod y)
