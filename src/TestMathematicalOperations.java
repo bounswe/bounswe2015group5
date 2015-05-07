@@ -39,7 +39,7 @@ public class TestMathematicalOperations {
 
     @Test
     public void testDivide() throws Exception {
-        assertEquals(1, MathematicalOperations.times(50, 50));
+        assertEquals(void, MathematicalOperations.times(50, 0)); //returns void when a number is divided by zero
         assertEquals(-5, MathematicalOperations.times(100, -20));
         assertEquals(1, MathematicalOperations.times(130, 100));
     }
