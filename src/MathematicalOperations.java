@@ -91,10 +91,10 @@ public class MathematicalOperations {
     public static int remainder(int x, int y) {
         return x % y;
     }
-    
+
     /**
      *Raises x to the yth power
-     * author@ Buket Yilmazel
+     * @author Buket Yilmazel
      * @param a is called base.
      * @param b is called power.
      * @return power of a or a^b.

@@ -70,7 +70,7 @@ public class TestMathematicalOperations {
 
     /**
      * Unit test for absolute value operation
-     * 
+     *
      * @author Mehmet Burak Kurutmaz
      * @throws Exception
      */
@@ -96,7 +96,7 @@ public class TestMathematicalOperations {
 
     /**
      * Unit test for divide operation
-     *      
+     *
      * @throws Exception
      * @author Omer Ulusal
      */
@@ -110,30 +110,31 @@ public class TestMathematicalOperations {
 
     /**
      * Unit test for remainder operation
-     *      
+     *
      * @throws Exception
      * @author Mustafa Tugrul Ozsahin
      */
-    
+
     @Test
     public void testRemainder() throws Exception {
         assertEquals(0, MathematicalOperations.remainder(20, 4));
         assertEquals(1, MathematicalOperations.remainder(121, 20));
         assertEquals(7, MathematicalOperations.remainder(107, 10));
     }
-    
+
     /**
      * Unit Test of power method.
+     *
      * @throws java.lang.Exception
      * @author Buket Yilmazel
      */
 
     @Test
     public void testPower() throws Exception{
-        assertEquals(9.0, MathematicalOperations.power(3.0,2.0),0.01);
-        assertEquals(3.0, MathematicalOperations.power(3.0,1.0 ),0.01);
-        assertEquals(0.11,MathematicalOperations.power(3.0,-2),0.01);
-        
+        assertEquals(9.0, MathematicalOperations.power(3.0,2.0),epsilon);
+        assertEquals(3.0, MathematicalOperations.power(3.0,1.0 ),epsilon);
+        assertEquals(0.11,MathematicalOperations.power(3.0,-2),epsilon);
+
     }
 
 }
