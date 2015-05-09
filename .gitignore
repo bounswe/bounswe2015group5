@@ -1,8 +1,12 @@
-# Created by https://www.gitignore.io
+# Added by Can Guler manually
+
 ### Doxygen generated docs ###
 latex/
 html/
 
+
+
+# Created by https://www.gitignore.io
 
 ### Linux ###
 *~
@@ -174,4 +178,3 @@ crashlytics-build.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
