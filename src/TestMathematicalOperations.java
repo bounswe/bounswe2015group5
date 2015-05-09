@@ -121,5 +121,19 @@ public class TestMathematicalOperations {
         assertEquals(1, MathematicalOperations.remainder(121, 20));
         assertEquals(7, MathematicalOperations.remainder(107, 10));
     }
+    
+    /**
+     * Unit Test of power method.
+     * @throws java.lang.Exception
+     * @author Buket Yilmazel
+     */
+
+    @Test
+    public void testPower() throws Exception{
+        assertEquals(9.0, MathematicalOperations.power(3.0,2.0),0.01);
+        assertEquals(3.0, MathematicalOperations.power(3.0,1.0 ),0.01);
+        assertEquals(0.11,MathematicalOperations.power(3.0,-2),0.01);
+        
+    }
 
 }
