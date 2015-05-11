@@ -79,6 +79,18 @@ public class MathematicalOperations {
     public static int divide(int x, int y) {
         return x / y;
     }
+    
+    /**
+     * Performs division of y by x.
+     * @author Melih Demiroren.
+     * @param x First operand
+     * @param y Second operand
+     * @return division of y by x.
+     * @throws ArithmeticException
+     */
+    public static int inverseDivide(int x, int y) {
+        return y / x;
+    }
 
     /**
      * Returns the remainder from division
