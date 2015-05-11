@@ -107,6 +107,19 @@ public class TestMathematicalOperations {
         assertEquals(1, MathematicalOperations.divide(130, 100));
         assertEquals(Integer.MAX_VALUE, MathematicalOperations.divide(7, 0));
     }
+    
+    /**
+     * Unit test for inverse divide operation
+     * @throws Exception
+     * @author Melih Demiroren
+     */
+
+    @Test(expected = ArithmeticException.class)
+    public void testInverseDivide() throws Exception {
+        assertEquals(-2, MathematicalOperations.inverseDivide(10, -20));
+        assertEquals(2, MathematicalOperations.inverseDivide(100, 220));
+        assertEquals(Integer.MAX_VALUE, MathematicalOperations.inverseDivide(0, 9));
+    }
 
     /**
      * Unit test for remainder operation
