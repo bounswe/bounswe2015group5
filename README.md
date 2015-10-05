@@ -34,6 +34,7 @@ This application will have an android based web client as well as web client. In
   * [Hakan Şahin](https://github.com/abdullahanefi/bounswe2015group5/wiki/HakanSahin)
   * [Mehmet Burak Kurutmaz](https://github.com/abdullahanefi/bounswe2015group5/wiki/MehmetBurakKurutmaz)
   * [Melih Demirören](https://github.com/abdullahanefi/bounswe2015group5/wiki/MelihDemiroren)
+  * [Mert Oğuz](https://github.com/bounswe/bounswe2015group5/wiki/MertOguz)
   * [Murat Akif Dumlu](https://github.com/abdullahanefi/bounswe2015group5/wiki/MuratAkifDumlu)
   * [Murat Can Karacabey](https://github.com/abdullahanefi/bounswe2015group5/wiki/MuratCanKaracabey)
   * [Mustafa Tuğrul Özşahin](https://github.com/abdullahanefi/bounswe2015group5/wiki/MustafaTugrulOzsahin)
