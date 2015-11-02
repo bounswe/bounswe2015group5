@@ -108,7 +108,7 @@ public class SignupServlet extends HttpServlet {
             stmt = conn.createStatement();
             String sql;
             sql = "INSERT INTO " + USER_TABLE
-                    + "(Email,Pass,Name,Surname) VALUES(\"" + email + "\"," + "\"" + pass + "\","
+                    + "(Email,Pass,Name,Surname) VALUES(\"" + email + "\"," + "PASSWORD(\"" + pass + "\"),"
                     + "\"" + name + "\"," + surname + "\")";
             stmt.executeUpdate(sql);
             stmt.close();
