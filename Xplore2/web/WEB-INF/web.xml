@@ -19,4 +19,14 @@
         <servlet-name>SignupServlet</servlet-name>
         <url-pattern>/SignupServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <description/>
+        <display-name>ContribServlet</display-name>
+        <servlet-name>ContribServlet</servlet-name>
+        <servlet-class>ContribServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ContribServlet</servlet-name>
+        <url-pattern>/ContribServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
