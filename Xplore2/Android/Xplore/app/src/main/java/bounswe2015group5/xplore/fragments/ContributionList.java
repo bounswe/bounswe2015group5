@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.adapters.ContributionListAdapter;
 import bounswe2015group5.xplore.models.Contribution;
+
 /**
  * Created by hakansahin on 05/11/15.
  */
