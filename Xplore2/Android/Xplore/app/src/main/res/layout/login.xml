@@ -40,7 +40,8 @@
         android:text="Login"
         android:id="@+id/loginBtn"
         android:layout_below="@+id/pass"
-        android:layout_alignLeft="@+id/email"/>
+        android:layout_alignLeft="@+id/email"
+        android:layout_alignEnd="@+id/pass"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -20,7 +20,7 @@ public class Login extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.login);
 
 		edtMail = (EditText) findViewById(R.id.email);
@@ -41,9 +41,8 @@ public class Login extends Activity {
 		String email = edtMail.getText().toString();
 		String pass = edtPass.getText().toString();
 
-		if(email.equals("admin") && pass.equals("admin")){
-			startActivity(new Intent(getApplication(), MainActivity.class));
-		}
+		if(email.equals("admin") && pass.equals("admin"))
+			startActivity(new Intent(Login.this, MainActivity.class));
 
 	}
 
