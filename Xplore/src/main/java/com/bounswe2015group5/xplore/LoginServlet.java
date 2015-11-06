@@ -40,8 +40,9 @@ public class LoginServlet extends HttpServlet {
                 out.print("Login Successful!");
                 HttpSession session = request.getSession();
                 session.setAttribute("email", email);
-                session.setAttribute("name", names[0]);
-                session.setAttribute("surname", names[1]);
+                session.setAttribute("userId", names[0]);
+                session.setAttribute("name", names[1]);
+                session.setAttribute("surname", names[2]);
             }
         }
     }
@@ -57,14 +58,14 @@ public class LoginServlet extends HttpServlet {
     private static String[] checkUser(String email, String pass) {
         try {
             DBConnection conn = new DBConnection();
-            String sql = "SELECT Name,Surname FROM " + USER_TABLE + " WHERE Email=? AND Pass=PASSWORD(?)";
+            String sql = "SELECT ID,Name,Surname FROM " + USER_TABLE + " WHERE Email=? AND Pass=PASSWORD(?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setString(2, pass);
             ResultSet rs = stmt.executeQuery();
             String[] names;
             if (rs.next()) {
-                names = new String[]{rs.getString("Name"), rs.getString("Surname")};
+                names = new String[]{rs.getString("ID"), rs.getString("Name"), rs.getString("Surname")};
             } else {
                 names = new String[]{};
             }

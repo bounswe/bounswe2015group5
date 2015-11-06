@@ -15,4 +15,12 @@ $(document).ready(function () {
             window.alert(responseText);
         });
     });
+    $("#contrib-submit").click(function(e){
+        var title = $("#title").val();
+        var content = $("#content").val();
+        var type = "1";
+        $.post("RegisterContribution",{title: title, content: content, type: type},function(responseText){
+            window.alert(responseText);
+        });
+    });
 });
