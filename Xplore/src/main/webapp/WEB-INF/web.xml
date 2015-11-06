@@ -16,6 +16,10 @@
         <servlet-name>RegisterContribution</servlet-name>
         <servlet-class>com.bounswe2015group5.xplore.RegisterContributionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AllContributions</servlet-name>
+        <servlet-class>com.bounswe2015group5.xplore.AllContributionsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
         <url-pattern>/RegisterUser</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>RegisterContribution</servlet-name>
         <url-pattern>/RegisterContribution</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AllContributions</servlet-name>
+        <url-pattern>/AllContributions</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
