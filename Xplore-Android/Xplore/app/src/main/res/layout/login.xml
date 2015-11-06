@@ -63,5 +63,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue As a Guest"
+        android:id="@+id/guestLogin"
+        android:clickable="true"
+        android:layout_below="@+id/loginBtn"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"/>
+
 
 </RelativeLayout>
