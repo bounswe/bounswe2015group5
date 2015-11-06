@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon"
+        android:src="@drawable/icon"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/signup_email"
+        android:editable="true"
+        android:hint="E-mail"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/signup_name"
+        android:hint="Name"
+        android:layout_below="@+id/signup_email"
+        android:layout_alignEnd="@+id/signup_email"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/signup_surname"
+        android:hint="Surname"
+        android:layout_below="@+id/signup_name"
+        android:layout_alignEnd="@+id/signup_name"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/signup_pass"
+        android:hint="Password"
+        android:layout_below="@+id/signup_surname"
+        android:layout_alignEnd="@+id/signup_surname"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/signup_pass_retype"
+        android:hint="Retype Password"
+        android:layout_below="@+id/signup_pass"
+        android:layout_alignEnd="@+id/signup_pass"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Sign Up"
+        android:id="@+id/signupBtn"
+        android:layout_below="@+id/signup_pass_retype"
+        android:layout_alignLeft="@+id/signup_pass_retype"
+        android:layout_alignEnd="@+id/signup_pass_retype"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log In"
+        android:id="@+id/signup_login"
+        android:clickable="true"
+        android:layout_below="@+id/signupBtn"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue As a Guest"
+        android:id="@+id/guestLogin"
+        android:clickable="true"
+        android:layout_below="@+id/signup_login"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

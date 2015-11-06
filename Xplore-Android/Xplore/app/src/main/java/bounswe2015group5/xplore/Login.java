@@ -21,6 +21,7 @@ public class Login extends Activity {
 	private EditText edtMail, edtPass;
 	private Button loginBtn;
 	private TextView guestLogin;
+	private TextView signUp;
 
 	public static SharedPreferences share;
 
@@ -57,12 +58,26 @@ public class Login extends Activity {
 			}
 		});
 
+		signUp = (TextView) findViewById(R.id.signUp);
+		signUp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				attemptSignup();
+			}
+		});
+
+
 	}
 
 	private void LoginAsGuest() {
 
 		startActivity(new Intent(Login.this, MainActivity.class));
 
+	}
+
+	private void attemptSignup(){
+		startActivity(new Intent(Login.this, Signup.class));
+		finish();
 	}
 
 	private void attempLogin() {
