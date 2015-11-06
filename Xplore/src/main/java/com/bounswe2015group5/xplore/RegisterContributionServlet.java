@@ -16,18 +16,22 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author can
+ * @author Can Guler
  */
 public class RegisterContributionServlet extends HttpServlet {
    
     static final String CONTRIB_TABLE = "Contribution";
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the post request. 
+     * Gets user id from the session.
+     * Gets title, content, type from the post message.
+     * Uses curdate of mysql as the date of the contribution.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @author Can Guler
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -55,6 +59,16 @@ public class RegisterContributionServlet extends HttpServlet {
         }
     }
     
+    
+    /**
+     * Inserts a contribution to database
+     * @param userId
+     * @param title
+     * @param content
+     * @param type
+     * @return Success
+     * @author Can Guler
+     */
     private static boolean registerContrib(String userId, String title, String content, String type) {
         try {
             DBConnection conn = new DBConnection();
