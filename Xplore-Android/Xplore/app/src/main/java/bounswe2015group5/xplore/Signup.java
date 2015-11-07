@@ -4,12 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 import org.w3c.dom.Text;
 
@@ -28,12 +40,14 @@ public class Signup extends Activity {
     private TextView loginText;
 
     public static SharedPreferences share;
+    private RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         share = getApplicationContext().getSharedPreferences("appdata", Context.MODE_PRIVATE);
+        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
 
         // If the user signed before, it is directed to main activity.
         if(share.getBoolean("signedIn",false)){
@@ -92,11 +106,13 @@ public class Signup extends Activity {
      */
     private void attemptSignup() {
 
-        String email = edtMail.getText().toString();
-        String name = edtName.getText().toString();
-        String surname = edtSurname.getText().toString();
-        String pass = edtPass.getText().toString();
-        String pass_retype = edtPassRetype.getText().toString();
+        final String email = edtMail.getText().toString();
+        final String name = edtName.getText().toString();
+        final String surname = edtSurname.getText().toString();
+        final String pass = edtPass.getText().toString();
+        final String pass_retype = edtPassRetype.getText().toString();
+        final String URL = getString(R.string.service_url) + "RegisterUser"; //for POST to server
+
         if(!pass.equals(pass_retype)) {
             Toast.makeText(getApplicationContext(), "Passwords Don't Match", Toast.LENGTH_SHORT).show();
             return;
@@ -106,13 +122,47 @@ public class Signup extends Activity {
             return;
         }
         //Signup successfull
-        SharedPreferences.Editor editor = share.edit();
-        editor.putBoolean("signedIn", true);
-        editor.putString("email", email);
-        editor.apply();
-        Toast.makeText(getApplicationContext(), "You have successfully registered", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(Signup.this, MainActivity.class));
-        finish();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("LOG", response.toString());
+                        if(response.toLowerCase().contains("succes")){ // Server replies with "Success"
+                            SharedPreferences.Editor editor = share.edit();
+                            editor.putBoolean("signedIn", true);
+                            editor.putString("email",email);
+                            editor.apply();
+
+                            Toast.makeText(getApplicationContext(), "You have successfully registered", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(Signup.this, MainActivity.class));
+                            finish();
+                        } else //unsuccessful register attempt
+                            Toast.makeText(getApplicationContext(), "Unsuccessful Register Attempt", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("LOG", error.toString());
+            }
+        }){
+            /**
+             * Puts arguments for POST that will be sent to the server
+             * @auth Mert Oguz
+             * @throws AuthFailureError
+             */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> mParams = new HashMap<String, String>();
+                mParams.put("email", email);
+                mParams.put("pass", pass);
+                mParams.put("name", name);
+                mParams.put("surname", surname);
+
+                return mParams;
+            }
+        };
+
+        mRequestQueue.add(stringRequest);
     }
 
 }
