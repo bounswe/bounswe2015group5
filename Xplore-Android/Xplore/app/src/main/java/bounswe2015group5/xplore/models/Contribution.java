@@ -1,16 +1,53 @@
 package bounswe2015group5.xplore.models;
 
 /**
- * Created by hakansahin on 05/11/15.
+ * Last updated by Mert Oguz on 7/11/2015.
  */
 public class Contribution {
 
-    private String detail;
-    public Contribution(String detail){
-        this.detail = detail;
+    private String date;
+    private String name;
+    private String surname;
+    private String title;
+    private String content;
+
+    /**
+     * Default constructor for Contribution. Initializes with null values.
+     * @author Mert Oguz
+     */
+    public Contribution(){
+        date = null;
+        name = null;
+        surname = null;
+        title = null;
+        content = null;
     }
 
-    public String getDetail(){ return detail; }
-    public void setDetail(String detail) { this.detail = detail; }
+    /**
+     * Constructor with params for Contribution
+     * @author Mert Oguz
+     */
+    public Contribution(String date, String name, String surname, String title, String content){
+        this.date = date;
+        this.name = name;
+        this.surname = surname;
+        this.title = title;
+        this.content = content;
+    }
 
+    /**
+     * Access title of contribution
+     * @author Mert Oguz
+     */
+    public String getTitle(){
+        return title;
+    }
+
+    /**
+     * Access content of contribution
+     * @return
+     */
+    public String getContent(){
+        return content;
+    }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -46,10 +47,9 @@ public class ContributionListAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.contribution, null);
         }
-
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.contText);
-        lblListHeader.setText(contributions.get(i).getDetail());
+        lblListHeader.setText(contributions.get(i).getTitle());
 
         return convertView;
     }
