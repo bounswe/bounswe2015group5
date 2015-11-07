@@ -35,7 +35,7 @@ public class ContributionList extends Fragment {
         ListView contList = (ListView) parent.findViewById(R.id.contList);
         FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
 
-        if(!Login.share.getBoolean("signedIn",false)) {
+        if(Login.share.getBoolean("signedIn",false)) {
 
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override

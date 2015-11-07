@@ -23,9 +23,13 @@ public class MainActivity extends FragmentActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerLeft;
 
+    private boolean signedIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        signedIn = Login.share.getBoolean("signedIn",false);
 
         setContentView(R.layout.activity_main);
         setupDrawer();
@@ -53,7 +57,7 @@ public class MainActivity extends FragmentActivity {
 
         View header = getLayoutInflater().inflate(R.layout.left_navigator_header, null);
 
-        if(!Login.share.getBoolean("signedIn",false)) {
+        if(!signedIn) {
             ImageView pp = (ImageView) header.findViewById(R.id.profilePic);
             TextView username = (TextView) header.findViewById(R.id.tvUsername);
             TextView email = (TextView) header.findViewById(R.id.tvEmail);
@@ -72,9 +76,6 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 drawerLayout.closeDrawers();
-
-                if(!Login.share.getBoolean("signedIn",false) && position == 5)
-                    arg1.setVisibility(View.INVISIBLE);
 
                 onMenuItemClick(position);
             }
@@ -128,20 +129,27 @@ public class MainActivity extends FragmentActivity {
             if (getSupportFragmentManager().getBackStackEntryCount() > 1)
                 getSupportFragmentManager().popBackStackImmediate();
 
-            else new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Exit")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+            else {
+                if(signedIn)
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Exit")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                else {
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                    finish();
+                }
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
