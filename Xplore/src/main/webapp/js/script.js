@@ -23,4 +23,23 @@ $(document).ready(function () {
             window.alert(responseText);
         });
     });
+    getAllContributions();
 });
+
+function getAllContributions(){
+    var contribution;
+    $.get("contribution.html",function(data){
+        contribution = data;
+    });
+            
+    $.post("AllContributions",{},function(data){
+       var contributions = JSON.parse(data);
+       for(index = 0; index< contributions.length;index++){
+           $("#contribution-lister").append($(contribution));
+           document.getElementsByClassName("contribution-title")[index].innerHTML = contributions[index].title;
+           document.getElementsByClassName("contribution-author")[index].innerHTML = contributions[index].name + " " + contributions[index].surname;
+           document.getElementsByClassName("contribution-date")[index].innerHTML = contributions[index].date;
+           document.getElementsByClassName("contribution-content")[index].innerHTML = contributions[index].content;
+       }
+    });
+}
