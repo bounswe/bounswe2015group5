@@ -1,7 +1,7 @@
 package bounswe2015group5.xplore.adapters;
 
 /**
- * Created by hakansahin on 05/11/15.
+ * Last updated by Mert Oguz on 08/11/15.
  */
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -28,9 +28,10 @@ public class LeftNavAdapter extends BaseAdapter
         items.add("Trending");
         items.add("Contributions");
         items.add("About");
-
+        if(!Login.share.getBoolean("signedIn",false))
+            items.add("Log In");
         if(Login.share.getBoolean("signedIn",false))
-            items.add("Logout");
+            items.add("Log Out");
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,6 @@ public class ContributionList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         RelativeLayout parent = (RelativeLayout) inflater.inflate(R.layout.contribution_list, null);
         ListView contList = (ListView) parent.findViewById(R.id.contList);
         FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
@@ -64,7 +64,7 @@ public class ContributionList extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "Conribution Creation");
+                    ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "ConributionCreation");
                 }
             });
         } else fab.setVisibility(View.INVISIBLE);
@@ -72,6 +72,7 @@ public class ContributionList extends Fragment {
         if(!isContListLoaded){
             populateData();
         }
+
         listAdapter = new ContributionListAdapter(getActivity().getApplicationContext(), contributions);
         listAdapter.notifyDataSetChanged();
         contList.setAdapter(listAdapter);

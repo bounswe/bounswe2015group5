@@ -44,6 +44,24 @@ public class Contribution {
     }
 
     /**
+     * Access date of contribution
+     * @author Mert Oguz
+     */
+    public String getDate(){ return date; }
+
+    /**
+     * Access name of contribution author
+     * @author Mert Oguz
+     */
+    public String getName(){ return name; }
+
+    /**
+     * Access surname of contribution author
+     * @author Mert Oguz
+     */
+    public String getSurname(){ return surname; }
+
+    /**
      * Access content of contribution
      * @return
      */

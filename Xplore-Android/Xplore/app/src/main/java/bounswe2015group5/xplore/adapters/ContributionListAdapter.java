@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import bounswe2015group5.xplore.R;
@@ -47,9 +49,14 @@ public class ContributionListAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.contribution, null);
         }
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.contText);
-        lblListHeader.setText(contributions.get(i).getTitle());
+        TextView title = (TextView) convertView.findViewById(R.id.cont_detail);
+        title.setText(contributions.get(i).getTitle());
+
+        TextView nameSurname = (TextView) convertView.findViewById(R.id.cont_name_surname);
+        nameSurname.setText(contributions.get(i).getName() + " " + contributions.get(i).getSurname());
+
+        TextView date = (TextView) convertView.findViewById(R.id.cont_date);
+        date.setText(contributions.get(i).getDate());
 
         return convertView;
     }

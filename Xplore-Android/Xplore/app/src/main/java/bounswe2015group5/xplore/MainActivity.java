@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,9 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import bounswe2015group5.xplore.adapters.LeftNavAdapter;
+import bounswe2015group5.xplore.fragments.ContributionCreation;
 import bounswe2015group5.xplore.fragments.ContributionList;
+import bounswe2015group5.xplore.models.Contribution;
 
 public class MainActivity extends FragmentActivity {
 
@@ -40,7 +46,7 @@ public class MainActivity extends FragmentActivity {
     public void launchFragment(Fragment fragment, String title){
 
         getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_frame, fragment,title)
                         .addToBackStack(title)
                         .commit();
     }
@@ -87,8 +93,8 @@ public class MainActivity extends FragmentActivity {
     private void onMenuItemClick(int position) {
         Fragment fragment = null;
         String title = null;
-
-        switch (position){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        switch (position) {
             case 0:
                 return;
             case 1:
@@ -97,15 +103,24 @@ public class MainActivity extends FragmentActivity {
             case 2:
                 /*TODO Trending Page Fragment*/
                 return;
-            case 3:
-                title = "Contribution List";
-                fragment = new ContributionList();
-                break;
+            case 3: //Contributions
+                title = "ContributionList";
+
+                Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
+                if (currentFragment == null){
+                    fragment = new ContributionList();
+                    break;
+                }
+                else if(!title.equals(currentFragment.getTag())){
+                    fragment = fragmentManager.findFragmentByTag("ContributionList");
+                    break;
+                }
+                else
+                    return;
             case 4:
                 /*TODO About Page Fragment*/
                 return;
-            default:
-
+            case 5: //Log In OR Log Out
                 SharedPreferences.Editor editor = Login.share.edit();
                 editor.putBoolean("signedIn",false);
                 editor.clear();
@@ -115,10 +130,8 @@ public class MainActivity extends FragmentActivity {
                 finish();
                 return;
         }
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
             fragmentManager.popBackStackImmediate();
-
         launchFragment(fragment, title);
     }
 

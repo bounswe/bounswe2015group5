@@ -7,8 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Contribution Detail"
-        android:id="@+id/contText"
+        android:text="Title"
+        android:id="@+id/cont_detail"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="5dp"
@@ -20,19 +20,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Comments"
-        android:id="@+id/commentBtn"
-        android:layout_below="@+id/contText"
-        android:layout_alignStart="@+id/contText"
+        android:text="Name Surname"
+        android:id="@+id/cont_name_surname"
+        android:layout_below="@+id/cont_detail"
+        android:layout_alignStart="@+id/cont_detail"
         android:textColor="#000000"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Tags"
-        android:id="@+id/tagBtn"
-        android:layout_below="@+id/contText"
-        android:layout_alignEnd="@+id/contText"
+        android:text="Date"
+        android:id="@+id/cont_date"
+        android:layout_below="@+id/cont_detail"
+        android:layout_alignEnd="@+id/cont_detail"
         android:textColor="#000000"/>
 </RelativeLayout>
