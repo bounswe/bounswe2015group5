@@ -1,12 +1,9 @@
 package bounswe2015group5.xplore.fragments;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +12,20 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import bounswe2015group5.xplore.Login;
+import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.adapters.ContributionListAdapter;
@@ -43,24 +37,30 @@ import bounswe2015group5.xplore.models.Contribution;
 public class ContributionList extends Fragment {
 
     private ArrayList<Contribution> contributions;
-    private RequestQueue mRequestQueue;
     private ContributionListAdapter listAdapter;
     private Boolean isContListLoaded;
+    private PullToRefreshListView contList;
+    private ProgressDialog pDialog;
 
     public ContributionList(){
         contributions = new ArrayList<Contribution>();
         isContListLoaded = false;
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout parent = (RelativeLayout) inflater.inflate(R.layout.contribution_list, null);
-        ListView contList = (ListView) parent.findViewById(R.id.contList);
+
+        contList = (PullToRefreshListView) parent.findViewById(R.id.pull_to_refresh_listview);
+        contList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                populateData();
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
-
-        if(Login.share.getBoolean("signedIn",false)) {
-
+        if(Globals.share.getBoolean("signedIn",false)) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -69,20 +69,20 @@ public class ContributionList extends Fragment {
             });
         } else fab.setVisibility(View.INVISIBLE);
 
+        listAdapter = new ContributionListAdapter(getActivity().getApplicationContext(), contributions);
+        contList.getRefreshableView().setAdapter(listAdapter);
+
         if(!isContListLoaded){
+            showProgressDialog();
             populateData();
         }
-
-        listAdapter = new ContributionListAdapter(getActivity().getApplicationContext(), contributions);
-        listAdapter.notifyDataSetChanged();
-        contList.setAdapter(listAdapter);
 
         return parent;
     }
 
     private void populateData() {
+
         //Not sure, will check.
-        mRequestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         final String URL = getString(R.string.service_url) + "AllContributions"; //for POST to server
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -91,6 +91,7 @@ public class ContributionList extends Fragment {
                     public void onResponse(String response) {
                         Log.d("LOG", response.toString());
                         if(!response.isEmpty()){ // Server replies with the list of contributions
+                            contributions.clear();
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
                                 int numContributions = jsonArray.length();
@@ -104,32 +105,40 @@ public class ContributionList extends Fragment {
 
                                     Contribution contribution = new Contribution(date,name,surname,title,content);
                                     contributions.add(contribution);
+
+                                    listAdapter.notifyDataSetChanged();
                                 }
                                 isContListLoaded = true;
+                                contList.onRefreshComplete();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else //unsuccessful register attempt
                             Toast.makeText(getActivity().getApplicationContext(), "Unsuccessful Register Attempt", Toast.LENGTH_SHORT).show();
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("LOG", error.toString());
+                hideProgressDialog();
             }
-        }){
-            /**
-             * Puts arguments for POST that will be sent to the server
-             * @auth Mert Oguz
-             * @throws AuthFailureError
-             */
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> mParams = new HashMap<String, String>();
-                return mParams;
-            }
-        };
+        });
 
-        mRequestQueue.add(stringRequest);
+        Globals.mRequestQueue.add(stringRequest);
+    }
+
+    private void showProgressDialog(){
+        if(pDialog == null)
+            pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Please wait..");
+        pDialog.setIndeterminate(true);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    private void hideProgressDialog(){
+        if(pDialog != null && pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

@@ -1,7 +1,6 @@
 package bounswe2015group5.xplore;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,11 +13,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,25 +28,24 @@ public class Login extends Activity {
 
 	/* UI references */
 	private EditText edtMail, edtPass;
-	private Button loginBtn;
-	private TextView guestLogin;
-	private TextView signUp;
+	private TextView guestLogin, signUp;
 
-	public static SharedPreferences share;
-	private RequestQueue mRequestQueue;
+	private Button loginBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		share = getApplicationContext().getSharedPreferences("appdata", Context.MODE_PRIVATE);
-		mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-
 		// If the user signed before, it is directed to main activity.
-		if(share.getBoolean("signedIn",false)){
-			startActivity(new Intent(Login.this, MainActivity.class));
-			finish();
-		}
+//		if(share.getBoolean("signedIn",false)){
+////			startActivity(new Intent(Login.this, MainActivity.class));
+////			finish();
+//
+//			String email = share.getString("email", ""),
+//					pass = share.getString("pass", "");
+//
+//			attempLogin(email, pass);
+//		}
 
 		setContentView(R.layout.login);
 
@@ -60,7 +56,11 @@ public class Login extends Activity {
 		loginBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				attempLogin();
+
+				String email = edtMail.getText().toString(),
+						pass = edtPass.getText().toString();
+
+				attempLogin(email, pass);
 			}
 		});
 
@@ -68,7 +68,7 @@ public class Login extends Activity {
 		guestLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				LoginAsGuest();
+				loginAsGuest();
 			}
 		});
 
@@ -79,48 +79,42 @@ public class Login extends Activity {
 				attemptSignup();
 			}
 		});
-
-
 	}
 
-	private void LoginAsGuest() {
-
+	private void loginAsGuest() {
 		startActivity(new Intent(Login.this, MainActivity.class));
-
 	}
 
 	private void attemptSignup(){
 		startActivity(new Intent(Login.this, Signup.class));
-		finish();
 	}
 
-	private void attempLogin() {
-
-		final String email = edtMail.getText().toString();
-		final String pass = edtPass.getText().toString();
+	private void attempLogin(final String email, final String pass) {
 
 		String URL = getString(R.string.service_url) + "Login";
 
-		StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+		StringRequest loginRequest = new StringRequest(Request.Method.POST, URL,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						Log.d("LOG",response.toString());
 						if(response.toLowerCase().contains("success")){
-							SharedPreferences.Editor editor = share.edit();
+							SharedPreferences.Editor editor = Globals.share.edit();
 							editor.putBoolean("signedIn", true);
 							editor.putString("email",email);
+							editor.putString("pass", pass);
 							editor.apply();
 
 							startActivity(new Intent(Login.this, MainActivity.class));
 							finish();
+
 						} else
 							Toast.makeText(getApplicationContext(), "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
 					}
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-						Log.d("LOG", error.toString());
+						Log.d("LOG_error", error.toString());
 			}
 		}){
 			@Override
@@ -131,9 +125,53 @@ public class Login extends Activity {
 
 				return mParams;
 			}
+
+//			@Override
+//			protected Response parseNetworkResponse(NetworkResponse response) {
+//				for(Map.Entry ent : response.headers.entrySet()){
+//					Log.d("LOG_NetworkRes",ent.getKey().toString() + " - " + ent.getValue().toString());
+//				}
+//				return null;
+//			}
 		};
 
-		mRequestQueue.add(stringRequest);
+
+//		URL = getString(R.string.service_url) + "UserInfo";
+//		StringRequest userInfoRequest = new StringRequest(Request.Method.POST, URL,
+//				new Response.Listener<String>() {
+//					@Override
+//					public void onResponse(String response) {
+//						Log.d("LOG_getUserInfo", response);
+//						if(!response.isEmpty()){ // Server replies with the list of contributions
+//							try {
+//								JSONObject jsonObject = new JSONObject(response);
+//								String name = jsonObject.getString("name");
+//								String surname = jsonObject.getString("surname");
+//
+//								SharedPreferences.Editor editor = share.edit();
+//								editor.putString("name",name);
+//								editor.putString("surname", surname);
+//								editor.apply();
+//
+//								startActivity(new Intent(Login.this, MainActivity.class));
+//								finish();
+//							} catch (JSONException e) {
+//								e.printStackTrace();
+//							}
+//						} else //unsuccessful while recieving user info
+//							Toast.makeText(getApplicationContext().getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+//					}
+//				}, new Response.ErrorListener() {
+//			@Override
+//			public void onErrorResponse(VolleyError error) {
+//				Log.d("LOG", error.toString());
+//			}
+//		});
+
+		Globals.mRequestQueue.add(loginRequest);
+//		mRequestQueue.add(userInfoRequest);
+
 	}
+
 
 }

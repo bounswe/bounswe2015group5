@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import bounswe2015group5.xplore.Login;
+import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.R;
 
 public class LeftNavAdapter extends BaseAdapter
@@ -28,9 +28,9 @@ public class LeftNavAdapter extends BaseAdapter
         items.add("Trending");
         items.add("Contributions");
         items.add("About");
-        if(!Login.share.getBoolean("signedIn",false))
+        if(!Globals.share.getBoolean("signedIn",false))
             items.add("Log In");
-        if(Login.share.getBoolean("signedIn",false))
+        else
             items.add("Log Out");
     }
 

@@ -15,14 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import bounswe2015group5.xplore.adapters.LeftNavAdapter;
-import bounswe2015group5.xplore.fragments.ContributionCreation;
 import bounswe2015group5.xplore.fragments.ContributionList;
-import bounswe2015group5.xplore.models.Contribution;
 
 public class MainActivity extends FragmentActivity {
 
@@ -35,7 +30,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        signedIn = Login.share.getBoolean("signedIn",false);
+        signedIn = Globals.share.getBoolean("signedIn",false);
 
         setContentView(R.layout.activity_main);
         setupDrawer();
@@ -62,12 +57,17 @@ public class MainActivity extends FragmentActivity {
         drawerLeft = (ListView) findViewById(R.id.left_drawer);
 
         View header = getLayoutInflater().inflate(R.layout.left_navigator_header, null);
+        TextView username = (TextView) header.findViewById(R.id.tvUsername);
+        TextView email = (TextView) header.findViewById(R.id.tvEmail);
+        TextView edit = (TextView) header.findViewById(R.id.tvEditProfile);
 
-        if(!signedIn) {
+        if(signedIn) {
+
+//            username.setText(Login.share.getString("name", "") + " " + Login.share.getString("surname", ""));
+//            email.setText(Login.share.getString("email", ""));
+
+        } else {
             ImageView pp = (ImageView) header.findViewById(R.id.profilePic);
-            TextView username = (TextView) header.findViewById(R.id.tvUsername);
-            TextView email = (TextView) header.findViewById(R.id.tvEmail);
-            TextView edit = (TextView) header.findViewById(R.id.tvEditProfile);
 
             pp.setImageResource(R.mipmap.ic_launcher);
             username.setVisibility(View.INVISIBLE);
@@ -121,7 +121,7 @@ public class MainActivity extends FragmentActivity {
                 /*TODO About Page Fragment*/
                 return;
             case 5: //Log In OR Log Out
-                SharedPreferences.Editor editor = Login.share.edit();
+                SharedPreferences.Editor editor = Globals.share.edit();
                 editor.putBoolean("signedIn",false);
                 editor.clear();
                 editor.apply();
@@ -141,7 +141,6 @@ public class MainActivity extends FragmentActivity {
 
             if (getSupportFragmentManager().getBackStackEntryCount() > 1)
                 getSupportFragmentManager().popBackStackImmediate();
-
             else {
                 if(signedIn)
                     new AlertDialog.Builder(MainActivity.this)
