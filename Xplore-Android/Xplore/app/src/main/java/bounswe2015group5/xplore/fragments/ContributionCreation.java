@@ -1,11 +1,13 @@
 package bounswe2015group5.xplore.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -21,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import bounswe2015group5.xplore.Globals;
+import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
 /**
  * Created by hakansahin on 06/11/15.
@@ -70,9 +73,14 @@ public class ContributionCreation extends Fragment{
 
                             Toast.makeText(getActivity().getApplicationContext(), "Contribution is created.", Toast.LENGTH_SHORT).show();
 
-                            titleEditText.setText("");
-                            contentEditText.setText("");
-                            tagEditText.setText("");
+                            // Close the keyboard if it is open.
+                            View view = getActivity().getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
+
+                            ((MainActivity) getActivity()).onMenuItemClick(3);
 
                         } else //unsuccessful contribution creation attempt
                             Toast.makeText(getActivity().getApplicationContext(), "Contribution is not created. Please try again.", Toast.LENGTH_SHORT).show();

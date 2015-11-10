@@ -90,7 +90,7 @@ public class MainActivity extends FragmentActivity {
         onMenuItemClick(3);
     }
 
-    private void onMenuItemClick(int position) {
+    public void onMenuItemClick(int position) {
         Fragment fragment = null;
         String title = null;
         FragmentManager fragmentManager = getSupportFragmentManager();

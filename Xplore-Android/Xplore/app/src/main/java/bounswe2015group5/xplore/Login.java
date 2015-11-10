@@ -93,9 +93,11 @@ public class Login extends Activity {
 						if(response.toLowerCase().contains("success")){
 							SharedPreferences.Editor editor = Globals.share.edit();
 							editor.putBoolean("signedIn", true);
-							editor.putString("email",email);
+							editor.putString("email", email);
 							editor.putString("pass", pass);
 							editor.apply();
+
+							getUserInfo();
 
 						} else
 							Toast.makeText(getApplicationContext(), "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
@@ -124,8 +126,12 @@ public class Login extends Activity {
 //			}
 		};
 
+		Globals.mRequestQueue.add(loginRequest);
+	}
 
-		URL = getString(R.string.service_url) + "UserInfo";
+	public void getUserInfo(){
+
+		String URL = getString(R.string.service_url) + "UserInfo";
 		StringRequest userInfoRequest = new StringRequest(Request.Method.POST, URL,
 				new Response.Listener<String>() {
 					@Override
@@ -147,7 +153,7 @@ public class Login extends Activity {
 							} catch (JSONException e) {
 								e.printStackTrace();
 							}
-						} else //unsuccessful while recieving user info
+						} else //unsuccessful attempt while receiving user info
 							Toast.makeText(getApplicationContext().getApplicationContext(), response, Toast.LENGTH_SHORT).show();
 					}
 				}, new Response.ErrorListener() {
@@ -157,10 +163,6 @@ public class Login extends Activity {
 			}
 		});
 
-		Globals.mRequestQueue.add(loginRequest);
 		Globals.mRequestQueue.add(userInfoRequest);
-
 	}
-
-
 }

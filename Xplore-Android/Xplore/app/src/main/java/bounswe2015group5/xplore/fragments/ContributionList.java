@@ -91,6 +91,13 @@ public class ContributionList extends Fragment {
         return parent;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        populateData();
+    }
+
     private void populateData() {
 
         //Not sure, will check.

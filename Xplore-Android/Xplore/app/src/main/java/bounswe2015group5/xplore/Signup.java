@@ -112,6 +112,8 @@ public class Signup extends Activity {
                             SharedPreferences.Editor editor = Globals.share.edit();
                             editor.putBoolean("signedIn", true);
                             editor.putString("email",email);
+                            editor.putString("name",name);
+                            editor.putString("surname",surname);
                             editor.apply();
 
                             Toast.makeText(getApplicationContext(), "You have successfully registered", Toast.LENGTH_SHORT).show();
