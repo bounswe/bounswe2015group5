@@ -63,8 +63,8 @@ public class MainActivity extends FragmentActivity {
 
         if(signedIn) {
 
-//            username.setText(Login.share.getString("name", "") + " " + Login.share.getString("surname", ""));
-//            email.setText(Login.share.getString("email", ""));
+            username.setText(Globals.share.getString("name", "") + " " + Globals.share.getString("surname", ""));
+            email.setText(Globals.share.getString("email", ""));
 
         } else {
             ImageView pp = (ImageView) header.findViewById(R.id.profilePic);

@@ -28,9 +28,7 @@ public class LeftNavAdapter extends BaseAdapter
         items.add("Trending");
         items.add("Contributions");
         items.add("About");
-        if(!Globals.share.getBoolean("signedIn",false))
-            items.add("Log In");
-        else
+        if(Globals.share.getBoolean("signedIn",false))
             items.add("Log Out");
     }
 

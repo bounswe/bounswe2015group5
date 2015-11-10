@@ -51,7 +51,8 @@
         android:layout_centerHorizontal="true"
         android:text="Sign Up for Xplore"
         android:layout_marginBottom="10dp"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:textSize="15dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,7 +62,8 @@
         android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="50dp"
+        android:textSize="15dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,7 +73,8 @@
         android:clickable="true"
         android:layout_below="@+id/loginBtn"
         android:layout_marginTop="5dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textSize="15dp"/>
 
 
 </RelativeLayout>

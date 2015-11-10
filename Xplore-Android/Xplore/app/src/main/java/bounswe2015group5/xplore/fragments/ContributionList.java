@@ -1,6 +1,7 @@
 package bounswe2015group5.xplore.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
+import bounswe2015group5.xplore.Signup;
 import bounswe2015group5.xplore.adapters.ContributionListAdapter;
 import bounswe2015group5.xplore.models.Contribution;
 
@@ -67,7 +69,16 @@ public class ContributionList extends Fragment {
                     ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "ConributionCreation");
                 }
             });
-        } else fab.setVisibility(View.INVISIBLE);
+        } else {
+            fab.setImageResource(R.drawable.login_btn);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getActivity(), Signup.class));
+                    getActivity().finishAffinity();
+                }
+            });
+        }
 
         listAdapter = new ContributionListAdapter(getActivity().getApplicationContext(), contributions);
         contList.getRefreshableView().setAdapter(listAdapter);

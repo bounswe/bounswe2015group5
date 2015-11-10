@@ -1,29 +1,24 @@
 package bounswe2015group5.xplore;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
-
-
-import org.w3c.dom.Text;
 
 /**
  * This class is created by Mert Oguz on 06/11/2015.
@@ -35,25 +30,12 @@ public class Signup extends Activity {
      * @author Mert Oguz
      */
     private EditText edtMail, edtName, edtSurname, edtPass, edtPassRetype;
+    private TextView guestLogin, loginText;
     private Button signupBtn;
-    private TextView guestLogin;
-    private TextView loginText;
-
-    public static SharedPreferences share;
-    private RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        share = getApplicationContext().getSharedPreferences("appdata", Context.MODE_PRIVATE);
-        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-
-        // If the user signed before, it is directed to main activity.
-        if(share.getBoolean("signedIn",false)){
-            startActivity(new Intent(Signup.this, MainActivity.class));
-            finish();
-        }
 
         setContentView(R.layout.signup);
 
@@ -91,13 +73,12 @@ public class Signup extends Activity {
 
     private void goToLoginPage() {
         startActivity(new Intent(Signup.this, Login.class));
-        finish();
+        finishAffinity();
     }
 
     private void LoginAsGuest() {
-
         startActivity(new Intent(Signup.this, MainActivity.class));
-
+        finish();
     }
 
     /**
@@ -128,14 +109,14 @@ public class Signup extends Activity {
                     public void onResponse(String response) {
                         Log.d("LOG", response.toString());
                         if(response.toLowerCase().contains("succes")){ // Server replies with "Success"
-                            SharedPreferences.Editor editor = share.edit();
+                            SharedPreferences.Editor editor = Globals.share.edit();
                             editor.putBoolean("signedIn", true);
                             editor.putString("email",email);
                             editor.apply();
 
                             Toast.makeText(getApplicationContext(), "You have successfully registered", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(Signup.this, MainActivity.class));
-                            finish();
+                            finishAffinity();
                         } else //unsuccessful register attempt
                             Toast.makeText(getApplicationContext(), "Unsuccessful Register Attempt", Toast.LENGTH_SHORT).show();
                     }
@@ -161,8 +142,7 @@ public class Signup extends Activity {
                 return mParams;
             }
         };
-
-        mRequestQueue.add(stringRequest);
+        Globals.mRequestQueue.add(stringRequest);
     }
 
 }

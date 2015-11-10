@@ -17,6 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,17 +38,6 @@ public class Login extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// If the user signed before, it is directed to main activity.
-//		if(share.getBoolean("signedIn",false)){
-////			startActivity(new Intent(Login.this, MainActivity.class));
-////			finish();
-//
-//			String email = share.getString("email", ""),
-//					pass = share.getString("pass", "");
-//
-//			attempLogin(email, pass);
-//		}
 
 		setContentView(R.layout.login);
 
@@ -105,9 +97,6 @@ public class Login extends Activity {
 							editor.putString("pass", pass);
 							editor.apply();
 
-							startActivity(new Intent(Login.this, MainActivity.class));
-							finish();
-
 						} else
 							Toast.makeText(getApplicationContext(), "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
 					}
@@ -136,40 +125,40 @@ public class Login extends Activity {
 		};
 
 
-//		URL = getString(R.string.service_url) + "UserInfo";
-//		StringRequest userInfoRequest = new StringRequest(Request.Method.POST, URL,
-//				new Response.Listener<String>() {
-//					@Override
-//					public void onResponse(String response) {
-//						Log.d("LOG_getUserInfo", response);
-//						if(!response.isEmpty()){ // Server replies with the list of contributions
-//							try {
-//								JSONObject jsonObject = new JSONObject(response);
-//								String name = jsonObject.getString("name");
-//								String surname = jsonObject.getString("surname");
-//
-//								SharedPreferences.Editor editor = share.edit();
-//								editor.putString("name",name);
-//								editor.putString("surname", surname);
-//								editor.apply();
-//
-//								startActivity(new Intent(Login.this, MainActivity.class));
-//								finish();
-//							} catch (JSONException e) {
-//								e.printStackTrace();
-//							}
-//						} else //unsuccessful while recieving user info
-//							Toast.makeText(getApplicationContext().getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-//					}
-//				}, new Response.ErrorListener() {
-//			@Override
-//			public void onErrorResponse(VolleyError error) {
-//				Log.d("LOG", error.toString());
-//			}
-//		});
+		URL = getString(R.string.service_url) + "UserInfo";
+		StringRequest userInfoRequest = new StringRequest(Request.Method.POST, URL,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						Log.d("LOG_getUserInfo", response);
+						if(!response.isEmpty()){ // Server replies with the list of contributions
+							try {
+								JSONObject jsonObject = new JSONObject(response);
+								String name = jsonObject.getString("name");
+								String surname = jsonObject.getString("surname");
+
+								SharedPreferences.Editor editor = Globals.share.edit();
+								editor.putString("name",name);
+								editor.putString("surname", surname);
+								editor.apply();
+
+								startActivity(new Intent(Login.this, MainActivity.class));
+								finish();
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						} else //unsuccessful while recieving user info
+							Toast.makeText(getApplicationContext().getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+					}
+				}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Log.d("LOG", error.toString());
+			}
+		});
 
 		Globals.mRequestQueue.add(loginRequest);
-//		mRequestQueue.add(userInfoRequest);
+		Globals.mRequestQueue.add(userInfoRequest);
 
 	}
 
