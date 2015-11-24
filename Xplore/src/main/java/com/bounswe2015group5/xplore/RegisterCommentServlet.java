@@ -23,14 +23,17 @@ public class RegisterCommentServlet extends HttpServlet {
     
     static final String COMMENT_TABLE = "Comment";
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+    /** 
+     * Handles the request.
+     * Gets user id from the session.
+     * Gets contribId, content, type from the request.
+     * Uses curdate of mysql as the date of the comment.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @author Can Guler
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -57,6 +60,15 @@ public class RegisterCommentServlet extends HttpServlet {
         }
     }
     
+    /**
+     * Inserts a comment to database
+     * @param userId
+     * @param contribId
+     * @param content
+     * @param type
+     * @return Success
+     * @author Can Guler
+     */
     private static boolean registerComment(String userId, String contribId, String content, String type) {
         try {
             DBConnection conn = new DBConnection();
