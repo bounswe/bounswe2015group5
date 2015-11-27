@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+                android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:id="@+id/rate_layout"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
@@ -17,7 +16,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:id="@+id/up_vote_btn"
+            android:id="@+id/ext_cont_up_vote_btn"
             android:src="@drawable/up_arrow"
             android:layout_weight="3"
             android:scaleType="centerCrop"
@@ -29,7 +28,7 @@
             android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="0"
-            android:id="@+id/rate"
+            android:id="@+id/ext_cont_rate"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#000000"
@@ -38,7 +37,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:id="@+id/down_vote_btn"
+            android:id="@+id/ext_cont_down_vote_btn"
             android:rotation="180"
             android:src="@drawable/up_arrow"
             android:layout_weight="3"
@@ -55,38 +54,38 @@
         android:layout_alignBottom="@+id/rate_layout"
         android:layout_toEndOf="@+id/rate_layout"
         android:gravity="center">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Title"
-        android:id="@+id/cont_detail"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:textColor="#000000"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Title"
+            android:id="@+id/ext_cont_title"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Name Surname"
-        android:id="@+id/cont_name_surname"
-        android:layout_below="@+id/cont_detail"
-        android:layout_alignStart="@+id/cont_detail"
-        android:textColor="#000000"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Name Surname"
+            android:id="@+id/ext_cont_name_surname"
+            android:layout_below="@id/ext_cont_title"
+            android:layout_alignStart="@id/ext_cont_title"
+            android:textColor="#000000"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Date"
-        android:id="@+id/cont_date"
-        android:layout_below="@+id/cont_detail"
-        android:layout_alignEnd="@+id/cont_detail"
-        android:textColor="#000000"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Date"
+            android:id="@+id/ext_cont_date"
+            android:layout_below="@id/ext_cont_title"
+            android:layout_alignEnd="@id/ext_cont_title"
+            android:textColor="#000000"/>
 
     </RelativeLayout>
 </RelativeLayout>
