@@ -61,6 +61,7 @@ public class AllContributionsServlet extends HttpServlet {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 JSONObject row = new JSONObject();
+                row.put("id", rs.getString("ID"));
                 row.put("title", rs.getString("Title"));
                 row.put("content", rs.getString("Content"));
                 row.put("date", rs.getString("Date"));
