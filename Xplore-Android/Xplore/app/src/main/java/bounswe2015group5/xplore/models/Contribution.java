@@ -1,5 +1,8 @@
 package bounswe2015group5.xplore.models;
 
+
+import java.util.ArrayList;
+
 /**
  * Last updated by Mert Oguz on 7/11/2015.
  */
@@ -10,6 +13,8 @@ public class Contribution {
     private String surname;
     private String title;
     private String content;
+    //private ArrayList<String> tags;
+    //private int id;
     private boolean isRated;
     private int rate;
 
