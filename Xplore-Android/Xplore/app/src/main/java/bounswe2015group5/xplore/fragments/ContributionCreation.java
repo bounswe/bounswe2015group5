@@ -60,7 +60,7 @@ public class ContributionCreation extends Fragment{
     public void createContribution(){
 
         final String title = titleEditText.getText().toString();
-        final String content = titleEditText.getText().toString();
+        final String content = contentEditText.getText().toString();
 
         final String URL = getString(R.string.service_url) + "RegisterContribution"; //for POST to server
 

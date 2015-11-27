@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -50,7 +51,7 @@ public class ContributionList extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         RelativeLayout parent = (RelativeLayout) inflater.inflate(R.layout.contribution_list, null);
 
         contList = (PullToRefreshListView) parent.findViewById(R.id.pull_to_refresh_listview);
@@ -88,7 +89,29 @@ public class ContributionList extends Fragment {
             populateData();
         }
 
+        contList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Contribution selected = (Contribution) adapterView.getItemAtPosition(position);
+                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected.getTitle(), selected.getContent(),
+                        selected.getName() + " " + selected.getSurname(), selected.getDate()), "ContributionDetail");
+            }
+        });
+
         return parent;
+    }
+
+    public static ContributionDetail newDetailFragment(String title, String content, String nameSurname, String date){
+        ContributionDetail myDetailFragment = new ContributionDetail();
+        Bundle args = new Bundle();
+        args.putString("title",title);
+        args.putString("content",content);
+        args.putString("nameSurname",nameSurname);
+        args.putString("date", date);
+
+        myDetailFragment.setArguments(args);
+
+        return myDetailFragment;
     }
 
     @Override

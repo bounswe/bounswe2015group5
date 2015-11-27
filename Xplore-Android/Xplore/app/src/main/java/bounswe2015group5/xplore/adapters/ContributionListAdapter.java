@@ -93,4 +93,5 @@ public class ContributionListAdapter extends BaseAdapter {
         rateTxt.setText("" + rate);
         contribution.updateRate(rate);
     }
+    
 }
