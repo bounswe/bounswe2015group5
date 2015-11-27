@@ -1,164 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <title>Xplore</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="./js/jquery-1.11.3.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="./css/test.css">
-        <script src="./js/bootstrap.min.js"></script>
-        <script src="./js/script.js"></script>
+
+        <meta name="description" content="Connecting the dots">
+        <meta name="author" content="Xplore">
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
     </head>
     <body>
-        <div class="container">
-            <!-- Trigger the modal with a button -->
-            <div class="btn-group" style="float: right;">
-            </div>
-        <!-- navigation bar -->
-        <nav class="navbar-default navbar">
-            <ol class="breadcrumb pull-left">
-            <li><button type="button" class="home-button btn btn-primary" data-toggle="modal" data-target="#login-form">Home</button></li>
-            <li><button type="button" class="trending-button btn btn-primary" data-toggle="modal" data-target="#login-form">Trending</button></li>
-        </ol>
-        <ol class="breadcrumb pull-right">
-            <li><button id="login-btn" type="button" class="btn btn-danger" data-toggle="modal" data-target="#login-form">Login</button></li>
-            <li><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#signup-form">Sign Up</button></li>
-            <li><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#contrib-form">Contribute</button></li>
-        </ol>
-            </nav>
-            <!-- Modal -->
-            <div class="modal fade" id="signup-form" role="dialog">
-                <div class="modal-dialog">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Sign Up</h4>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                            </button> <a class="navbar-brand" href="#">Xplore</a>
                         </div>
-                        <div class="modal-body">
-                            <form role="form">
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="active">
+                                    <a href="#">Home</a>
+                                </li>
+                                <li>
+                                    <a href="#">Trending</a>
+                                </li>
+                            </ul>
+                            <form class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <label for="email">Email address:</label>
-                                    <input type="email" class="form-control" id="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Name:</label>
-                                    <input type="text" class="form-control" id="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="surname">Surname:</label>
-                                    <input type="text" class="form-control" id="surname">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pwd">Password:</label>
-                                    <input type="password" class="form-control" id="pwd">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pwd">Retype Password:</label>
-                                    <input type="password" class="form-control" id="pwd2">
-                                </div>
+                                    <input type="text" class="form-control">
+                                </div> 
+                                <button type="submit" class="btn btn-default">
+                                    Search
+                                </button>
                             </form>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">User<strong class="caret"></strong></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#contrib-form">Contribute</a>
+                                        </li>
+                                        <li class="divider">
+                                        </li>
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#login-form">Log in</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#signup-form">Sign up</a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="#">Log out</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" id="submit">Submit</button>
+
+                    </nav>
+                    
+                    <div class="modal fade" id="signup-form" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Sign Up</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label for="signup-email">Email address:</label>
+                                            <input type="email" class="form-control" id="signup-email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="signup-name">Name:</label>
+                                            <input type="text" class="form-control" id="signup-name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="signup-surname">Surname:</label>
+                                            <input type="text" class="form-control" id="signup-surname">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="signup-password">Password:</label>
+                                            <input type="password" class="form-control" id="signup-password">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="signup-submit">Sign up</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="comment-form" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Comment</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label for="comment-content">Content:</label>
+                                            <textarea class="form-control" rows="3" id="comment-content"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="comment-submit">Comment</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                </div>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="comment-form" role="dialog">
-                <div class="modal-dialog">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Comment</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    <label for="content">Content:</label>
-                                    <textarea class="form-control" rows="3" id="content"></textarea>
+                    <!-- Modal -->
+                    <div class="modal fade" id="contrib-form" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Contribute</h4>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" id="comment-submit">Submit</button>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label for="contrib-title">Title:</label>
+                                            <input type="text" class="form-control" id="contrib-title">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="contrib-content">Content:</label>
+                                            <textarea class="form-control" rows="3" id="contrib-content"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="contrib-submit">Contribute</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                </div>
-            </div>
-            
-            
-             <!-- Modal -->
-            <div class="modal fade" id="contrib-form" role="dialog">
-                <div class="modal-dialog">
+                    <!-- Modal -->
+                    <div class="modal fade" id="login-form" role="dialog">
+                        <div class="modal-dialog">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Contribute</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    <label for="title">Title:</label>
-                                    <input type="text" class="form-control" id="title">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Login</h4>
                                 </div>
-                                <div class="form-group">
-                                    <label for="content">Content:</label>
-                                    <textarea class="form-control" rows="3" id="content"></textarea>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label for="login-email">Email address:</label>
+                                            <input type="email" class="form-control" id="login-email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="login-password">Password:</label>
+                                            <input type="password" class="form-control" id="login-password">
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" id="contrib-submit">Submit</button>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="login-submit">Log in</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
-            
-             <!-- Modal -->
-            <div class="modal fade" id="login-form" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Login</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    <label for="log-email">Email address:</label>
-                                    <input type="email" class="form-control" id="log-email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="log-pwd">Password:</label>
-                                    <input type="password" class="form-control" id="log-pwd">
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"> Remember me</label>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" id="log-submit">Submit</button>
-                        </div>
-                    </div>
-
+            <div class="row">
+                <div class="col-md-12" id="contrib-lister">
+             
                 </div>
+            </div>
         </div>
-            </div>
-            <div class="contribution-list" id="contribution-lister">
-            </div> 
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/scripts.js"></script>
     </body>
 </html>
