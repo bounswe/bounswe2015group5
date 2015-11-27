@@ -48,6 +48,7 @@ public class AllContributionsServlet extends HttpServlet {
             JSONArray result = new JSONArray();
             DBConnection conn = new DBConnection();
             String sql = "select \n"
+                    + "Contribution.ID,\n"
                     + "Contribution.Title, \n"
                     + "Contribution.Content, \n"
                     + "Contribution.Date, \n"
