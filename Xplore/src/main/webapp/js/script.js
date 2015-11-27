@@ -1,4 +1,37 @@
 $(document).ready(function () {
+    var like = $('#like-btn');
+    var dislike = $('#dislike-btn');
+    
+    like.click(function(){
+        if (like.hasClass('btn-default')) {
+            like.removeClass('btn-default');
+            like.addClass('btn-success');
+        }
+        else if (like.hasClass('btn-success')){
+            like.addClass('btn-default');
+            like.removeClass('btn-success');            
+        }
+        if (dislike.hasClass('btn-danger')){
+            dislike.addClass('btn-default');
+            dislike.removeClass('btn-danger');            
+        }  
+    });
+    
+    dislike.click(function(){
+        if (like.hasClass('btn-success')){
+            like.addClass('btn-default');
+            like.removeClass('btn-success');            
+        }
+        if (dislike.hasClass('btn-default')) {
+            dislike.removeClass('btn-default');
+            dislike.addClass('btn-danger');  
+        }
+        else if (dislike.hasClass('btn-danger')){
+            dislike.addClass('btn-default');
+            dislike.removeClass('btn-danger');            
+        }
+    });
+    
     $("#submit").click(function(e){
         var email = $("#email").val();
         var name = $("#name").val();
