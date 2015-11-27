@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import bounswe2015group5.xplore.adapters.LeftNavAdapter;
 import bounswe2015group5.xplore.fragments.ContributionList;
+import bounswe2015group5.xplore.fragments.Home;
 
 public class MainActivity extends FragmentActivity {
 
@@ -34,9 +36,7 @@ public class MainActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_main);
         setupDrawer();
-
     }
-
 
     public void launchFragment(Fragment fragment, String title){
 
@@ -87,36 +87,38 @@ public class MainActivity extends FragmentActivity {
             }
         });
         drawerLayout.closeDrawer(drawerLeft);
-        onMenuItemClick(3);
+        onMenuItemClick(1);
     }
 
     public void onMenuItemClick(int position) {
         Fragment fragment = null;
         String title = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
+
         switch (position) {
             case 0:
                 return;
             case 1:
-                /*TODO Home Page Fragment*/
-                return;
+                title = "Home";
+                if (currentFragment == null || !title.equals(currentFragment.getTag()))
+                    fragment = new Home();
+                else fragment = fragmentManager.findFragmentByTag("Home");
+                break;
             case 2:
                 /*TODO Trending Page Fragment*/
                 return;
             case 3: //Contributions
                 title = "ContributionList";
 
-                Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
-                if (currentFragment == null){
+                if (currentFragment == null || !title.equals(currentFragment.getTag())){
+                    Log.d("LOG", "currentFragment_is_null_or_different");
                     fragment = new ContributionList();
-                    break;
-                }
-                else if(!title.equals(currentFragment.getTag())){
+                } else {
+                    Log.d("LOG", "currentFragment_is_same");
                     fragment = fragmentManager.findFragmentByTag("ContributionList");
-                    break;
                 }
-                else
-                    return;
+                break;
             case 4:
                 /*TODO About Page Fragment*/
                 return;

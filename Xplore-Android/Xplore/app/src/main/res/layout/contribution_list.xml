@@ -16,7 +16,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:src="@drawable/create_btn"
+        android:src="@drawable/create_cont_fab"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"/>
 

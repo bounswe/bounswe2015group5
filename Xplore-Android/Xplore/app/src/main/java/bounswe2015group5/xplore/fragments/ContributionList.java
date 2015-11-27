@@ -71,7 +71,7 @@ public class ContributionList extends Fragment {
                 }
             });
         } else {
-            fab.setImageResource(R.drawable.login_btn);
+            fab.setImageResource(R.drawable.signup_fab);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
