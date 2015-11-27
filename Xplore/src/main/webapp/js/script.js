@@ -1,6 +1,12 @@
 $(document).ready(function () {
     var like = $('#like-btn');
     var dislike = $('#dislike-btn');
+    // in this part I tried to store the contID
+    // var comment = $('#comment-btn');
+   // var contributionID;
+   // comment.click(function(){
+   //      contributionID = $("#contid").val();
+   // });
     
     like.click(function(){
         if (like.hasClass('btn-default')) {
@@ -56,6 +62,16 @@ $(document).ready(function () {
             window.alert(responseText);
         });
     });
+    $("#comment-submit").click(function(e){
+        //var contribId = contributionID;
+        var contribId = $("#contribution-id").val();
+        var content = $("#content").val();
+        var type = "1";
+        $.post("RegisterComment",{contribId: contribId, content: content, type: type},function(responseText){
+            window.alert(responseText);
+        });s
+    });
+
     getAllContributions();
 });
 
@@ -69,6 +85,7 @@ function getAllContributions(){
        var contributions = JSON.parse(data);
        for(index = 0; index< contributions.length;index++){
            $("#contribution-lister").append($(contribution));
+           document.getElementsByClassName("contribution-id")[index].innerHTML = contributions[index].id;
            document.getElementsByClassName("contribution-title")[index].innerHTML = contributions[index].title;
            document.getElementsByClassName("contribution-author")[index].innerHTML = contributions[index].name + " " + contributions[index].surname;
            document.getElementsByClassName("contribution-date")[index].innerHTML = contributions[index].date;
