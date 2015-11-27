@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="./js/jquery-1.11.3.min.js"></script>
         <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./css/test.css">
         <script src="./js/bootstrap.min.js"></script>
         <script src="./js/script.js"></script>
     </head>
@@ -13,12 +14,19 @@
         <div class="container">
             <!-- Trigger the modal with a button -->
             <div class="btn-group" style="float: right;">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login-form">Login</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#signup-form">Sign Up</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#contrib-form">Contribute</button>
-
             </div>
-
+        <!-- navigation bar -->
+        <nav class="navbar-default navbar">
+            <ol class="breadcrumb pull-left">
+            <li><button type="button" class="home-button btn btn-primary" data-toggle="modal" data-target="#login-form">Home</button></li>
+            <li><button type="button" class="trending-button btn btn-primary" data-toggle="modal" data-target="#login-form">Trending</button></li>
+        </ol>
+        <ol class="breadcrumb pull-right">
+            <li><button id="login-btn" type="button" class="btn btn-danger" data-toggle="modal" data-target="#login-form">Login</button></li>
+            <li><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#signup-form">Sign Up</button></li>
+            <li><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#contrib-form">Contribute</button></li>
+        </ol>
+            </nav>
             <!-- Modal -->
             <div class="modal fade" id="signup-form" role="dialog">
                 <div class="modal-dialog">
@@ -122,10 +130,9 @@
                     </div>
 
                 </div>
+        </div>
             </div>
             <div class="contribution-list" id="contribution-lister">
-            </div>
-
-        </div>
+            </div> 
     </body>
 </html>
