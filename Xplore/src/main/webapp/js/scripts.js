@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
 //    var like = $('#like-btn');
 //    var dislike = $('#dislike-btn');
     // in this part I tried to store the contID
@@ -45,13 +46,19 @@ $(document).ready(function () {
             window.alert(responseText);
         });
     });
+    
     $("#login-submit").click(function (e) {
         var email = $("#login-email").val();
         var pwd = $("#login-password").val();
         $.post("Login", {email: email, pass: pwd}, function (responseText) {
             window.alert(responseText);
+            if (responseText === "Login Successful!");
+            $.post("UserInfo", {}, function (response) {
+                $("#user-info").html(response.name + " " + response.surname + "<strong class=\"caret\"></strong>");
+            });
         });
     });
+    
     $("#contrib-submit").click(function (e) {
         var title = $("#contrib-title").val();
         var content = $("#contrib-content").val();
