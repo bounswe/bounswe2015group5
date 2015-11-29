@@ -42,7 +42,7 @@ public class TagRepositoryTest {
         assertEquals(tag.getId(), fetchedTag.getId());
         assertEquals(tag.getName(), fetchedTag.getName());
 
-        //update description and save
+        //update name and save
         fetchedTag.setName("New Name");
         tagRepository.save(fetchedTag);
 

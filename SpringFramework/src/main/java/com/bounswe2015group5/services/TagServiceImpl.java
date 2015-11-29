@@ -5,9 +5,6 @@ import com.bounswe2015group5.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by abdul on 3.12.2015.
- */
 @Service
 public class TagServiceImpl implements TagService {
     private TagRepository tagRepository;
