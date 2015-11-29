@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,13 +36,12 @@ public class SearchByTagServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession(false);
-            if(session == null){
-                out.print(Query.getAllContributions(-1));
+            String email = (String) request.getSession(false).getAttribute("Email");
+            if(email.isEmpty()){
+                out.print(Query.getContributionsByTagName(request.getAttribute("Tag").toString(),-1));
             }else{
-                String email = (String) session.getAttribute("Email");
                 User us = Query.getUserByEmail(email);
-                out.print(Query.getAllContributions(us.getID()));
+                out.print(Query.getContributionsByTagName(request.getAttribute("Tag").toString(),us.getID()));
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(AllContributionsServlet.class.getName()).log(Level.SEVERE, null, ex);
