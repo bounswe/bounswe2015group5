@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Xplore Project</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+    <h2>Tag Details</h2>
+
+    <div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Tag Id:</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${tag.id}">Tag Id</p></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name :</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${tag.name}">description</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
