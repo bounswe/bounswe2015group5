@@ -14,8 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Servlet that serves all comments of a contribution with 
@@ -41,7 +41,7 @@ public class AllCommentsServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String contribId = request.getParameter("contribId");
-            out.print(getAllComments(contribId).toJSONString());
+            out.print(getAllComments(contribId).toString());
         }
     }
     
@@ -67,7 +67,7 @@ public class AllCommentsServlet extends HttpServlet {
                 row.put("date", rs.getString("Date"));
                 row.put("name", rs.getString("Name"));
                 row.put("surname", rs.getString("Surname"));
-                result.add(row);
+                result.put(row);
             }
             rs.close();
             stmt.close();

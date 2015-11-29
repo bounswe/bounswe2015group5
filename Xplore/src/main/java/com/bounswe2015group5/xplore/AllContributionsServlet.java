@@ -15,8 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Servlet that serves all contributions with their creator's names and surnames.
@@ -39,7 +39,7 @@ public class AllContributionsServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.print(getAllContributions().toJSONString());
+            out.print(getAllContributions().toString());
         }
     }
 
@@ -67,7 +67,7 @@ public class AllContributionsServlet extends HttpServlet {
                 row.put("date", rs.getString("Date"));
                 row.put("name", rs.getString("Name"));
                 row.put("surname", rs.getString("Surname"));
-                result.add(row);
+                result.put(row);
             }
             rs.close();
             stmt.close();
