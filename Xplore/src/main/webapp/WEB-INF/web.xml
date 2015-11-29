@@ -24,6 +24,18 @@
         <servlet-name>RegisterComment</servlet-name>
         <servlet-class>com.bounswe2015group5.xplore.RegisterCommentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchByTag</servlet-name>
+        <servlet-class>com.bounswe2015group5.xplore.SearchByTagServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CommentsByContributionID</servlet-name>
+        <servlet-class>com.bounswe2015group5.xplore.CommentsByContributionIDServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AllTags</servlet-name>
+        <servlet-class>com.bounswe2015group5.xplore.AllTagsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
         <url-pattern>/RegisterUser</url-pattern>
@@ -47,6 +59,18 @@
     <servlet-mapping>
         <servlet-name>RegisterComment</servlet-name>
         <url-pattern>/RegisterComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchByTag</servlet-name>
+        <url-pattern>/SearchByTag</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentsByContributionID</servlet-name>
+        <url-pattern>/CommentsByContributionID</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AllTags</servlet-name>
+        <url-pattern>/AllTags</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

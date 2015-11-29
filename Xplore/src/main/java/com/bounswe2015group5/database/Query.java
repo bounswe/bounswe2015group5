@@ -317,6 +317,19 @@ public class Query {
         conn.close();
         return result;
     }
+    
+    public static TagArray getAllTags() throws SQLException, ClassNotFoundException {
+        DBConnection conn = new DBConnection();
+        String sql = "SELECT \n"
+                + "Tag.TagName as TagName,\n"
+                + "Tag.ID as TagID\n"
+                + "FROM Tag\n";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        TagArray result = new TagArray(resultSetToJSONArray(stmt.executeQuery()));
+        stmt.close();
+        conn.close();
+        return result;
+    }
 
     public static int getRateByContributionID(int ContributionID) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
