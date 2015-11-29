@@ -42,7 +42,7 @@ $(document).ready(function () {
         var name = $("#signup-name").val();
         var surname = $("#signup-surname").val();
         var pwd = $("#signup-password").val();
-        $.post("RegisterUser", {email: email, name: name, surname: surname, pass: pwd}, function (responseText) {
+        $.post("RegisterUser", {Email: email, Name: name, Surname: surname, Password: pwd}, function (responseText) {
             window.alert(responseText);
         });
     });
@@ -50,11 +50,11 @@ $(document).ready(function () {
     $("#login-submit").click(function (e) {
         var email = $("#login-email").val();
         var pwd = $("#login-password").val();
-        $.post("Login", {email: email, pass: pwd}, function (responseText) {
+        $.post("Login", {Email: email, Password: pwd}, function (responseText) {
             window.alert(responseText);
             if (responseText === "Login Successful!");
             $.post("UserInfo", {}, function (response) {
-                $("#user-info").html(response.name + " " + response.surname + "<strong class=\"caret\"></strong>");
+                $("#user-info").html(response.Name + " " + response.Surname + "<strong class=\"caret\"></strong>");
             });
         });
     });
@@ -63,7 +63,7 @@ $(document).ready(function () {
         var title = $("#contrib-title").val();
         var content = $("#contrib-content").val();
         var type = "1";
-        $.post("RegisterContribution", {title: title, content: content, type: type}, function (responseText) {
+        $.post("RegisterContribution", {Title: title, Content: content, Type: type}, function (responseText) {
             window.alert(responseText);
         });
     });
@@ -72,10 +72,9 @@ $(document).ready(function () {
         var contribId = $("#contribution-id").val();
         var content = $("#comment-content").val();
         var type = "1";
-        $.post("RegisterComment", {contribId: contribId, content: content, type: type}, function (responseText) {
+        $.post("RegisterComment", {ContributionID: contribId, Content: content, Type: type}, function (responseText) {
             window.alert(responseText);
         });
-        s
     });
 
     getAllContributions();
@@ -83,16 +82,14 @@ $(document).ready(function () {
 
 function getAllContributions() {
     $.get("contribution.html", function (tmpStr) {
-        $.post("AllContributions", {}, function (data) {
-            var contributions = JSON.parse(data);
+        $.post("AllContributions", {}, function (contributions) {
             for (index = 0; index < contributions.length; index++) {
                 tmp = $(tmpStr);
-                tmp.find(".contrib-title").html(contributions[index].title);
-                tmp.find(".contrib-author").html(contributions[index].name + " " + contributions[index].surname);
-                tmp.find(".contrib-date").html(contributions[index].date);
-                tmp.find(".contrib-content").html(contributions[index].content);
+                tmp.find(".contrib-title").html(contributions[index].Title);
+                tmp.find(".contrib-author").html(contributions[index].Name + " " + contributions[index].Surname);
+                tmp.find(".contrib-date").html(contributions[index].Date);
+                tmp.find(".contrib-content").html(contributions[index].Content);
                 $("#contrib-lister").append(tmp);
-//                document.getElementsByClassName("contribution-id")[index].innerHTML = contributions[index].id;
             }
         });
     });

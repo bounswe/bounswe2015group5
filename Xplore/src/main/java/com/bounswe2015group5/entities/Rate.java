@@ -16,6 +16,10 @@ public class Rate extends JSONObject{
         super(t.toString());
     }
     
+    public Rate(){
+        super();
+    }
+    
     public int getContributionID(){
         return (Integer) get("ContributionID");
     }
@@ -26,6 +30,30 @@ public class Rate extends JSONObject{
     
     public int getRate(){
         return (Integer) get("UserID");
+    }
+    
+    public Rate setContributionID(int ContributionID){
+        if(!isNull("ContributionID")){
+            remove("ContributionID");
+        }
+        put("ContributionID", ContributionID);
+        return this;
+    }
+    
+    public Rate setUserID(int UserID){
+        if(!isNull("UserID")){
+            remove("UserID");
+        }
+        put("UserID", UserID);
+        return this;
+    }
+    
+    public Rate setRate(int rate){
+        if(!isNull("Rate")){
+            remove("Rate");
+        }
+        put("Rate", rate);
+        return this;
     }
        
 }

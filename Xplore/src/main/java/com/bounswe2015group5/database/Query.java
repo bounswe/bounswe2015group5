@@ -11,7 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.swing.JOptionPane;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -263,7 +267,7 @@ public class Query {
         int rate = 0;
         try {
             rate = resultSetToJSONObject(stmt.executeQuery()).getInt("sum_r");
-        } catch (Exception e) {
+        } catch (SQLException | JSONException e) {
         }
         stmt.close();
         conn.close();
@@ -290,10 +294,10 @@ public class Query {
     public static User getUserByID(int ID) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
         String sql = "SELECT \n"
-                + "User2.Name as name, \n"
-                + "User2.Surname as surname,\n"
+                + "User2.Name as Name, \n"
+                + "User2.Surname as Surname,\n"
                 + "User2.ID as ID,\n"
-                + "User2.Email as email \n"
+                + "User2.Email as Email \n"
                 + "FROM User2\n"
                 + "WHERE User2.ID = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -307,10 +311,10 @@ public class Query {
     public static User getUserByEmail(String email) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
         String sql = "SELECT \n"
-                + "User2.Name as name, \n"
-                + "User2.Surname as surname,\n"
+                + "User2.Name as Name, \n"
+                + "User2.Surname as Surname,\n"
                 + "User2.ID as ID,\n"
-                + "User2.Email as email \n"
+                + "User2.Email as Email \n"
                 + "FROM User2\n"
                 + "WHERE User2.Email = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -327,21 +331,28 @@ public class Query {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, email);
         ResultSet rs = stmt.executeQuery();
+        boolean occupied = rs.next();
         stmt.close();
         conn.close();
-        return rs.next();
+        return occupied;
     }
 
-    public static boolean checkUser(String email, String password) throws SQLException, ClassNotFoundException {
+    public static User getUserByEmailAndPassword(String email, String password) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
-        String sql = "SELECT ID,Name,Surname FROM User2 WHERE Email=? AND Pass=PASSWORD(?)";
+        String sql = "SELECT \n"
+                + "User2.Name as Name, \n"
+                + "User2.Surname as Surname,\n"
+                + "User2.ID as ID,\n"
+                + "User2.Email as Email \n"
+                + "FROM User2\n"
+                + "WHERE User2.Email = ? AND User2.Pass = PASSWORD(?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, email);
         stmt.setString(2, password);
-        ResultSet rs = stmt.executeQuery();
+        User us = new User(resultSetToJSONObject(stmt.executeQuery()));
         stmt.close();
         conn.close();
-        return rs.next();
+        return us;
     }
 
     public static LinkedList<JSONObject> JSONArrayToList(JSONArray arr) throws SQLException {
@@ -378,6 +389,17 @@ public class Query {
         }
         resultSet.close();
         return obj;
+    }
+
+    public static JSONObject requestToJSONObject(HttpServletRequest req) {
+        JSONObject jsonObj = new JSONObject();
+        Map<String, String[]> params = req.getParameterMap();
+        for (Map.Entry<String, String[]> entry : params.entrySet()) {
+            String v[] = entry.getValue();
+            Object o = (v.length == 1) ? v[0] : v;
+            jsonObj.put(entry.getKey(), o);
+        }
+        return jsonObj;
     }
 
 }

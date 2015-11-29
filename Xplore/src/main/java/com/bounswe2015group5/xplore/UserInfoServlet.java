@@ -1,13 +1,17 @@
 package com.bounswe2015group5.xplore;
 
+import com.bounswe2015group5.database.*;
+import com.bounswe2015group5.entities.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.json.JSONObject;
 
 /**
  * Contains UserInfo managing server operations. Created by Mehmet Burak
@@ -30,12 +34,13 @@ public class UserInfoServlet extends HttpServlet {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(false);
-            JSONObject json = new JSONObject();
-            json.put("email", session.getAttribute("email"));
-            json.put("name", session.getAttribute("name"));
-            json.put("surname", session.getAttribute("surname"));
-            out.write(json.toString());
+            String email = (String) session.getAttribute("Email");
+            User us = new User(Query.getUserByEmail(email));
+            out.print(us);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserInfoServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
 }

@@ -8,6 +8,7 @@ package com.bounswe2015group5.database;
 import com.bounswe2015group5.entities.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,12 +17,12 @@ import java.sql.SQLException;
 public class Update {
     public static int registerContribution(Contribution cont) throws SQLException, ClassNotFoundException {
             DBConnection conn = new DBConnection();
-            String sql = "INSERT INTO Contribution(UserID,Title,Content,Type,Date) VALUES(?,?,?,?,CURDATE())";
+            String sql = "INSERT INTO Contribution(UserID,Title,Content,Type,Date) VALUES(?,?,?,1,CURDATE())";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, cont.getUserID());
             stmt.setString(2, cont.getTitle());
             stmt.setString(3, cont.getContent());
-            stmt.setInt(4, cont.getType());
+            //stmt.setInt(4, cont.getType());
             int result = stmt.executeUpdate();
             registerTags(cont.getTags(),cont.getID());
             stmt.close();

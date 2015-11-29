@@ -18,6 +18,10 @@ public class Contribution extends JSONObject{
         super(con.toString());
     }
     
+    public Contribution(){
+        super();
+    }
+    
     public int getID(){
         return (Integer) get("ID");
     }
@@ -52,6 +56,90 @@ public class Contribution extends JSONObject{
     
     public TagArray getTags(){
         return new TagArray((JSONArray)get("Tags"));
+    }
+    
+    public int getRate(){
+        return (Integer) get("Rate");
+    }
+    
+    public Contribution setID(int ID){
+        if(!isNull("ID")){
+            remove("ID");
+        }
+        put("ID", ID);
+        return this;
+    }
+    
+    public Contribution setTitle(String Title){
+        if(!isNull("Title")){
+            remove("Title");
+        }
+        put("Title", Title);
+        return this;
+    }
+    
+    public Contribution setContent(String Content){
+        if(!isNull("Content")){
+            remove("Content");
+        }
+        put("Content", Content);
+        return this;
+    }
+   
+    public Contribution setDate(Date date){
+        if(!isNull("Date")){
+            remove("Date");
+        }
+        put("Date", date);
+        return this;
+    }
+    
+    public Contribution setName(String Name){
+        if(!isNull("Name")){
+            remove("Name");
+        }
+        put("Name", Name);
+        return this;
+    }
+    
+    public Contribution setSurname(String Surname){
+        if(!isNull("Surname")){
+            remove("Surname");
+        }
+        put("Surname", Surname);
+        return this;
+    }
+    
+    public Contribution setUserID(int UserID){
+        if(!isNull("UserID")){
+            remove("UserID");
+        }
+        put("UserID", UserID);
+        return this;
+    }
+    
+    public Contribution setType(int Type){
+       if(!isNull("Type")){
+            remove("Type");
+        }
+        put("Type", Type);
+        return this;
+    }
+    
+    public Contribution setTags(TagArray Tags){
+       if(!isNull("Tags")){
+            remove("Tags");
+        }
+        put("Tags", Tags);
+        return this;
+    }
+    
+    public Contribution setRate(int rate){
+       if(!isNull("Rate")){
+            remove("Rate");
+        }
+        put("Rate", rate);
+        return this;
     }
        
 }

@@ -5,10 +5,15 @@
  */
 package com.bounswe2015group5.xplore;
 
-import static com.bounswe2015group5.xplore.RegisterContributionServlet.CONTRIB_TABLE;
+import com.bounswe2015group5.database.Query;
+import com.bounswe2015group5.database.Update;
+import com.bounswe2015group5.entities.Comment;
+import com.bounswe2015group5.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +25,6 @@ import javax.servlet.http.HttpSession;
  * @author Can Guler
  */
 public class RegisterCommentServlet extends HttpServlet {
-    
-    static final String COMMENT_TABLE = "Comment";
 
     /** 
      * Handles the request.
@@ -33,7 +36,7 @@ public class RegisterCommentServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @author Can Guler
+     * @author Mehmet Burak Kurutmaz
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,48 +46,17 @@ public class RegisterCommentServlet extends HttpServlet {
             if (session == null) {
                 out.print("You need to log in in order to comment.");
             } else {
-                String userId = (String) session.getAttribute("userId");
-                if (userId == null) {
-                    out.print("You need to log in in order to comment.");
-                } else {
-                    String contribId = request.getParameter("contribId");
-                    String content = request.getParameter("content");
-                    String type = request.getParameter("type");
-                    if (registerComment(userId, contribId, content, type)) {
-                        out.print("Succesful!");
-                    } else {
-                        out.print("An error has occured while processing request!");
-                    }
-                }
+                String email = (String) request.getAttribute("Email");
+                User us = Query.getUserByEmail(email);
+                Comment com = new Comment(Query.requestToJSONObject(request));
+                com.setUserID(us.getID());
+                com.setName(us.getName());
+                com.setSurname(us.getSurname());
+                //com.setType(request.getParameter("Content"))
+                Update.registerComment(com);
             }
-        }
-    }
-    
-    /**
-     * Inserts a comment to database
-     * @param userId
-     * @param contribId
-     * @param content
-     * @param type
-     * @return Success
-     * @author Can Guler
-     */
-    private static boolean registerComment(String userId, String contribId, String content, String type) {
-        try {
-            DBConnection conn = new DBConnection();
-            String sql = "INSERT INTO " + COMMENT_TABLE + "(UserID,ContribID,Content,Type,Date) VALUES(?,?,?,?,CURDATE())";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, Integer.parseInt(userId));
-            stmt.setInt(2, Integer.parseInt(contribId));
-            stmt.setString(3, content);
-            stmt.setInt(4, Integer.parseInt(type));
-            System.out.print(stmt.toString());
-            stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(RateContributionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
