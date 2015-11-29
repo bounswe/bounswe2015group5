@@ -43,7 +43,7 @@ public class Signup extends Activity {
         edtName = (EditText) findViewById(R.id.signup_name);
         edtSurname = (EditText) findViewById(R.id.signup_surname);
         edtPass = (EditText) findViewById(R.id.signup_pass);
-        edtPassRetype = (EditText) findViewById(R.id.signup_pass_retype);
+        edtPassRetype = (EditText) findViewById(R.id.signup_repass);
 
         signupBtn = (Button) findViewById(R.id.signupBtn);
         signupBtn.setOnClickListener(new View.OnClickListener() {

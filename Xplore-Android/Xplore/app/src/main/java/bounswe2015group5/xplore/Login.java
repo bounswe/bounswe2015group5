@@ -41,8 +41,8 @@ public class Login extends Activity {
 
 		setContentView(R.layout.login);
 
-		edtMail = (EditText) findViewById(R.id.email);
-		edtPass = (EditText) findViewById(R.id.pass);
+		edtMail = (EditText) findViewById(R.id.login_email);
+		edtPass = (EditText) findViewById(R.id.login_pass);
 
 		loginBtn = (Button) findViewById(R.id.loginBtn);
 		loginBtn.setOnClickListener(new View.OnClickListener() {
