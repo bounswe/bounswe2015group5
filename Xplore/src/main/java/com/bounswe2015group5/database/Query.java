@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +23,7 @@ import org.json.JSONObject;
  */
 public class Query {
 
+    /*
     public static Contribution getContributionByID(int ID) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
         String sql = "SELECT \n"
@@ -47,14 +47,57 @@ public class Query {
         cont.put("Rate", getRateByContributionID(ID));
         return cont;
     }
-
-    public static ContributionArray getContributionsByTagName(String TagName) throws SQLException, ClassNotFoundException {
-        Tag tag = getTagByTagName(TagName);
-        return getContributionsByTagID(tag.getTagID());
+    */
+    
+    public static Contribution getContributionByID(int ID) throws SQLException, ClassNotFoundException{
+        return getContributionByID(ID,-1);
+    }
+    
+    public static Contribution getContributionByID(int ID,int ClientID) throws SQLException, ClassNotFoundException {
+        DBConnection conn = new DBConnection();
+        String inner = "(SELECT \n"
+                + "Rate.Rate "
+                + "FROM Contribution as Con2\n"
+                + "INNER JOIN Rate\n"
+                + "ON Con2.ID = Rate.ContributionID \n"
+                + "WHERE Con2.ID = Contribution.ID AND Rate.UserID = ?)";
+        String sql = "SELECT\n"
+                + "Contribution.ID as ID,\n"
+                + "Contribution.Title as Title, \n"
+                + "Contribution.Content as Content, \n"
+                + "Contribution.Date as Date, \n"
+                + "Contribution.Type as Type, \n"
+                + "User2.Name as Name, \n"
+                + "User2.Surname as Surname,\n"
+                + inner + " as ClientRate\n"
+                + "FROM Contribution\n"
+                + "INNER JOIN User2\n"
+                + "ON Contribution.UserID = User2.ID \n"
+                + "WHERE Contribution.ID = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, ClientID);
+        stmt.setInt(2, ID);
+        Contribution cont = new Contribution(resultSetToJSONObject(stmt.executeQuery()));
+        stmt.close();
+        conn.close();
+        cont.put("Tags", getTagsByContributionID(ID));
+        cont.put("Rate", getRateByContributionID(ID));
+        return cont;
     }
 
-    public static ContributionArray getContributionsByTagID(int TagID) throws SQLException, ClassNotFoundException {
+    public static ContributionArray getContributionsByTagName(String TagName, int ClientID) throws SQLException, ClassNotFoundException {
+        Tag tag = getTagByTagName(TagName);
+        return getContributionsByTagID(tag.getTagID(),ClientID);
+    }
+
+    public static ContributionArray getContributionsByTagID(int TagID, int ClientID) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
+        String inner = "(SELECT \n"
+                + "Rate.Rate "
+                + "FROM Contribution as Con2\n"
+                + "INNER JOIN Rate\n"
+                + "ON Con2.ID = Rate.ContributionID \n"
+                + "WHERE Con2.ID = Contribution.ID AND Rate.UserID = ?)";
         String sql = "SELECT \n"
                 + "Contribution.ID as ID,\n"
                 + "Contribution.Title as Title, \n"
@@ -62,7 +105,8 @@ public class Query {
                 + "Contribution.Date as Date, \n"
                 + "Contribution.Type as Type, \n"
                 + "User2.Name as Name, \n"
-                + "User2.Surname as Surname\n"
+                + "User2.Surname as Surname,\n"
+                + inner + " as ClientRate\n"
                 + "FROM Contribution\n"
                 + "INNER JOIN User2\n"
                 + "ON Contribution.UserID = User2.ID \n"
@@ -70,7 +114,8 @@ public class Query {
                 + "ON Contribution.ID = ContributionTag.ContributionID \n"
                 + "WHERE ContributionTag.TagID = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, TagID);
+        stmt.setInt(1, ClientID);
+        stmt.setInt(2, TagID);
         ContributionArray conarr = new ContributionArray(resultSetToJSONArray(stmt.executeQuery()));
         ContributionArray result = new ContributionArray();
         for (int i = 0; i < conarr.length(); i++) {
@@ -84,8 +129,14 @@ public class Query {
         return result;
     }
 
-    public static ContributionArray getContributionsByUserID(int UserID) throws SQLException, ClassNotFoundException {
+    public static ContributionArray getContributionsByUserID(int UserID, int ClientID) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
+        String inner = "(SELECT \n"
+                + "Rate.Rate "
+                + "FROM Contribution as Con2\n"
+                + "INNER JOIN Rate\n"
+                + "ON Con2.ID = Rate.ContributionID \n"
+                + "WHERE Con2.ID = Contribution.ID AND Rate.UserID = ?)";
         String sql = "SELECT \n"
                 + "Contribution.ID as ID,\n"
                 + "Contribution.Title as Title, \n"
@@ -93,13 +144,15 @@ public class Query {
                 + "Contribution.Date as Date, \n"
                 + "Contribution.Type as Type, \n"
                 + "User2.Name as Name, \n"
-                + "User2.Surname as Surname\n"
+                + "User2.Surname as Surname,\n"
+                + inner + " as ClientRate \n"
                 + "FROM Contribution\n"
                 + "INNER JOIN User2\n"
                 + "ON Contribution.UserID = User2.ID \n"
                 + "WHERE User2.ID = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, UserID);
+        stmt.setInt(1, ClientID);
+        stmt.setInt(2, UserID);
         ContributionArray conarr = new ContributionArray(resultSetToJSONArray(stmt.executeQuery()));
         ContributionArray result = new ContributionArray();
         for (int i = 0; i < conarr.length(); i++) {
@@ -182,8 +235,14 @@ public class Query {
         return result;
     }
 
-    public static ContributionArray getAllContributions() throws SQLException, ClassNotFoundException {
+    public static ContributionArray getAllContributions(int ClientID) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
+        String inner = "(SELECT \n"
+                + "Rate.Rate "
+                + "FROM Contribution as Con2\n"
+                + "INNER JOIN Rate\n"
+                + "ON Con2.ID = Rate.ContributionID \n"
+                + "WHERE Con2.ID = Contribution.ID AND Rate.UserID = ?)";
         String sql = "SELECT \n"
                 + "Contribution.ID as ID,\n"
                 + "Contribution.Title as Title, \n"
@@ -191,11 +250,14 @@ public class Query {
                 + "Contribution.Date as Date, \n"
                 + "Contribution.Type as Type, \n"
                 + "User2.Name as Name, \n"
-                + "User2.Surname as Surname\n"
+                + "User2.Surname as Surname,\n"
+                + inner + " as ClientRate \n"
                 + "FROM Contribution\n"
                 + "INNER JOIN User2\n"
                 + "ON Contribution.UserID = User2.ID \n";
         PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, ClientID);
+        System.out.println(stmt.toString());
         ContributionArray conarr = new ContributionArray(resultSetToJSONArray(stmt.executeQuery()));
         ContributionArray result = new ContributionArray();
         for (int i = 0; i < conarr.length(); i++) {
@@ -401,5 +463,4 @@ public class Query {
         }
         return jsonObj;
     }
-
 }
