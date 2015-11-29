@@ -34,9 +34,13 @@ public class UserInfoServlet extends HttpServlet {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(false);
-            String email = (String) session.getAttribute("Email");
-            User us = new User(Query.getUserByEmail(email));
-            out.print(us);
+            if(session == null){
+                out.print(new User());
+            }else{
+                String email = (String) session.getAttribute("Email");
+                User us = new User(Query.getUserByEmail(email));
+                out.print(us);
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserInfoServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
