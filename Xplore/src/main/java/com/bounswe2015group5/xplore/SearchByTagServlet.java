@@ -38,10 +38,10 @@ public class SearchByTagServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String email = (String) request.getSession(false).getAttribute("Email");
             if(email.isEmpty()){
-                out.print(Query.getContributionsByTagName(request.getAttribute("Tag").toString(),-1));
+                out.print(Query.getContributionsByTagName(request.getParameter("Tag"),-1));
             }else{
                 User us = Query.getUserByEmail(email);
-                out.print(Query.getContributionsByTagName(request.getAttribute("Tag").toString(),us.getID()));
+                out.print(Query.getContributionsByTagName(request.getParameter("Tag"),us.getID()));
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(AllContributionsServlet.class.getName()).log(Level.SEVERE, null, ex);

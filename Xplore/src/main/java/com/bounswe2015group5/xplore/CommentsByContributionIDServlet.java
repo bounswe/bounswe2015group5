@@ -37,7 +37,7 @@ public class CommentsByContributionIDServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         try(PrintWriter out=response.getWriter()){
-            int ContributionID = Integer.parseInt((String)request.getAttribute("ContributionID"));
+            int ContributionID = Integer.parseInt(request.getParameter("ContributionID"));
             out.print(Query.getCommentsByContributionID(ContributionID));
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(CommentsByContributionIDServlet.class.getName()).log(Level.SEVERE, null, ex);

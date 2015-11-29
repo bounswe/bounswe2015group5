@@ -46,7 +46,7 @@ public class RegisterCommentServlet extends HttpServlet {
             if (session == null) {
                 out.print("You need to log in in order to comment.");
             } else {
-                String email = (String) request.getAttribute("Email");
+                String email = request.getParameter("Email");
                 User us = Query.getUserByEmail(email);
                 Comment com = new Comment(Query.requestToJSONObject(request));
                 com.setUserID(us.getID());
