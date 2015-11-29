@@ -6,6 +6,7 @@
 package com.bounswe2015group5.xplore;
 
 import com.bounswe2015group5.database.Query;
+import com.bounswe2015group5.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet that serves all contributions with their creator's names and
@@ -39,7 +41,14 @@ public class AllContributionsServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            out.print(Query.getAllContributions().toString());
+            HttpSession session = request.getSession(false);
+            if(session == null){
+                out.print(Query.getAllContributions(-1));
+            }else{
+                String email = (String) session.getAttribute("Email");
+                User us = Query.getUserByEmail(email);
+                out.print(Query.getAllContributions(us.getID()));
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(AllContributionsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
