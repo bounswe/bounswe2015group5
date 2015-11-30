@@ -8,7 +8,6 @@ package com.bounswe2015group5.database;
 import com.bounswe2015group5.entities.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
