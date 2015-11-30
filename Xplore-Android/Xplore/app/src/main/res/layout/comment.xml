@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Comment"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_name_surname"
+        android:layout_below="@+id/comment_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Name Surname"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_date"
+        android:layout_below="@+id/comment_content"
+        android:layout_alignEnd="@+id/comment_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Date"/>
+</RelativeLayout>

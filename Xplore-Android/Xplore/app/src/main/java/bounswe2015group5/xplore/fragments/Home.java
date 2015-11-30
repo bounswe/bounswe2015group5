@@ -30,6 +30,7 @@ import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.adapters.ExpandableListAdapter;
+import bounswe2015group5.xplore.models.Comment;
 import bounswe2015group5.xplore.models.Contribution;
 import bounswe2015group5.xplore.models.Tag;
 /**
@@ -42,6 +43,8 @@ public class Home extends BaseFragment{
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
+
+    private ArrayList<Comment> commentList;
 
     public Home(){}
 
@@ -70,7 +73,9 @@ public class Home extends BaseFragment{
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
                 Contribution selected = (Contribution)listAdapter.getChild(groupPosition,childPosition);
-                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected.getId()), "ContributionDetail");
+                showProgressDialog();
+                fetchComments(""+selected.getId());
+                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected, commentList), "ContributionDetail");
                 return true;
             }
         });
@@ -78,10 +83,11 @@ public class Home extends BaseFragment{
         return parent;
     }
 
-    public static ContributionDetail newDetailFragment(int id){
+    public static ContributionDetail newDetailFragment(Contribution c, ArrayList<Comment> comments){
         ContributionDetail myDetailFragment = new ContributionDetail();
         Bundle args = new Bundle();
-        args.putString("id", ""+id);
+        args.putSerializable("Contribution", c);
+        args.putSerializable("Comments",comments);
         myDetailFragment.setArguments(args);
 
         return myDetailFragment;
@@ -175,4 +181,52 @@ public class Home extends BaseFragment{
 
         Globals.mRequestQueue.add(jsonArrayRequest);
     }
+
+    public void fetchComments(final String id){
+        final String URL = getString(R.string.service_url) + "CommentsByContributionID"; //for POST to server
+
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(URL,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("LOG","response is received");
+                        Log.d("LOG", response.toString());
+                        if(!response.toString().isEmpty()){ // Server replies with the list of contributions
+                            Log.d("LOG","response is not empty");
+                            try {
+                                JSONArray jArray = new JSONArray(response);
+                                int numComments = jArray.length();
+                                for(int i = 0; i < numComments; i++){
+                                    JSONObject jsonObject = jArray.getJSONObject(i);
+                                    Comment comment = new Comment(jsonObject);
+                                    commentList.add(comment);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else{
+                            System.err.println("response is empty");
+                        }
+                        hideProgressDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("LOG_ERROR", error.toString());
+                hideProgressDialog();
+                // TODO if the request fails, show a warning.
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> mParams = new HashMap<>();
+                mParams.put("ContributionID",id);
+                return mParams;
+            }
+        };
+
+        Globals.mRequestQueue.add(jsonObjectRequest);
+    }
+
 }

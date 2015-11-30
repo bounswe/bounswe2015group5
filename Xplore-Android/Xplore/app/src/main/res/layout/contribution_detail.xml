@@ -66,6 +66,13 @@
         android:layout_marginRight="5dp"
         android:textColor="#000000"/>
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detailConCommentList"
+        android:layout_below="@+id/detailConNameSurname"
+        />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,12 +80,13 @@
         android:hint="Enter comment..."
         android:inputType="textMultiLine"
         android:gravity="top"
-        android:layout_below="@+id/detailConNameSurname"
+        android:layout_below="@+id/detailConCommentList"
         android:editable="true"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/detailConCommentBtn"
         android:text="Comment"
         android:layout_below="@id/detailConComment"
         />
