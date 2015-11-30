@@ -105,23 +105,26 @@ public class Update {
     }
 
     public static void registerTags(TagArray tags,int ContributionID) throws SQLException, ClassNotFoundException {
+        registerTags(tags);
         DBConnection conn = new DBConnection();
-        String sql = "INSERT INTO ContributionTag(ContributionID,TagID) VALUES(?,?)";
+        String sql = "INSERT INTO ContributionTag(ContributionID,TagID)\n"
+                 + "SELECT ?,TagID FROM Tag WHERE Tag.TagName = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
             Tag t = new Tag(tags.get(i));
             stmt.setInt(1, ContributionID);
-            stmt.setInt(2, t.getTagID());
+            stmt.setString(2, t.getTagName());
         }
     }
     
     public static void registerTags(TagArray tags) throws SQLException, ClassNotFoundException {
         DBConnection conn = new DBConnection();
-        String sql = "INSERT INTO Tag(TagName) VALUES(?)";
+        String sql = "INSERT IGNORE INTO Tag(TagName) VALUES(?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
             Tag t = new Tag(tags.get(i));
-            stmt.setString(2, t.getTagName());
+            stmt.setString(1, t.getTagName());
+            stmt.executeUpdate();
         }
     }
     
