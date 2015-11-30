@@ -14,6 +14,7 @@ import java.util.List;
 
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.models.Contribution;
+import bounswe2015group5.xplore.models.Tag;
 
 /**
  * Created by hakansahin on 24/11/15.
@@ -21,10 +22,10 @@ import bounswe2015group5.xplore.models.Contribution;
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> tagList;
+    private List<Tag> tagList;
     private HashMap<String, List<Contribution>> contributionList;
 
-    public ExpandableListAdapter(Context context, List<String> tagList, HashMap<String, List<Contribution>> contributionList) {
+    public ExpandableListAdapter(Context context, List<Tag> tagList, HashMap<String, List<Contribution>> contributionList) {
         this.context = context;
         this.tagList = tagList;
         this.contributionList = contributionList;
@@ -32,7 +33,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Contribution getChild(int tagPosition, int contributionPosititon) {
-        return this.contributionList.get(this.tagList.get(tagPosition)).get(contributionPosititon);
+        return this.contributionList.get(this.tagList.get(tagPosition).getName()).get(contributionPosititon);
     }
 
     @Override
@@ -83,13 +84,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        List<Contribution> contributions = this.contributionList.get(this.tagList.get(groupPosition));
+        List<Contribution> contributions = this.contributionList.get(this.tagList.get(groupPosition).getName());
         return contributions == null ? 0 : contributions.size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.tagList.get(groupPosition);
+        return this.tagList.get(groupPosition).getName();
     }
 
     @Override

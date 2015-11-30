@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        signedIn = Globals.share.getBoolean("signedIn",false);
+        signedIn = Globals.share.getBoolean("SignedIn",false);
 
         setContentView(R.layout.activity_main);
         setupDrawer();
@@ -63,8 +63,8 @@ public class MainActivity extends FragmentActivity {
 
         if(signedIn) {
 
-            username.setText(Globals.share.getString("name", "") + " " + Globals.share.getString("surname", ""));
-            email.setText(Globals.share.getString("email", ""));
+            username.setText(Globals.share.getString("Name", "") + " " + Globals.share.getString("Surname", ""));
+            email.setText(Globals.share.getString("Email", ""));
 
         } else {
             ImageView pp = (ImageView) header.findViewById(R.id.profilePic);
@@ -124,7 +124,7 @@ public class MainActivity extends FragmentActivity {
                 return;
             case 5: //Log In OR Log Out
                 SharedPreferences.Editor editor = Globals.share.edit();
-                editor.putBoolean("signedIn",false);
+                editor.putBoolean("SignedIn",false);
                 editor.clear();
                 editor.apply();
 

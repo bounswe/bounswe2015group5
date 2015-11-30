@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,10 +37,11 @@ public class SearchByTagServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            String email = (String) request.getSession(false).getAttribute("Email");
-            if(email.isEmpty()){
+            HttpSession session = request.getSession(false);
+            if(session == null){
                 out.print(Query.getContributionsByTagName(request.getParameter("Tag"),-1));
             }else{
+                String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
                 out.print(Query.getContributionsByTagName(request.getParameter("Tag"),us.getID()));
             }

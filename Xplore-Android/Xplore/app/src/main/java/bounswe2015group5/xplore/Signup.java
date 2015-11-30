@@ -110,10 +110,10 @@ public class Signup extends Activity {
                         Log.d("LOG", response.toString());
                         if(response.toLowerCase().contains("succes")){ // Server replies with "Success"
                             SharedPreferences.Editor editor = Globals.share.edit();
-                            editor.putBoolean("signedIn", true);
-                            editor.putString("email",email);
-                            editor.putString("name",name);
-                            editor.putString("surname",surname);
+                            editor.putBoolean("SignedIn", true);
+                            editor.putString("Email",email);
+                            editor.putString("Name",name);
+                            editor.putString("Surname",surname);
                             editor.apply();
 
                             Toast.makeText(getApplicationContext(), "You have successfully registered", Toast.LENGTH_SHORT).show();
@@ -136,10 +136,10 @@ public class Signup extends Activity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> mParams = new HashMap<String, String>();
-                mParams.put("email", email);
-                mParams.put("pass", pass);
-                mParams.put("name", name);
-                mParams.put("surname", surname);
+                mParams.put("Email", email);
+                mParams.put("Pass", pass);
+                mParams.put("Name", name);
+                mParams.put("Surname", surname);
 
                 return mParams;
             }
