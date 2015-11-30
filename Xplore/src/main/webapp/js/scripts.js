@@ -111,6 +111,14 @@ function bringAllContributionsWithTag(TagName) {
                 tmp.find(".contrib-author").html(contributions[index].Name + " " + contributions[index].Surname);
                 tmp.find(".contrib-date").html(contributions[index].Date);
                 tmp.find(".contrib-content").html(contributions[index].Content);
+                tags = contributions[index].Tags;
+                for (tagIndex = 0; tagIndex < contributions[index].Tags.length; tagIndex++) {
+                    tagItem = $("<li class=\"btn\">" + contributions[index].Tags[tagIndex].TagName + "</li>");
+                    tagItem.click({TagName: contributions[index].Tags[tagIndex].TagName}, function (event) {
+                        bringAllContributionsWithTag(event.data.TagName);
+                    });
+                    tmp.find(".contrib-tags").append(tagItem);
+                }
                 tmp.find(".view-comment-button").click({ContributionID: contributions[index].ID}, function (event) {
                     bringAllCommentsWithID(event.data.ContributionID);
                 });
