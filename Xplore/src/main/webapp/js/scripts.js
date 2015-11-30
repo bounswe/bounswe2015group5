@@ -43,6 +43,11 @@ function bringAllTags() {
     });
 }
 
+function upvoteContributionWithID(contributionID) {
+        $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"} , function (responseText) {
+            window.alert(responseText);
+        });    
+}
 
 function bringAllContributions() {
     $("#main-div").html("");
