@@ -108,7 +108,7 @@ public class Update {
         registerTags(tags);
         DBConnection conn = new DBConnection();
         String sql = "INSERT INTO ContributionTag(ContributionID,TagID)\n"
-                 + "SELECT ?,TagID FROM Tag WHERE Tag.TagName = ?";
+                 + "SELECT ?,ID FROM Tag WHERE Tag.TagName = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
             Tag t = new Tag(tags.get(i));
@@ -116,6 +116,8 @@ public class Update {
             stmt.setString(2, t.getTagName());
             stmt.executeUpdate();
         }
+        stmt.close();
+        conn.close();
     }
     
     public static void registerTags(TagArray tags) throws SQLException, ClassNotFoundException {
@@ -127,6 +129,8 @@ public class Update {
             stmt.setString(1, t.getTagName());
             stmt.executeUpdate();
         }
+        stmt.close();
+        conn.close();
     }
     
     public static void removeTags(TagArray tags,int ContributionID) throws SQLException, ClassNotFoundException {
