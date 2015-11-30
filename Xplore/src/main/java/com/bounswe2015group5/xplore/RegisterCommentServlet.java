@@ -49,9 +49,7 @@ public class RegisterCommentServlet extends HttpServlet {
             } else {
                 String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
-                Comment com = new Comment();
-                com.setContent(request.getParameter("Content"));
-                com.setContributionID(Integer.parseInt(request.getParameter("ContributionID")));
+                Comment com = new Comment(Query.requestToJSONObject(request));
                 com.setUserID(us.getID());
                 com.setName(us.getName());
                 com.setSurname(us.getSurname());
