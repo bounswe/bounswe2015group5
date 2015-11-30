@@ -39,6 +39,9 @@ public class RateContributionServlet extends HttpServlet {
                 if (r.get("ContributionID") instanceof String){
                     r.setContributionID(Integer.parseInt(r.getString("ContributionID")));
                 }
+                if (r.get("Rate") instanceof String){
+                    r.setContributionID(Integer.parseInt(r.getString("Rate")));
+                }
                 r.setUserID(us.getID());
                 Update.registerRate(r);
                 out.print("Your rate is saved.");
