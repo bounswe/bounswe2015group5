@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -20,17 +22,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.adapters.ExpandableListAdapter;
 import bounswe2015group5.xplore.models.Contribution;
+import bounswe2015group5.xplore.models.Tag;
 /**
  * Created by hakansahin on 24/11/15.
  */
 public class Home extends BaseFragment{
 
-    private List<String> tagGroups;
+    private List<Tag> tagGroups;
     private HashMap<String, List<Contribution>> groupContributions;
 
     private ExpandableListAdapter listAdapter;
@@ -55,7 +59,7 @@ public class Home extends BaseFragment{
             @Override
             public void onGroupExpand(int groupPosition) {
                 showProgressDialog();
-                prepareGroupItems(tagGroups.get(groupPosition));
+                prepareGroupItems(tagGroups.get(groupPosition).getName());
             }
         });
 
@@ -68,34 +72,58 @@ public class Home extends BaseFragment{
         tagGroups = new ArrayList<>();
         groupContributions = new HashMap<>();
 
-        for(int i=1; i<4; i++){
-            tagGroups.add("Tag " + i);
-        }
+        final String URL = getString(R.string.service_url) + "AllTags"; //for POST to server
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("LOG", response.toString());
+                        if(!response.toString().isEmpty()){ // Server replies with the list of contributions
+                            try {
+                                int numContributions = response.length();
+                                for(int i = 0; i < numContributions; i++){
+                                    JSONObject jsonObject = response.getJSONObject(i);
+                                    tagGroups.add(new Tag(jsonObject));
+                                }
+
+                                listAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } // TODO if response is empty, show a warning.
+                        hideProgressDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("LOG_ERROR", error.toString());
+                // TODO if the request fails, show a warning.
+                hideProgressDialog();
+            }
+        });
+
+        Globals.mRequestQueue.add(jsonArrayRequest);
     }
 
     private void prepareGroupItems(final String tag /* TODO send groupId as a parameter */) {
 
-        final String URL = getString(R.string.service_url) + "AllContributions"; //for POST to server
+        final String URL = getString(R.string.service_url) + "SearchByTag"; //for POST to server
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+        StringRequest jsonArrayRequest = new StringRequest(Request.Method.POST,URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("LOG", response.toString());
-                        if(!response.isEmpty()){ // Server replies with the list of contributions
+                        if(!response.toString().isEmpty()){ // Server replies with the list of contributions
                             List<Contribution> contList = new ArrayList<>();
                             try {
-                                JSONArray jsonArray = new JSONArray(response);
-                                int numContributions = jsonArray.length();
+                                JSONArray jArray = new JSONArray(response);
+                                int numContributions = jArray.length();
                                 for(int i = 0; i < numContributions; i++){
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    String date = jsonObject.getString("date");
-                                    String name = jsonObject.getString("name");
-                                    String surname = jsonObject.getString("surname");
-                                    String title = jsonObject.getString("title");
-                                    String content = jsonObject.getString("content");
+                                    JSONObject jsonObject = jArray.getJSONObject(i);
 
-                                    Contribution contribution = new Contribution(date,name,surname,title,content);
+                                    Contribution contribution = new Contribution(jsonObject);
                                     contList.add(contribution);
                                 }
                                 groupContributions.put(tag, contList);
@@ -109,14 +137,21 @@ public class Home extends BaseFragment{
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("LOG_ERROR", error.toString());
+                        // TODO if the request fails, show a warning.
+                        hideProgressDialog();
+                    }
+        }){
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("LOG", error.toString());
-                // TODO if the request fails, show a warning.
-                hideProgressDialog();
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> mParams = new HashMap<>();
+                mParams.put("Tag",tag);
+                return mParams;
             }
-        });
+        };
 
-        Globals.mRequestQueue.add(stringRequest);
+        Globals.mRequestQueue.add(jsonArrayRequest);
     }
 }

@@ -46,7 +46,7 @@ public class ContributionList extends Fragment {
     private ProgressDialog pDialog;
 
     public ContributionList(){
-        contributions = new ArrayList<Contribution>();
+        contributions = new ArrayList<>();
         isContListLoaded = false;
     }
 
@@ -63,7 +63,7 @@ public class ContributionList extends Fragment {
         });
 
         FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
-        if(Globals.share.getBoolean("signedIn",false)) {
+        if(Globals.share.getBoolean("SignedIn",false)) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -105,7 +105,7 @@ public class ContributionList extends Fragment {
         ContributionDetail myDetailFragment = new ContributionDetail();
         Bundle args = new Bundle();
         args.putString("title",title);
-        args.putString("content",content);
+        args.putString("content", content);
         args.putString("nameSurname",nameSurname);
         args.putString("date", date);
 
@@ -138,15 +138,8 @@ public class ContributionList extends Fragment {
                                 int numContributions = jsonArray.length();
                                 for(int i = 0; i < numContributions; i++){
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    String date = jsonObject.getString("date");
-                                    String name = jsonObject.getString("name");
-                                    String surname = jsonObject.getString("surname");
-                                    String title = jsonObject.getString("title");
-                                    String content = jsonObject.getString("content");
 
-                                    Contribution contribution = new Contribution(date,name,surname,title,content);
-                                    contributions.add(contribution);
-
+                                    contributions.add(new Contribution(jsonObject));
                                     listAdapter.notifyDataSetChanged();
                                 }
                                 isContListLoaded = true;

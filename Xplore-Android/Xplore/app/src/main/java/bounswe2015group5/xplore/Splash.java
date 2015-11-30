@@ -36,21 +36,23 @@ public class Splash extends Activity{
 
     public void startSplash(){
 
-        if(Globals.share.getBoolean("signedIn", false)){
+        if(Globals.share.getBoolean("SignedIn", false)){
             String URL = getString(R.string.service_url) + "Login";
 
-            final String email = Globals.share.getString("email", ""),
-                         pass = Globals.share.getString("pass", "");
+            final String email = Globals.share.getString("Email", ""),
+                         pass = Globals.share.getString("Pass", "");
 
             StringRequest loginRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.d("LOG", response.toString());
-                            if(response.toLowerCase().contains("success")) getUserInfo();
-                            else {
-                                Toast.makeText(getApplicationContext(), "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
-
+                            Log.d("LOG", response);
+                            if(response.toLowerCase().contains("success")) {
+                                if(!Globals.share.contains("ID")) getUserInfo();
+                                else {
+                                    startActivity(new Intent(Splash.this, MainActivity.class));
+                                    finish();                                }
+                            } else {
                                 startActivity(new Intent(Splash.this, Login.class));
                                 finish();
                             }
@@ -64,8 +66,8 @@ public class Splash extends Activity{
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> mParams = new HashMap<String, String>();
-                    mParams.put("email", email);
-                    mParams.put("pass", pass);
+                    mParams.put("Email", email);
+                    mParams.put("Password", pass);
 
                     return mParams;
                 }
@@ -90,12 +92,14 @@ public class Splash extends Activity{
                         if(!response.isEmpty()){ // Server replies with the list of contributions
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-                                String name = jsonObject.getString("name");
-                                String surname = jsonObject.getString("surname");
+                                int ID = jsonObject.getInt("ID");
+                                String name = jsonObject.getString("Name");
+                                String surname = jsonObject.getString("Surname");
 
                                 SharedPreferences.Editor editor = Globals.share.edit();
-                                editor.putString("name",name);
-                                editor.putString("surname", surname);
+                                editor.putInt("ID",ID);
+                                editor.putString("Name", name);
+                                editor.putString("Surname", surname);
                                 editor.apply();
 
                                 startActivity(new Intent(Splash.this, MainActivity.class));
