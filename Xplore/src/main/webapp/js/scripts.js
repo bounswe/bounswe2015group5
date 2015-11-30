@@ -113,7 +113,6 @@ function bringAllCommentsWithID(contributionID) {
 }
 
 function upvoteContributionWithID(contributionID) {
-    window.alert(contributionID);
     $.post("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
         window.alert(responseText);
     });
