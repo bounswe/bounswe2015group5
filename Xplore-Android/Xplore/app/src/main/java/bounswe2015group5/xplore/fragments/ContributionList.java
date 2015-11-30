@@ -123,7 +123,6 @@ public class ContributionList extends Fragment {
 
     private void populateData() {
 
-        //Not sure, will check.
         final String URL = getString(R.string.service_url) + "AllContributions"; //for POST to server
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,

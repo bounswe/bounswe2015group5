@@ -130,4 +130,12 @@ public class Contribution {
         // TODO post updated rate to the related servlet.
         this.rate = rate;
     }
+
+    /**
+     * Accesses the ID of the contribution
+     * @author Mert Oguz
+     */
+    public int getId(){
+        return this.ID;
+    }
 }
