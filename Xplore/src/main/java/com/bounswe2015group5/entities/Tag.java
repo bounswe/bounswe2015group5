@@ -36,11 +36,11 @@ public class Tag extends JSONObject{
         return this;
     }
     
-    public Tag setTagName(String TagName){
+    public Tag setTagName(int TagName){
         if(!isNull("TagName")){
             remove("TagName");
         }
-        put("TagID", TagName);
+        put("TagName", TagName);
         return this;
     }
        
