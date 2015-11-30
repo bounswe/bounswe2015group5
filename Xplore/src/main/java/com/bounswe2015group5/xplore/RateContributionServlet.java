@@ -33,7 +33,7 @@ public class RateContributionServlet extends HttpServlet {
             if (session == null) {
                 out.print("You need to log in in order to rate a contribution.");
             } else {
-                String email = (String) session.getAttribute("Email");
+                String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
                 Rate r = new Rate(Query.requestToJSONObject(request));
                 r.setUserID(us.getID());

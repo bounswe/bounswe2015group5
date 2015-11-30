@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,14 +47,15 @@ public class RegisterCommentServlet extends HttpServlet {
             if (session == null) {
                 out.print("You need to log in in order to comment.");
             } else {
-                String email = request.getParameter("Email");
+                String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
                 Comment com = new Comment(Query.requestToJSONObject(request));
                 com.setUserID(us.getID());
                 com.setName(us.getName());
                 com.setSurname(us.getSurname());
-                //com.setType(request.getParameter("Content"))
+                com.setType(1); // to be changed
                 Update.registerComment(com);
+                out.print("Succesful!");
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(RateContributionServlet.class.getName()).log(Level.SEVERE, null, ex);

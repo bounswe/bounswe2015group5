@@ -37,7 +37,7 @@ public class UserInfoServlet extends HttpServlet {
             if(session == null){
                 out.print(new User());
             }else{
-                String email = (String) session.getAttribute("Email");
+                String email = session.getAttribute("Email").toString();
                 User us = new User(Query.getUserByEmail(email));
                 out.print(us);
             }

@@ -47,13 +47,13 @@ public class RegisterContributionServlet extends HttpServlet {
             if (session == null) {
                 out.print("You need to log in in order to comment.");
             } else {
-                String email = (String) session.getAttribute("Email");
+                String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
                 Contribution cont = new Contribution(Query.requestToJSONObject(request));
                 cont.setUserID(us.getID());
                 cont.setName(us.getName());
                 cont.setSurname(us.getSurname());
-                //com.setType(request.getParameter("Content"))
+                cont.setType(1); //
                 Update.registerContribution(cont);
                 out.println("Your Contribution is saved!");
             }
