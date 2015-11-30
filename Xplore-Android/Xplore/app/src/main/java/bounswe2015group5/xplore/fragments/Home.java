@@ -5,10 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -74,8 +72,7 @@ public class Home extends BaseFragment{
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
                 Contribution selected = (Contribution)listAdapter.getChild(groupPosition,childPosition);
                 showProgressDialog();
-                fetchComments(""+selected.getId());
-                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected, commentList), "ContributionDetail");
+                fetchComments(selected);
                 return true;
             }
         });
@@ -87,7 +84,7 @@ public class Home extends BaseFragment{
         ContributionDetail myDetailFragment = new ContributionDetail();
         Bundle args = new Bundle();
         args.putSerializable("Contribution", c);
-        args.putSerializable("Comments",comments);
+        args.putSerializable("Comments", comments);
         myDetailFragment.setArguments(args);
 
         return myDetailFragment;
@@ -182,16 +179,17 @@ public class Home extends BaseFragment{
         Globals.mRequestQueue.add(jsonArrayRequest);
     }
 
-    public void fetchComments(final String id){
+    public void fetchComments(final Contribution contribution){
         final String URL = getString(R.string.service_url) + "CommentsByContributionID"; //for POST to server
+        commentList = new ArrayList<>();
 
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(URL,
-                new Response.Listener<JSONArray>() {
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST,URL,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(String response) {
                         Log.d("LOG","response is received");
-                        Log.d("LOG", response.toString());
-                        if(!response.toString().isEmpty()){ // Server replies with the list of contributions
+                        Log.d("LOG", response);
+                        if(!response.isEmpty()){ // Server replies with the list of contributions
                             Log.d("LOG","response is not empty");
                             try {
                                 JSONArray jArray = new JSONArray(response);
@@ -201,6 +199,9 @@ public class Home extends BaseFragment{
                                     Comment comment = new Comment(jsonObject);
                                     commentList.add(comment);
                                 }
+
+                                ((MainActivity) getActivity()).launchFragment(newDetailFragment(contribution, commentList), "ContributionDetail");
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -221,7 +222,7 @@ public class Home extends BaseFragment{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> mParams = new HashMap<>();
-                mParams.put("ContributionID",id);
+                mParams.put("ContributionID",""+contribution.getId());
                 return mParams;
             }
         };

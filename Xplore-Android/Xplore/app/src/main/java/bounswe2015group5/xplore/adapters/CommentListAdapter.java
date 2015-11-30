@@ -4,12 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.models.Comment;
@@ -17,16 +15,13 @@ import bounswe2015group5.xplore.models.Comment;
 /**
  * Created by Mert on 30.11.2015.
  */
-public class CommentListAdapter extends ArrayAdapter<Comment> {
+public class CommentListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Comment> comments;
-    private int layoutResourceId;
 
-    public CommentListAdapter(Context context, int layoutResourceId, ArrayList<Comment> comments){
-        super(context, layoutResourceId, comments);
+    public CommentListAdapter(Context context, ArrayList<Comment> comments){
         this.comments = comments;
         this.context = context;
-        this.layoutResourceId = layoutResourceId;
     }
 
     @Override
@@ -38,6 +33,9 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
     public Comment getItem(int i) {
         return comments.get(i);
     }
+
+    @Override
+    public long getItemId(int i) { return i; }
 
     @Override
     public View getView(final int i, View convertView, ViewGroup viewGroup) {
