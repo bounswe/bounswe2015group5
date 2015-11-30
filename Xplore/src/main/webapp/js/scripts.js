@@ -43,7 +43,18 @@ function bringAllTags() {
     });
 }
 
+function upvoteContributionWithID(contributionID) {
+        $.post("RateContribution", {ContributionID: contributionID, Rate: "1"} , function (responseText) {
+            window.alert(responseText);
+        });    
+}
 
+function downvoteContributionWithID(contributionID) {
+        $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"} , function (responseText) {
+            window.alert(responseText);
+        });    
+}
+        
 function bringAllContributions() {
     $("#main-div").html("");
     $.get("contribution.html", function (tmpStr) {
@@ -101,6 +112,12 @@ function bringAllCommentsWithID(contributionID) {
     });
 }
 
+function upvoteContributionWithID(contributionID){
+    $.post("RateContribution", {ContributionID: contributionID, Rate:"1"}, function (responseText) {
+                window.alert(responseText);
+            });
+}
+
 function bringAllContributionsWithTag(TagName) {
     $("#main-div").html("");
     $.get("contribution.html", function (tmpStr) {
@@ -121,6 +138,12 @@ function bringAllContributionsWithTag(TagName) {
                 }
                 tmp.find(".view-comment-button").click({ContributionID: contributions[index].ID}, function (event) {
                     bringAllCommentsWithID(event.data.ContributionID);
+                });
+                tmp.find(".like-button").click({ContributionID: contributions[index].ID}, function (event) {
+                    upvoteContributionWithID(event.data.ContributionID);
+                });
+                tmp.find(".dislike-button").click({ContributionID: contributions[index].ID}, function (event) {
+                    upvoteContributionWithID(event.data.ContributionID);
                 });
                 $("#main-div").append(tmp);
             }
