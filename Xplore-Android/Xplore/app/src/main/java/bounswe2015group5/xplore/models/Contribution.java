@@ -1,14 +1,16 @@
 package bounswe2015group5.xplore.models;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  * Last updated by Mert Oguz on 7/11/2015.
  */
-public class Contribution {
+public class Contribution implements Serializable {
 
     private int ID, type, clientRate = 0, rate;
     private String title, content, date, name, surname;
@@ -30,7 +32,7 @@ public class Contribution {
         this.clientRate = 0;
         this.isRated = false;
         this.rate = 0;
-        this.tags = null;
+        this.tags = new ArrayList<Tag>();
     }
 
     /**
@@ -51,11 +53,12 @@ public class Contribution {
             this.clientRate = contribution.optInt("ClientRate");
             this.rate       = contribution.getInt("Rate");
 
-//            JSONArray tagList = contribution.getJSONArray("Tags");
-//            for(int i = 0; i < tagList.length(); i++){
-//                JSONObject tag = tagList.getJSONObject(i);
-//                tags.add(new Tag(tag));
-//            }
+            this.tags = new ArrayList<Tag>();
+            JSONArray tagList = contribution.getJSONArray("Tags");
+            for(int i = 0; i < tagList.length(); i++){
+                JSONObject tag = tagList.getJSONObject(i);
+                this.tags.add(new Tag(tag));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -137,5 +140,13 @@ public class Contribution {
      */
     public int getId(){
         return this.ID;
+    }
+
+    /**
+     * Accesses the tags of the contribution
+     * @author Mert Oguz
+     */
+    public ArrayList<Tag> getTags(){
+        return this.tags;
     }
 }
