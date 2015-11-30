@@ -63,19 +63,6 @@ function bringAllContributions() {
 
 function bringAllCommentsWithID(contributionID) {
     $("#main-div").html("");
-    doIfLoggedIn(function (userObj) {
-        $("#main-div").load("comment-form.html", function () {
-            $("#submit").click(function (event) {
-                event.preventDefault();
-                var content = $("#content").val();
-                var type = "1";
-                $.post("RegisterComment", {Content: content, ContributionID: contributionID}, function (responseText) {
-                    bringAllCommentsWithID(contributionID);
-                });
-            });
-        });
-    }, function (userObj) {});
-    
     $.get("comment.html", function (tmpStr) {
         $.post("CommentsByContributionID", {ContributionID: contributionID}, function (comments) {
             for (index = 0; index < comments.length; index++) {
