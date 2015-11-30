@@ -113,8 +113,9 @@ function bringAllContributionsWithTag(TagName) {
                 tmp.find(".contrib-content").html(contributions[index].Content);
                 tags = contributions[index].Tags;
                 for (tagIndex = 0; tagIndex < contributions[index].Tags.length; tagIndex++) {
-                    tagItem = $("<li class=\"btn\">" + contributions[index].Tags[tagIndex].TagName + "</li>");
-                    tagItem.click({TagName: contributions[index].Tags[tagIndex].TagName}, function (event) {
+                    tagName = contributions[index].Tags[tagIndex].TagName;
+                    tagItem = $("<li class=\"btn\">" + tagName + "</li>");
+                    tagItem.click({TagName: tagName}, function (event) {
                         bringAllContributionsWithTag(event.data.TagName);
                     });
                     tmp.find(".contrib-tags").append(tagItem);
@@ -122,6 +123,7 @@ function bringAllContributionsWithTag(TagName) {
                 tmp.find(".view-comment-button").click({ContributionID: contributions[index].ID}, function (event) {
                     bringAllCommentsWithID(event.data.ContributionID);
                 });
+                tmp.find(".contrib-rate").html("Rate: " + contributions[index].Rate);
                 $("#main-div").append(tmp);
             }
         });
@@ -187,8 +189,14 @@ function bringContributeForm(e) {
             event.preventDefault();
             var title = $("#title").val();
             var content = $("#content").val();
+            var tags = $("#tags").val().split(",");
+            var TagArray = [];
+            for (index = 0; index < tags.length; index++) {
+                TagArray.push({TagName: tags[index]});
+            }
             var type = "1";
-            $.post("RegisterContribution", {Title: title, Content: content, Type: type}, function (responseText) {
+            window.alert(title);
+            $.post("RegisterContribution", {Title: title, Content: content, Type: type, Tags: TagArray}, function (responseText) {
                 window.alert(responseText);
                 bringAllTags();
             });
