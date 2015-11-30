@@ -34,7 +34,7 @@ public class Rate extends JSONObject{
     }
     
     public int getRate(){
-        return (Integer) get("UserID");
+        return (Integer) get("Rate");
     }
     
     public Rate setContributionID(int ContributionID){

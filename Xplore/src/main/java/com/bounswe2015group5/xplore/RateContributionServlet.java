@@ -35,9 +35,12 @@ public class RateContributionServlet extends HttpServlet {
             } else {
                 String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
-                Rate r = new Rate(request.getParameterMap());
+                Rate r = new Rate(Query.requestToJSONObject(request));
                 if (r.get("ContributionID") instanceof String){
                     r.setContributionID(Integer.parseInt(r.getString("ContributionID")));
+                }
+                if (r.get("Rate") instanceof String){
+                    r.setRate(Integer.parseInt(r.getString("Rate")));
                 }
                 r.setUserID(us.getID());
                 Update.registerRate(r);

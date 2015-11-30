@@ -43,7 +43,18 @@ function bringAllTags() {
     });
 }
 
+function upvoteContributionWithID(contributionID) {
+        $.post("RateContribution", {ContributionID: contributionID, Rate: "1"} , function (responseText) {
+            window.alert(responseText);
+        });    
+}
 
+function downvoteContributionWithID(contributionID) {
+        $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"} , function (responseText) {
+            window.alert(responseText);
+        });    
+}
+        
 function bringAllContributions() {
     $("#main-div").html("");
     $.get("contribution.html", function (tmpStr) {
@@ -61,8 +72,33 @@ function bringAllContributions() {
 }
 
 
+function bringCommentForm(contributionID) {
+   
+    $.get("comment-form.html", function (formStr) {
+        form = $(formStr);
+        form.find("#submit").click( function (event) {
+            event.preventDefault();
+            var content = $("#content").val();
+            var type = "1";
+            $.post("RegisterComment", {ContributionID: contributionID, Content: content, Type: type}, function (responseText) {
+                window.alert(responseText);
+                bringAllCommentsWithID(contributionID);
+            });
+        });
+        $("#main-div").append(form);
+    });
+}
+
+
 function bringAllCommentsWithID(contributionID) {
     $("#main-div").html("");
+    $.post("UserInfo", {}, function (userObj) {
+        if (!isLoggedIn(userObj)) {
+        } else {
+            bringCommentForm(contributionID);
+        }
+    });
+
     $.get("comment.html", function (tmpStr) {
         $.post("CommentsByContributionID", {ContributionID: contributionID}, function (comments) {
             for (index = 0; index < comments.length; index++) {
@@ -76,6 +112,12 @@ function bringAllCommentsWithID(contributionID) {
     });
 }
 
+function upvoteContributionWithID(contributionID){
+    $.post("RateContribution", {ContributionID: contributionID, Rate:"1"}, function (responseText) {
+                window.alert(responseText);
+            });
+}
+
 function bringAllContributionsWithTag(TagName) {
     $("#main-div").html("");
     $.get("contribution.html", function (tmpStr) {
@@ -86,8 +128,22 @@ function bringAllContributionsWithTag(TagName) {
                 tmp.find(".contrib-author").html(contributions[index].Name + " " + contributions[index].Surname);
                 tmp.find(".contrib-date").html(contributions[index].Date);
                 tmp.find(".contrib-content").html(contributions[index].Content);
+                tags = contributions[index].Tags;
+                for (tagIndex = 0; tagIndex < contributions[index].Tags.length; tagIndex++) {
+                    tagItem = $("<li class=\"btn\">" + contributions[index].Tags[tagIndex].TagName + "</li>");
+                    tagItem.click({TagName: contributions[index].Tags[tagIndex].TagName}, function (event) {
+                        bringAllContributionsWithTag(event.data.TagName);
+                    });
+                    tmp.find(".contrib-tags").append(tagItem);
+                }
                 tmp.find(".view-comment-button").click({ContributionID: contributions[index].ID}, function (event) {
                     bringAllCommentsWithID(event.data.ContributionID);
+                });
+                tmp.find(".like-button").click({ContributionID: contributions[index].ID}, function (event) {
+                    upvoteContributionWithID(event.data.ContributionID);
+                });
+                tmp.find(".dislike-button").click({ContributionID: contributions[index].ID}, function (event) {
+                    upvoteContributionWithID(event.data.ContributionID);
                 });
                 $("#main-div").append(tmp);
             }
@@ -157,6 +213,7 @@ function bringContributeForm(e) {
             var type = "1";
             $.post("RegisterContribution", {Title: title, Content: content, Type: type}, function (responseText) {
                 window.alert(responseText);
+                bringAllTags();
             });
         });
     });
