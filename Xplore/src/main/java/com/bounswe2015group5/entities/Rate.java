@@ -5,6 +5,7 @@
  */
 package com.bounswe2015group5.entities;
 
+import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -18,6 +19,10 @@ public class Rate extends JSONObject{
     
     public Rate(){
         super();
+    }
+    
+    public Rate(Map m){
+        super(m);
     }
     
     public int getContributionID(){

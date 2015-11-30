@@ -5,6 +5,7 @@
  */
 package com.bounswe2015group5.entities;
 
+import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -18,6 +19,10 @@ public class Tag extends JSONObject{
     
     public Tag(){
         super();
+    }
+    
+    public Tag(Map m){
+        super(m);
     }
     
     public int getTagID(){

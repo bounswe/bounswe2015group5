@@ -6,7 +6,6 @@
 package com.bounswe2015group5.xplore;
 
 import com.bounswe2015group5.database.Query;
-import com.bounswe2015group5.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *

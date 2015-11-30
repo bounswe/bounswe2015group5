@@ -1,5 +1,6 @@
 package com.bounswe2015group5.entities;
 
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +16,10 @@ public class TagArray extends JSONArray{
     
     public TagArray(JSONArray arr) {
         super(arr.toString());
+    }
+    
+    public TagArray(Map m){
+        super(m);
     }
     
     @Override

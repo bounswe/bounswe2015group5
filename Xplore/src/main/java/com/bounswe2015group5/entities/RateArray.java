@@ -5,6 +5,7 @@
  */
 package com.bounswe2015group5.entities;
 
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,6 +17,10 @@ public class RateArray extends JSONArray{
 
     public RateArray() {
         super();
+    }
+    
+    public RateArray(Map m) {
+        super(m);
     }
     
     public RateArray(JSONArray arr) {

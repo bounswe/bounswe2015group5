@@ -6,6 +6,7 @@
 package com.bounswe2015group5.entities;
 
 import java.util.Date;
+import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -19,6 +20,10 @@ public class Comment extends JSONObject{
     
     public Comment(){
         super();
+    }
+    
+    public Comment(Map m){
+        super(m);
     }
     
     public String getContent(){

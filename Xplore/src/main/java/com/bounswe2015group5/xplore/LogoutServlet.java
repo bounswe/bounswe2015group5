@@ -5,13 +5,8 @@
  */
 package com.bounswe2015group5.xplore;
 
-import com.bounswe2015group5.database.Query;
-import com.bounswe2015group5.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +35,8 @@ public class LogoutServlet extends HttpServlet {
             if (session != null) {
                 session.invalidate();
                 out.print("You have logged out!");
+            }else {
+                out.print("You don't have logged in!");
             }
         }
     }
