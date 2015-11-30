@@ -61,8 +61,33 @@ function bringAllContributions() {
 }
 
 
+function bringCommentForm(contributionID) {
+   
+    $.get("comment-form.html", function (formStr) {
+        form = $(formStr);
+        form.find("#submit").click( function (event) {
+            event.preventDefault();
+            var content = $("#content").val();
+            var type = "1";
+            $.post("RegisterComment", {ContributionID: contributionID, Content: content, Type: type}, function (responseText) {
+                window.alert(responseText);
+                bringAllCommentsWithID(contributionID);
+            });
+        });
+        $("#main-div").append(form);
+    });
+}
+
+
 function bringAllCommentsWithID(contributionID) {
     $("#main-div").html("");
+    $.post("UserInfo", {}, function (userObj) {
+        if (!isLoggedIn(userObj)) {
+        } else {
+            bringCommentForm(contributionID);
+        }
+    });
+
     $.get("comment.html", function (tmpStr) {
         $.post("CommentsByContributionID", {ContributionID: contributionID}, function (comments) {
             for (index = 0; index < comments.length; index++) {
@@ -157,6 +182,7 @@ function bringContributeForm(e) {
             var type = "1";
             $.post("RegisterContribution", {Title: title, Content: content, Type: type}, function (responseText) {
                 window.alert(responseText);
+                bringAllTags();
             });
         });
     });
