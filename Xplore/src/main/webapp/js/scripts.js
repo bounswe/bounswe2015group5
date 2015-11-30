@@ -44,7 +44,7 @@ function bringAllTags() {
 }
 
 function upvoteContributionWithID(contributionID) {
-        $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"} , function (responseText) {
+        $.post("RateContribution", {ContributionID: contributionID, Rate: "1"} , function (responseText) {
             window.alert(responseText);
         });    
 }
