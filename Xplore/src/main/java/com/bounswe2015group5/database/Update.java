@@ -114,6 +114,7 @@ public class Update {
             Tag t = new Tag(tags.get(i));
             stmt.setInt(1, ContributionID);
             stmt.setString(2, t.getTagName());
+            stmt.executeUpdate();
         }
     }
     
