@@ -49,6 +49,12 @@ function upvoteContributionWithID(contributionID) {
         });    
 }
 
+function downvoteContributionWithID(contributionID) {
+        $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"} , function (responseText) {
+            window.alert(responseText);
+        });    
+}
+        
 function bringAllContributions() {
     $("#main-div").html("");
     $.get("contribution.html", function (tmpStr) {
@@ -134,6 +140,9 @@ function bringAllContributionsWithTag(TagName) {
                     bringAllCommentsWithID(event.data.ContributionID);
                 });
                 tmp.find(".like-button").click({ContributionID: contributions[index].ID}, function (event) {
+                    upvoteContributionWithID(event.data.ContributionID);
+                });
+                tmp.find(".dislike-button").click({ContributionID: contributions[index].ID}, function (event) {
                     upvoteContributionWithID(event.data.ContributionID);
                 });
                 $("#main-div").append(tmp);
