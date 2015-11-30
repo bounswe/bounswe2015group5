@@ -81,7 +81,7 @@ public class Update {
     
     public static int registerRate(Rate rate) throws SQLException, ClassNotFoundException {
             DBConnection conn = new DBConnection();
-            String sql = "INSERT INTO Rate(UserID,ContribID,Rate) VALUES(?,?,?)";
+            String sql = "INSERT IGNORE INTO Rate(UserID,ContributionID,Rate) VALUES(?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, rate.getUserID());
             stmt.setInt(2, rate.getContributionID());

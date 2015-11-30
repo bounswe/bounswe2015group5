@@ -44,17 +44,17 @@ function bringAllTags() {
 }
 
 function upvoteContributionWithID(contributionID) {
-        $.post("RateContribution", {ContributionID: contributionID, Rate: "1"} , function (responseText) {
-            window.alert(responseText);
-        });    
+    $.post("RateContribution", {ContributionID: contributionID, Rate: "1"}, function (responseText) {
+        window.alert(responseText);
+    });
 }
 
 function downvoteContributionWithID(contributionID) {
-        $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"} , function (responseText) {
-            window.alert(responseText);
-        });    
+    $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"}, function (responseText) {
+        window.alert(responseText);
+    });
 }
-        
+
 function bringAllContributions() {
     $("#main-div").html("");
     $.get("contribution.html", function (tmpStr) {
@@ -73,10 +73,10 @@ function bringAllContributions() {
 
 
 function bringCommentForm(contributionID) {
-   
+
     $.get("comment-form.html", function (formStr) {
         form = $(formStr);
-        form.find("#submit").click( function (event) {
+        form.find("#submit").click(function (event) {
             event.preventDefault();
             var content = $("#content").val();
             var type = "1";
@@ -112,10 +112,11 @@ function bringAllCommentsWithID(contributionID) {
     });
 }
 
-function upvoteContributionWithID(contributionID){
-    $.post("RateContribution", {ContributionID: contributionID, Rate:"1"}, function (responseText) {
-                window.alert(responseText);
-            });
+function upvoteContributionWithID(contributionID) {
+    window.alert(contributionID);
+    $.post("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
+        window.alert(responseText);
+    });
 }
 
 function bringAllContributionsWithTag(TagName) {
@@ -217,9 +218,16 @@ function bringContributeForm(e) {
             for (index = 0; index < tags.length; index++) {
                 TagArray.push({TagName: tags[index]});
             }
+            var msgObj = {Title: title, Content: content, Type: type, Tags: TagArray};
+            
             var type = "1";
-            window.alert(title);
-            $.post("RegisterContribution", {Title: title, Content: content, Type: type, Tags: TagArray}, function (responseText) {
+            $.ajax({
+                url: "RegisterContribution",
+                method: "POST",
+                data: msgObj,
+                dataType: "json",
+                traditional: true
+            }).done(function (responseText) {
                 window.alert(responseText);
                 bringAllTags();
             });
