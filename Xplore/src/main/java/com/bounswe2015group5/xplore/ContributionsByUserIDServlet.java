@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author burak
  */
-public class ContributionByIDServlet extends HttpServlet {
+public class ContributionsByUserIDServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,15 +36,15 @@ public class ContributionByIDServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            int ContributionID = Integer.parseInt(request.getParameter("ContributionID"));
+        try(PrintWriter out=response.getWriter()){
+            int UserID = Integer.parseInt(request.getParameter("UserID"));
             HttpSession session = request.getSession(false);
             if (session == null) {
-                out.print(Query.getContributionByID(ContributionID));
+                out.print(Query.getContributionByID(UserID,-1));
             } else {
                 String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
-                out.print(Query.getContributionByID(ContributionID, us.getID()));
+                out.print(Query.getContributionsByUserID(UserID, us.getID()));
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(CommentsByContributionIDServlet.class.getName()).log(Level.SEVERE, null, ex);
