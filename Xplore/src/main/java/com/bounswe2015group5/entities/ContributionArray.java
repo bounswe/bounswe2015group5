@@ -5,6 +5,7 @@
  */
 package com.bounswe2015group5.entities;
 
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,6 +21,10 @@ public class ContributionArray extends JSONArray{
     
     public ContributionArray(JSONArray arr) {
         super(arr.toString());
+    }
+    
+    public ContributionArray(Map m) {
+        super(m);
     }
     
     @Override

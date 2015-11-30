@@ -6,6 +6,7 @@
 package com.bounswe2015group5.entities;
 
 import java.util.Date;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,6 +21,10 @@ public class Contribution extends JSONObject{
     
     public Contribution(){
         super();
+    }
+    
+    public Contribution(Map m) {
+        super(m);
     }
     
     public int getID(){

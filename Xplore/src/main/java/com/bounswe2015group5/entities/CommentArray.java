@@ -5,6 +5,7 @@
  */
 package com.bounswe2015group5.entities;
 
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,6 +17,10 @@ public class CommentArray extends JSONArray{
 
     public CommentArray() {
         super();
+    }
+    
+    public CommentArray(Map m) {
+        super(m);
     }
     
     public CommentArray(JSONArray arr) {

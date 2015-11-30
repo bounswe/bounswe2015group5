@@ -1,5 +1,6 @@
 package com.bounswe2015group5.entities;
 
+import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -14,6 +15,10 @@ public class User extends JSONObject{
     
     public User(JSONObject con){
         super(con.toString());
+    }
+    
+    public User(Map m){
+        super(m);
     }
     
     public int getID(){

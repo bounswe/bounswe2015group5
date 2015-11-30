@@ -49,7 +49,7 @@ public class RegisterContributionServlet extends HttpServlet {
             } else {
                 String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
-                Contribution cont = new Contribution(Query.requestToJSONObject(request));
+                Contribution cont = new Contribution(request.getParameterMap());
                 cont.setUserID(us.getID());
                 cont.setName(us.getName());
                 cont.setSurname(us.getSurname());
