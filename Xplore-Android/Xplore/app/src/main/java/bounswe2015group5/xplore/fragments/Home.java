@@ -5,8 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import bounswe2015group5.xplore.Globals;
+import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.adapters.ExpandableListAdapter;
 import bounswe2015group5.xplore.models.Contribution;
@@ -63,7 +66,25 @@ public class Home extends BaseFragment{
             }
         });
 
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                Contribution selected = (Contribution)listAdapter.getChild(groupPosition,childPosition);
+                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected.getId()), "ContributionDetail");
+                return true;
+            }
+        });
+
         return parent;
+    }
+
+    public static ContributionDetail newDetailFragment(int id){
+        ContributionDetail myDetailFragment = new ContributionDetail();
+        Bundle args = new Bundle();
+        args.putString("id", ""+id);
+        myDetailFragment.setArguments(args);
+
+        return myDetailFragment;
     }
 
     private void prepareListData() {
