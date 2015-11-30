@@ -25,7 +25,7 @@ import org.json.JSONObject;
  * their creator's names and surnames.
  * @author Can Guler
  */
-@WebServlet(name = "AllComments", urlPatterns = {"/AllComments"})
+
 public class AllCommentsServlet extends HttpServlet {
 
     /**
