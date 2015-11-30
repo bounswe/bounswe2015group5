@@ -142,6 +142,8 @@ public class Update {
             stmt.setInt(1, ContributionID);
             stmt.setInt(2, t.getTagID());
         }
+        stmt.close();
+        conn.close();
     }
     
     public static void removeTags(TagArray tags) throws SQLException, ClassNotFoundException {
@@ -150,7 +152,9 @@ public class Update {
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
             Tag t = new Tag(tags.get(i));
-            stmt.setInt(2, t.getTagID());
+            stmt.setInt(1, t.getTagID());
         }
+        stmt.close();
+        conn.close();
     }
 }
