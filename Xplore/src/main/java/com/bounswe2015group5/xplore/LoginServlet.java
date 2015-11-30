@@ -39,9 +39,9 @@ public class LoginServlet extends HttpServlet {
             if (us.isNull("Email")) {
                 out.print("Failed to login!");
             } else {
-                out.print("Login Successful!");
                 HttpSession session = request.getSession();
                 session.setAttribute("Email", us.getEmail());
+                out.print("Login Successful!");
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

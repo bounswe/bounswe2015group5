@@ -53,7 +53,7 @@ public class RegisterContributionServlet extends HttpServlet {
                 cont.setUserID(us.getID());
                 cont.setName(us.getName());
                 cont.setSurname(us.getSurname());
-                cont.setType(1); //
+                cont.setType(1); //to be changed
                 Update.registerContribution(cont);
                 out.println("Your Contribution is saved!");
             }

@@ -18,7 +18,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-xs-12">
                     <nav class="navbar navbar-default" role="navigation">
                         <div class="navbar-header">
 
@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control">
                                 </div> 
-                                <button type="submit" class="btn btn-default">
+                                <button class="btn btn-default">
                                     Search
                                 </button>
                             </form>
@@ -49,16 +49,16 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user-info">User<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#" data-toggle="modal" data-target="#contrib-form">Contribute</a>
+                                            <a href="#" id="contribute">Contribute</a>
                                         </li>
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="#" data-toggle="modal" data-target="#login-form">Log in</a>
+                                            <a href="#" id="login">Log in</a>
                                         </li>
 
                                         <li>
-                                            <a href="#" data-toggle="modal" data-target="#signup-form">Sign up</a>
+                                            <a href="#" id="signup">Sign up</a>
                                         </li>
                                         
                                         <li>
@@ -68,132 +68,11 @@
                                 </li>
                             </ul>
                         </div>
-
                     </nav>
-                    <!-- Modal -->
-                    <div class="modal fade" id="signup-form" role="dialog">
-                        <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Sign Up</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label for="signup-email">Email address:</label>
-                                            <input type="email" class="form-control" id="signup-email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="signup-name">Name:</label>
-                                            <input type="text" class="form-control" id="signup-name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="signup-surname">Surname:</label>
-                                            <input type="text" class="form-control" id="signup-surname">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="signup-password">Password:</label>
-                                            <input type="password" class="form-control" id="signup-password">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="signup-submit">Sign up</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="comment-form" role="dialog">
-                        <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Comment</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label for="comment-content">Content:</label>
-                                            <textarea class="form-control" rows="3" id="comment-content"></textarea>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="comment-submit">Comment</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="contrib-form" role="dialog">
-                        <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Contribute</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label for="contrib-title">Title:</label>
-                                            <input type="text" class="form-control" id="contrib-title">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="contrib-content">Content:</label>
-                                            <textarea class="form-control" rows="3" id="contrib-content"></textarea>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="contrib-submit">Contribute</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="login-form" role="dialog">
-                        <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Login</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label for="login-email">Email address:</label>
-                                            <input type="email" class="form-control" id="login-email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="login-password">Password:</label>
-                                            <input type="password" class="form-control" id="login-password">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="login-submit">Log in</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" id="contrib-lister">
+                <div class="col-xs-12" id="content">
              
                 </div>
             </div>

@@ -38,6 +38,7 @@ public class RateContributionServlet extends HttpServlet {
                 Rate r = new Rate(Query.requestToJSONObject(request));
                 r.setUserID(us.getID());
                 Update.registerRate(r);
+                out.print("Your rate is saved.");
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(RateContributionServlet.class.getName()).log(Level.SEVERE, null, ex);
