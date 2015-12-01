@@ -227,9 +227,10 @@ function bringContributeForm(e) {
                 data: JSON.stringify(msgObj),
                 contentType: 'application/json',
                 mimeType: 'application/json',
-            }).done(function (responseText) {
-                window.alert(responseText);
-                bringAllTags();
+                complete: function (responseText) {
+                    window.alert(responseText);
+                    bringAllTags();
+                }
             });
         });
     });

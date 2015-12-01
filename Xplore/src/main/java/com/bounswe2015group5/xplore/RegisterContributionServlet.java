@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -58,7 +59,7 @@ public class RegisterContributionServlet extends HttpServlet {
                 cont.setSurname(us.getSurname());
                 cont.setType(1); //to be changed
                 Update.registerContribution(cont);
-                out.println("Your Contribution is saved!");
+                out.print("Your Contribution is saved!");
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(RateContributionServlet.class.getName()).log(Level.SEVERE, null, ex);
