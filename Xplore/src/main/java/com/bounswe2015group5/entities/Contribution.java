@@ -31,15 +31,15 @@ public class Contribution extends JSONObject{
     }
     
     public int getID(){
-        return (Integer) get("ID");
+        return getInt("ID");
     }
     
     public String getTitle(){
-        return (String) get("Title");
+        return getString("Title");
     }
     
     public String getContent(){
-        return (String) get("Content");
+        return getString("Content");
     }
    
     public Date getDate(){
@@ -47,27 +47,27 @@ public class Contribution extends JSONObject{
     }
     
     public String getName(){
-        return (String) get("Name");
+        return getString("Name");
     }
     
     public String getSurname(){
-        return (String) get("Surname");
+        return getString("Surname");
     }
     
     public int getUserID(){
-        return (Integer) get("UserID");
+        return getInt("UserID");
     }
     
     public int getType(){
-        return (Integer) get("Type");
+        return getInt("Type");
     }
     
     public TagArray getTags(){
-        return new TagArray(get("Tags").toString());
+        return new TagArray(getJSONArray("Tags"));
     }
     
     public int getRate(){
-        return (Integer) get("Rate");
+        return getInt("Rate");
     }
     
     public Contribution setID(int ID){

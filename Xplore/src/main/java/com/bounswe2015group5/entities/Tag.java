@@ -45,7 +45,7 @@ public class Tag extends JSONObject{
         return this;
     }
     
-    public Tag setTagName(int TagName){
+    public Tag setTagName(String TagName){
         if(!isNull("TagName")){
             remove("TagName");
         }

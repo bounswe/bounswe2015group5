@@ -6,6 +6,7 @@
 package com.bounswe2015group5.entities;
 
 import java.util.Map;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -34,7 +35,7 @@ public class Rate extends JSONObject{
     }
     
     public int getRate(){
-        return (Integer) get("Rate");
+        return getInt("Rate");
     }
     
     public Rate setContributionID(int ContributionID){
@@ -59,6 +60,14 @@ public class Rate extends JSONObject{
         }
         put("Rate", rate);
         return this;
+    }
+    
+    public static Rate stringToRate(String text){
+        JSONObject jsonObj = new JSONObject(text);
+        Rate r = new Rate();
+        r.setContributionID(jsonObj.getInt("ContributionID"));
+        r.setRate(jsonObj.getInt("Rate"));
+        return r;
     }
        
 }

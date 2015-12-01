@@ -27,11 +27,11 @@ public class Comment extends JSONObject{
     }
     
     public String getContent(){
-        return (String) get("Content");
+        return getString("Content");
     }
     
     public int getContributionID(){
-        return (Integer) get("ContributionID");
+        return getInt("ContributionID");
     }
    
     public Date getDate(){
@@ -39,23 +39,23 @@ public class Comment extends JSONObject{
     }
     
     public int getID(){
-        return (Integer) get("ID");
+        return getInt("ID");
     }
     
     public int getUserID(){
-        return (Integer) get("UserID");
+        return getInt("UserID");
     }
     
-    public int getName(){
-        return (Integer) get("Name");
+    public String getName(){
+        return getString("Name");
     }
     
-    public int getSurname(){
-        return (Integer) get("Surname");
+    public String getSurname(){
+        return getString("Surname");
     }
     
     public int getType(){
-        return (Integer) get("Type");
+        return getInt("Type");
     }
     
     public Comment setContent(String Content){
@@ -120,6 +120,14 @@ public class Comment extends JSONObject{
         }
         put("Type", Type);
         return this;
+    }
+    
+        public static Comment stringToComment(String text){
+        JSONObject jsonObj = new JSONObject(text);
+        Comment com = new Comment();
+        com.setContributionID(jsonObj.getInt("ContributionID"));
+        com.setContent(jsonObj.getString("Content"));
+        return com;
     }
     
 }

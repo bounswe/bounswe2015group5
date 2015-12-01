@@ -22,19 +22,19 @@ public class User extends JSONObject{
     }
     
     public int getID(){
-        return (Integer) get("ID");
+        return getInt("ID");
     }
     
     public String getEmail(){
-        return (String) get("Email");
+        return getString("Email");
     }
    
     public String getName(){
-        return (String) get("Name");
+        return getString("Name");
     }
     
     public String getSurname(){
-        return (String) get("Surname");
+        return getString("Surname");
     }
     
     public User setID(int ID){

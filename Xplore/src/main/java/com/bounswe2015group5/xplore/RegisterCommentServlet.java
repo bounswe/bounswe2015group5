@@ -9,7 +9,9 @@ import com.bounswe2015group5.database.Query;
 import com.bounswe2015group5.database.Update;
 import com.bounswe2015group5.entities.Comment;
 import com.bounswe2015group5.entities.User;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -26,11 +28,10 @@ import javax.servlet.http.HttpSession;
  */
 public class RegisterCommentServlet extends HttpServlet {
 
-    /** 
-     * Handles the request.
-     * Gets user id from the session.
-     * Gets contribId, content, type from the request.
-     * Uses curdate of mysql as the date of the comment.
+    /**
+     * Handles the request. Gets user id from the session. Gets contribId,
+     * content, type from the request. Uses curdate of mysql as the date of the
+     * comment.
      *
      * @param request servlet request
      * @param response servlet response
@@ -41,6 +42,8 @@ public class RegisterCommentServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String json = br.readLine();
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(false);
             if (session == null) {
@@ -48,10 +51,7 @@ public class RegisterCommentServlet extends HttpServlet {
             } else {
                 String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
-                Comment com = new Comment(Query.requestToJSONObject(request));
-                if (com.get("ContributionID") instanceof String){
-                    com.setContributionID(Integer.parseInt(com.getString("ContributionID")));
-                }
+                Comment com = Comment.stringToComment(json);
                 com.setUserID(us.getID());
                 com.setName(us.getName());
                 com.setSurname(us.getSurname());

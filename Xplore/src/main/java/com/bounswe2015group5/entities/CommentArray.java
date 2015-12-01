@@ -27,9 +27,8 @@ public class CommentArray extends JSONArray{
         super(arr.toString());
     }
     
-    @Override
-    public Comment get(int index){
-        return new Comment((JSONObject)super.get(index));
+    public Comment getComment(int index){
+        return new Comment(super.getJSONObject(index));
     }
        
 }

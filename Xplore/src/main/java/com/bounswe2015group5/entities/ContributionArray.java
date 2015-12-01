@@ -27,9 +27,8 @@ public class ContributionArray extends JSONArray{
         super(m);
     }
     
-    @Override
-    public Contribution get(int index){
-        return new Contribution((JSONObject)super.get(index));
+    public Contribution getContribution(int index){
+        return new Contribution(super.getJSONObject(index));
     }
        
 }

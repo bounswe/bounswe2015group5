@@ -27,9 +27,8 @@ public class RateArray extends JSONArray{
         super(arr.toString());
     }
     
-    @Override
-    public Rate get(int index){
-        return new Rate((JSONObject)super.get(index));
+    public Rate getRate(int index){
+        return new Rate(super.getJSONObject(index));
     }
     
 }

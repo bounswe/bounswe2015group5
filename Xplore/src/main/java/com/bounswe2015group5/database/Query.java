@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,7 +119,7 @@ public class Query {
         ContributionArray conarr = new ContributionArray(resultSetToJSONArray(stmt.executeQuery()));
         ContributionArray result = new ContributionArray();
         for (int i = 0; i < conarr.length(); i++) {
-            Contribution cont = conarr.get(i);
+            Contribution cont = conarr.getContribution(i);
             cont.put("Tags", getTagsByContributionID(cont.getID()));
             cont.put("Rate", getRateByContributionID(cont.getID()));
             result.put(cont);
@@ -157,7 +156,7 @@ public class Query {
         ContributionArray conarr = new ContributionArray(resultSetToJSONArray(stmt.executeQuery()));
         ContributionArray result = new ContributionArray();
         for (int i = 0; i < conarr.length(); i++) {
-            Contribution cont = conarr.get(i);
+            Contribution cont = conarr.getContribution(i);
             cont.put("Tags", getTagsByContributionID(cont.getID()));
             cont.put("Rate", getRateByContributionID(cont.getID()));
             result.put(cont);
@@ -262,7 +261,7 @@ public class Query {
         ContributionArray conarr = new ContributionArray(resultSetToJSONArray(stmt.executeQuery()));
         ContributionArray result = new ContributionArray();
         for (int i = 0; i < conarr.length(); i++) {
-            Contribution cont = conarr.get(i);
+            Contribution cont = conarr.getContribution(i);
             cont.put("Tags", getTagsByContributionID(cont.getID()));
             cont.put("Rate", getRateByContributionID(cont.getID()));
             result.put(cont);

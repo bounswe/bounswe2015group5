@@ -7,7 +7,9 @@ package com.bounswe2015group5.xplore;
 
 import com.bounswe2015group5.database.*;
 import com.bounswe2015group5.entities.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -28,6 +30,8 @@ public class RateContributionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String json = br.readLine();
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(false);
             if (session == null) {
@@ -35,13 +39,7 @@ public class RateContributionServlet extends HttpServlet {
             } else {
                 String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
-                Rate r = new Rate(Query.requestToJSONObject(request));
-                if (r.get("ContributionID") instanceof String){
-                    r.setContributionID(Integer.parseInt(r.getString("ContributionID")));
-                }
-                if (r.get("Rate") instanceof String){
-                    r.setRate(Integer.parseInt(r.getString("Rate")));
-                }
+                Rate r = Rate.stringToRate(json);
                 r.setUserID(us.getID());
                 Update.registerRate(r);
                 out.print("Your rate is saved.");
