@@ -44,14 +44,14 @@ function bringAllTags() {
 }
 
 function upvoteContributionWithID(contributionID) {
-    $.post("RateContribution", {ContributionID: contributionID, Rate: "1"}, function (responseText) {
-        window.alert(responseText);
+    postToServer("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
+                 window.alert(responseText.responseText);
     });
 }
 
 function downvoteContributionWithID(contributionID) {
-    $.post("RateContribution", {ContributionID: contributionID, Rate: "-1"}, function (responseText) {
-        window.alert(responseText);
+    postToServer("RateContribution", {ContributionID: contributionID, Rate: -1}, function (responseText) {
+                window.alert(responseText.responseText);
     });
 }
 
@@ -113,8 +113,8 @@ function bringAllCommentsWithID(contributionID) {
 }
 
 function upvoteContributionWithID(contributionID) {
-    $.post("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
-        window.alert(responseText);
+    postToServer("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
+                 window.alert(responseText.responseText);
     });
 }
 
@@ -220,21 +220,26 @@ function bringContributeForm(e) {
             var msgObj = {Title: title, Content: content, Type: type, Tags: TagArray};
 
             var type = "1";
-            $.ajax({
-                url: "RegisterContribution",
-                type: 'POST',
-                dataType: 'json',
-                data: JSON.stringify(msgObj),
-                contentType: 'application/json',
-                mimeType: 'application/json',
-                complete: function (responseText) {
-                    window.alert(responseText);
-                    bringAllTags();
-                }
+            postToServer("RegisterContribution", msgObj, function (responseText) {
+                 window.alert(responseText.responseText);
+                bringAllTags();
             });
         });
     });
 }
+
+function postToServer(url, data, func) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'text',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        mimeType: 'application/json',
+        complete: func
+    });
+}
+
 
 function loggedInActions(userObj) {
     displayUserInfo(userObj);
