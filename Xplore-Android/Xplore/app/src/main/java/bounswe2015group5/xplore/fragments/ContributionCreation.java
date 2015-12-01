@@ -2,7 +2,6 @@ package bounswe2015group5.xplore.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.dpizarro.autolabel.library.AutoLabelUI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +28,11 @@ import bounswe2015group5.xplore.R;
 /**
  * Created by hakansahin on 06/11/15.
  */
-public class ContributionCreation extends Fragment{
+public class ContributionCreation extends BaseFragment{
 
     private EditText titleEditText, contentEditText, tagEditText;
     private Button createBtn, addTagBtn;
+    private AutoLabelUI tagLabels;
 
     public ContributionCreation(){}
 
@@ -41,8 +42,9 @@ public class ContributionCreation extends Fragment{
         RelativeLayout parent = (RelativeLayout) inflater.inflate(R.layout.contribution_creation,null);
 
         titleEditText    = (EditText) parent.findViewById(R.id.conTitle);
-        contentEditText   = (EditText) parent.findViewById(R.id.conText);
+        contentEditText  = (EditText) parent.findViewById(R.id.conText);
         tagEditText      = (EditText) parent.findViewById(R.id.conTag);
+        tagLabels        = (AutoLabelUI) parent.findViewById(R.id.conTagLabels);
 
         createBtn = (Button) parent.findViewById(R.id.createBtn);
         createBtn.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +55,14 @@ public class ContributionCreation extends Fragment{
         });
 
         addTagBtn = (Button) parent.findViewById(R.id.addTagBtn);
+        addTagBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagLabels.addLabel(tagEditText.getText().toString());
+                tagEditText.setText("");
+                hideKeyboard(view);
+            }
+        });
 
         return parent;
     }
@@ -75,10 +85,7 @@ public class ContributionCreation extends Fragment{
 
                             // Close the keyboard if it is open.
                             View view = getActivity().getCurrentFocus();
-                            if (view != null) {
-                                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                            }
+                            if (view != null) hideKeyboard(view);
 
                             ((MainActivity) getActivity()).onMenuItemClick(3);
 
@@ -107,5 +114,11 @@ public class ContributionCreation extends Fragment{
         };
 
         Globals.mRequestQueue.add(stringRequest);
+    }
+
+    public void hideKeyboard(View view){
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -2,7 +2,6 @@ package bounswe2015group5.xplore.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +22,8 @@ import bounswe2015group5.xplore.models.Contribution;
 /**
  * Created by Mert on 26.11.2015.
  */
-public class ContributionDetail extends Fragment {
-    private TextView tv_title;
-    private TextView tv_content;
-    private TextView tv_nameSurname;
-    private TextView tv_date;
-    private TextView tv_tags;
+public class ContributionDetail extends BaseFragment {
+    private TextView tv_title, tv_content, tv_nameSurname, tv_date, tv_tags;
     private ListView commentsList;
     private EditText et_enterComment;
     private Button commentBtn;
@@ -37,7 +32,6 @@ public class ContributionDetail extends Fragment {
     private String id;
     private Contribution contribution;
     private ArrayList<Comment> comments;
-    private CommentListAdapter commentsListAdapter;
 
     public ContributionDetail(){
         contribution = new Contribution();
@@ -69,25 +63,10 @@ public class ContributionDetail extends Fragment {
         }
         tv_tags.setText(tags);
         comments = new ArrayList<Comment>();
-        //comments is somehow received as null.
         comments = (ArrayList<Comment>) getArguments().getSerializable("Comments");
-        commentsListAdapter = new CommentListAdapter(getActivity().getApplicationContext(),comments);
+        CommentListAdapter commentsListAdapter = new CommentListAdapter(getActivity().getApplicationContext(),comments);
         commentsList.setAdapter(commentsListAdapter);
 
         return parent;
-    }
-
-    private void showProgressDialog(){
-        if(pDialog == null)
-            pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Please wait..");
-        pDialog.setIndeterminate(true);
-        pDialog.setCancelable(false);
-        pDialog.show();
-    }
-
-    private void hideProgressDialog(){
-        if(pDialog != null && pDialog.isShowing())
-            pDialog.dismiss();
     }
 }
