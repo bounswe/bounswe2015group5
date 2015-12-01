@@ -9,9 +9,6 @@ import com.bounswe2015group5.entities.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.servlet.http.HttpServletRequest;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  *

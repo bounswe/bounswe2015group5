@@ -5,11 +5,8 @@
  */
 package com.bounswe2015group5.entities;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

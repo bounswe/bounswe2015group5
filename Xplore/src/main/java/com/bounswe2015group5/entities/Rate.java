@@ -6,7 +6,6 @@
 package com.bounswe2015group5.entities;
 
 import java.util.Map;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
