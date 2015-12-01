@@ -14,8 +14,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +148,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         //if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
         if(contribution.isRated() != 0) return;
 
-        Log.d("LOG_VOTE","VOTED");
+        final Map<String, String> mParams = new HashMap<>();
+        mParams.put("ContributionID","" + contribution.getId());
+        mParams.put("Rate","" + rate);
+        final JSONObject postBody = new JSONObject(mParams);
 
         final String URL = context.getString(R.string.service_url) + "RateContribution"; //for POST to server
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -163,12 +170,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 Log.d("LOG", error.toString());
             }
         }){
+
+            private final String PROTOCOL_CHARSET = "utf-8";
+            private final String PROTOCOL_CONTENT_TYPE =
+                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> mParams = new HashMap<>();
-                mParams.put("ContributionID","" + contribution.getId());
-                mParams.put("Rate","" + rate);
-                return mParams;
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return postBody.toString().getBytes(PROTOCOL_CHARSET);
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", postBody, PROTOCOL_CHARSET);
+                    return null;
+                }
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return postBody.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
             }
         };
 

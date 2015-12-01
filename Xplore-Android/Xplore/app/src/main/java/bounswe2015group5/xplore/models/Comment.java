@@ -61,6 +61,15 @@ public class Comment {
         return name;
     }
     public String getDate(){
-        return date;
+        return (date == null) ? "Today" : date;
     }
+
+    public void setType(int type){ this.type = type; }
+    public void setUserID(int userID){ this.userID = userID; }
+    public void setID(int ID){ this.ID = ID; }
+    public void setContributionID(int ContID){ this.contributionID = ContID; }
+    public void setContent(String content){ this.content = content; }
+    public void setName(String name){ this.name = name; }
+    public void setSurname(String surname){ this.surname = surname; }
+    public void setDate(String date){ this.date = date; }
 }
