@@ -113,9 +113,10 @@ function bringAllCommentsWithID(contributionID) {
     });
 }
 
-function upvoteContributionWithID(contributionID) {
+function upvoteContributionWithID(contributionID, tagName) {
     postToServer("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
                  window.alert(responseText.responseText);
+                 bringAllContributionsWithTag(tagName);
     });
 }
 
@@ -141,8 +142,8 @@ function bringAllContributionsWithTag(TagName) {
                 tmp.find(".view-comment-button").click({ContributionID: contributions[index].ID}, function (event) {
                     bringAllCommentsWithID(event.data.ContributionID);
                 });
-                tmp.find(".like-button").click({ContributionID: contributions[index].ID}, function (event) {
-                    upvoteContributionWithID(event.data.ContributionID);
+                tmp.find(".like-button").click({ContributionID: contributions[index].ID, TagName: TagName}, function (event) {
+                    upvoteContributionWithID(event.data.ContributionID, event.data.TagName);
                 });
                 tmp.find(".dislike-button").click({ContributionID: contributions[index].ID}, function (event) {
                     upvoteContributionWithID(event.data.ContributionID);
