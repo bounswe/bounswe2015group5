@@ -1,6 +1,5 @@
 package bounswe2015group5.xplore.models;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -30,18 +29,14 @@ public class Comment {
      * @author Mert Oguz
      */
     public Comment(JSONObject comment){
-        try {
-            this.type = comment.getInt("Type");
-            this.userID = comment.getInt("UserID");
-            this.ID = comment.getInt("ID");
-            this.contributionID = comment.getInt("ContributionID");
-            this.content = comment.getString("Content");
-            this.surname = comment.getString("Surname");
-            this.name = comment.getString("Name");
-            this.date = comment.getString("Date");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            this.type = comment.optInt("Type");
+            this.userID = comment.optInt("UserID");
+            this.ID = comment.optInt("ID");
+            this.contributionID = comment.optInt("ContributionID");
+            this.content = comment.optString("Content");
+            this.surname = comment.optString("Surname");
+            this.name = comment.optString("Name");
+            this.date = comment.optString("Date");
     }
 
     public int getType(){
