@@ -26,7 +26,7 @@ public class LeftNavAdapter extends BaseAdapter
 
         items.add("Home");
         items.add("Trending");
-        items.add("Contributions");
+        //items.add("Contributions");   //TODO contribution list won't be visible, so remove its all parts.
         items.add("About");
         if(Globals.share.getBoolean("SignedIn",false))
             items.add("Log Out");

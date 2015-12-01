@@ -15,7 +15,6 @@ public class Contribution implements Serializable {
     private int ID, type, clientRate = 0, rate;
     private String title, content, date, name, surname;
     private ArrayList<Tag> tags;
-    private boolean isRated;
 
     /**
      * Default constructor for Contribution. Initializes with null values.
@@ -30,7 +29,6 @@ public class Contribution implements Serializable {
         this.name = null;
         this.surname = null;
         this.clientRate = 0;
-        this.isRated = false;
         this.rate = 0;
         this.tags = new ArrayList<Tag>();
     }
@@ -62,8 +60,6 @@ public class Contribution implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        this.isRated = (this.clientRate != 0);
     }
 
     /**
@@ -105,15 +101,16 @@ public class Contribution implements Serializable {
      * @return @isRated
      * @author Hakan Sahin
      */
-    public boolean isRated() { return isRated; }
+    public int isRated() { return clientRate; }
 
     /**
      * Changes the rate status of the contribution
      * @author Hakan Sahin
      */
-    public void setRated(boolean isRated) {
-        this.isRated = isRated;
-        // TODO post this data to the related servlet.
+    public void setRated(int isRated) {
+        int exRate = this.clientRate;
+        this.clientRate = (this.clientRate != 0) ? 0 : isRated;
+        updateRate(clientRate - exRate);
     }
 
     /**
@@ -130,8 +127,7 @@ public class Contribution implements Serializable {
      * @author Hakan Sahin
      */
     public void updateRate(int rate){
-        // TODO post updated rate to the related servlet.
-        this.rate = rate;
+        this.rate += rate;
     }
 
     /**

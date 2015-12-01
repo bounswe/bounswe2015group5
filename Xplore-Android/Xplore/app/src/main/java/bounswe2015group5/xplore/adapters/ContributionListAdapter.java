@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -62,36 +61,36 @@ public class ContributionListAdapter extends BaseAdapter {
 
         TextView date = (TextView) convertView.findViewById(R.id.cont_date);
         date.setText(contribution.getDate());
-
-        ImageButton upVoteBtn = (ImageButton) convertView.findViewById(R.id.up_vote_btn);
-        upVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                upDownVote(rateTxt, i, true);
-            }
-        });
-
-        ImageButton downVoteBtn = (ImageButton) convertView.findViewById(R.id.down_vote_btn);
-        downVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                upDownVote(rateTxt, i, false);
-            }
-        });
+//
+//        ImageButton upVoteBtn = (ImageButton) convertView.findViewById(R.id.up_vote_btn);
+//        upVoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                upDownVote(rateTxt, i, true);
+//            }
+//        });
+//
+//        ImageButton downVoteBtn = (ImageButton) convertView.findViewById(R.id.down_vote_btn);
+//        downVoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                upDownVote(rateTxt, i, false);
+//            }
+//        });
 
         return convertView;
     }
 
-    public void upDownVote(TextView rateTxt, int i, boolean isUpvoted){
-        Contribution contribution = getItem(i);
-
-        if(contribution.isRated()) return;
-
-        contribution.setRated(true);
-        int rate = contribution.getRate() + (isUpvoted ? 1 : -1);
-
-        rateTxt.setText("" + rate);
-        contribution.updateRate(rate);
-    }
+//    public void upDownVote(TextView rateTxt, int i, boolean isUpvoted){
+//        Contribution contribution = getItem(i);
+//
+//        if(contribution.isRated()) return;
+//
+//        contribution.setRated(true);
+//        int rate = contribution.getRate() + (isUpvoted ? 1 : -1);
+//
+//        rateTxt.setText("" + rate);
+//        contribution.updateRate(rate);
+//    }
     
 }

@@ -2,6 +2,7 @@ package bounswe2015group5.xplore.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,17 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.models.Contribution;
 import bounswe2015group5.xplore.models.Tag;
@@ -67,7 +76,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         upVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upDownVote(rateTxt, contribution, true);
+                upDownVote(rateTxt, contribution, 1);
             }
         });
 
@@ -75,7 +84,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         downVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upDownVote(rateTxt, contribution, false);
+                upDownVote(rateTxt, contribution, -1);
             }
         });
 
@@ -130,14 +139,39 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public void upDownVote(TextView rateTxt, Contribution contribution, boolean isUpvoted){
+    public void upDownVote(final TextView rateTxt, final Contribution contribution, final int rate){
 
-        if(contribution.isRated()) return;
+        //if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
+        if(contribution.isRated() != 0) return;
 
-        contribution.setRated(true);
-        int rate = contribution.getRate() + (isUpvoted ? 1 : -1);
+        Log.d("LOG_VOTE","VOTED");
 
-        rateTxt.setText("" + rate);
-        contribution.updateRate(rate);
+        final String URL = context.getString(R.string.service_url) + "RateContribution"; //for POST to server
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("LOG", response);
+                        if(response.contains("saved")){
+                            contribution.setRated(rate);
+                            rateTxt.setText("" + contribution.getRate());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("LOG", error.toString());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> mParams = new HashMap<>();
+                mParams.put("ContributionID","" + contribution.getId());
+                mParams.put("Rate","" + rate);
+                return mParams;
+            }
+        };
+
+        Globals.mRequestQueue.add(stringRequest);
     }
 }

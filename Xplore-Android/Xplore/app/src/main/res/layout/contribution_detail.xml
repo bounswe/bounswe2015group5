@@ -1,107 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailConMain">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:id="@+id/detailConTitle"
+            android:text="Contribution title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#000000"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/detailConTitle"
-                android:text="Contribution title"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="5"
-                android:textColor="#000000"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailConContent"
+            android:text="Contribution Content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/detailConTitle"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#000000"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/detailConContent"
-                android:text="Contribution Content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_below="@+id/detailConTitle"
-                android:layout_weight="60"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:textColor="#000000"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailConTags"
+            android:text="Tags: Tag1 Tag2 etc."
+            android:layout_below="@+id/detailConContent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#000000"/>
 
-        </RelativeLayout>
-    </ScrollView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailConNameSurname"
+            android:text="Name Surname"
+            android:layout_below="@+id/detailConTags"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#000000"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailConTags"
-        android:text="Tags: Tag1 Tag2 etc."
-        android:layout_below="@id/detailConMain"
-        android:layout_weight="5"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:textColor="#000000"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailConDate"
+            android:text="Date"
+            android:layout_below="@id/detailConTags"
+            android:layout_alignEnd="@+id/detailConTags"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#000000"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailConNameSurname"
-        android:text="Name Surname"
-        android:layout_below="@+id/detailConTags"
-        android:layout_weight="5"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:textColor="#000000"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/detailConCommentList"
+            android:layout_below="@+id/detailConNameSurname"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailConDate"
-        android:text="Date"
-        android:layout_below="@id/detailConTags"
-        android:layout_alignEnd="@+id/detailConTags"
-        android:layout_weight="5"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:textColor="#000000"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailConComment"
+            android:hint="Enter comment..."
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:layout_below="@+id/detailConCommentList"
+            android:editable="true"
+            />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailConCommentList"
-        android:layout_below="@+id/detailConNameSurname"
-        />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailConCommentBtn"
+            android:text="Comment"
+            android:layout_below="@id/detailConComment"
+            />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailConComment"
-        android:hint="Enter comment..."
-        android:inputType="textMultiLine"
-        android:gravity="top"
-        android:layout_below="@+id/detailConCommentList"
-        android:editable="true"
-        />
+    </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailConCommentBtn"
-        android:text="Comment"
-        android:layout_below="@id/detailConComment"
-        android:layout_alignParentBottom="true"/>
-
-</RelativeLayout>
+</ScrollView>

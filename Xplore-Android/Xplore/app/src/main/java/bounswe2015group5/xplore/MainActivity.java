@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import bounswe2015group5.xplore.adapters.LeftNavAdapter;
-import bounswe2015group5.xplore.fragments.ContributionList;
 import bounswe2015group5.xplore.fragments.Home;
 
 public class MainActivity extends FragmentActivity {
@@ -108,21 +106,21 @@ public class MainActivity extends FragmentActivity {
             case 2:
                 /*TODO Trending Page Fragment*/
                 return;
-            case 3: //Contributions
-                title = "ContributionList";
-
-                if (currentFragment == null || !title.equals(currentFragment.getTag())){
-                    Log.d("LOG", "currentFragment_is_null_or_different");
-                    fragment = new ContributionList();
-                } else {
-                    Log.d("LOG", "currentFragment_is_same");
-                    fragment = fragmentManager.findFragmentByTag("ContributionList");
-                }
-                break;
-            case 4:
+//            case 3: //Contributions
+//                title = "ContributionList";
+//
+//                if (currentFragment == null || !title.equals(currentFragment.getTag())){
+//                    Log.d("LOG", "currentFragment_is_null_or_different");
+//                    fragment = new ContributionList();
+//                } else {
+//                    Log.d("LOG", "currentFragment_is_same");
+//                    fragment = fragmentManager.findFragmentByTag("ContributionList");
+//                }
+//                break;
+            case 3:
                 /*TODO About Page Fragment*/
                 return;
-            case 5: //Log In OR Log Out
+            case 4: //Log In OR Log Out
                 SharedPreferences.Editor editor = Globals.share.edit();
                 editor.putBoolean("SignedIn",false);
                 editor.clear();
