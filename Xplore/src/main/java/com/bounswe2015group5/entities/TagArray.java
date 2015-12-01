@@ -22,9 +22,12 @@ public class TagArray extends JSONArray{
         super(m);
     }
     
-    @Override
-    public Tag get(int index){
-        return new Tag((JSONObject)super.get(index));
+    public TagArray(String t){
+        super(t);
+    }
+    
+    public Tag getTag(int index){
+        return new Tag(super.getJSONObject(index));
     }
        
 }

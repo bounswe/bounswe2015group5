@@ -5,8 +5,11 @@
  */
 package com.bounswe2015group5.entities;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -60,7 +63,7 @@ public class Contribution extends JSONObject{
     }
     
     public TagArray getTags(){
-        return new TagArray((JSONArray)get("Tags"));
+        return new TagArray(get("Tags").toString());
     }
     
     public int getRate(){
@@ -145,6 +148,18 @@ public class Contribution extends JSONObject{
         }
         put("Rate", rate);
         return this;
+    }
+    
+    public static Contribution stringToContribution(String text){
+        JSONObject jsonObj = new JSONObject(text);
+        Contribution cont = new Contribution();
+        cont.setTitle(jsonObj.getString("Title"));
+        cont.setContent(jsonObj.getString("Content"));
+        JSONArray tags = jsonObj.getJSONArray("Tags");
+        JOptionPane.showMessageDialog(null, tags.getJSONObject(0).getString("TagName"));
+        TagArray ts = new TagArray(tags);
+        cont.setTags(ts);
+        return cont;
     }
        
 }

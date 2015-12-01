@@ -9,7 +9,9 @@ import com.bounswe2015group5.database.Query;
 import com.bounswe2015group5.database.Update;
 import com.bounswe2015group5.entities.Contribution;
 import com.bounswe2015group5.entities.User;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,17 +22,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  *
  * @author Can Guler
  */
 public class RegisterContributionServlet extends HttpServlet {
-   
+
     /**
-     * Handles the post request. 
-     * Gets user id from the session.
-     * Gets title, content, type from the post message.
-     * Uses curdate of mysql as the date of the contribution.
+     * Handles the post request. Gets user id from the session. Gets title,
+     * content, type from the post message. Uses curdate of mysql as the date of
+     * the contribution.
      *
      * @param request servlet request
      * @param response servlet response
@@ -42,7 +46,8 @@ public class RegisterContributionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String json = br.readLine();
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(false);
             if (session == null) {
@@ -50,11 +55,12 @@ public class RegisterContributionServlet extends HttpServlet {
             } else {
                 String email = session.getAttribute("Email").toString();
                 User us = Query.getUserByEmail(email);
-                Contribution cont = new Contribution(Query.requestToJSONObject(request));
+                Contribution cont = Contribution.stringToContribution(json);
                 cont.setUserID(us.getID());
                 cont.setName(us.getName());
                 cont.setSurname(us.getSurname());
                 cont.setType(1); //to be changed
+                JOptionPane.showMessageDialog(null, cont);
                 Update.registerContribution(cont);
                 out.println("Your Contribution is saved!");
             }

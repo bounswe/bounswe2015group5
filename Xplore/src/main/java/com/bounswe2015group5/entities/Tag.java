@@ -17,6 +17,10 @@ public class Tag extends JSONObject{
         super(t.toString());
     }
     
+    public Tag(String t){
+        super(t);
+    }
+    
     public Tag(){
         super();
     }
@@ -26,11 +30,11 @@ public class Tag extends JSONObject{
     }
     
     public int getTagID(){
-        return (Integer) get("TagID");
+        return getInt("TagID");
     }
     
     public String getTagName(){
-        return (String) get("TagName");
+        return getString("TagName");
     }
     
     public Tag setTagID(int TagID){

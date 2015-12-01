@@ -218,14 +218,15 @@ function bringContributeForm(e) {
                 TagArray.push({TagName: tags[index]});
             }
             var msgObj = {Title: title, Content: content, Type: type, Tags: TagArray};
-            
+
             var type = "1";
             $.ajax({
                 url: "RegisterContribution",
-                method: "POST",
-                data: msgObj,
-                dataType: "json",
-                traditional: true
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(msgObj),
+                contentType: 'application/json',
+                mimeType: 'application/json',
             }).done(function (responseText) {
                 window.alert(responseText);
                 bringAllTags();

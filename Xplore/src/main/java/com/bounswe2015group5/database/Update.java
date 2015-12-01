@@ -7,7 +7,11 @@ package com.bounswe2015group5.database;
 
 import com.bounswe2015group5.entities.*;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.servlet.http.HttpServletRequest;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -17,14 +21,19 @@ public class Update {
     public static int registerContribution(Contribution cont) throws SQLException, ClassNotFoundException {
             DBConnection conn = new DBConnection();
             String sql = "INSERT INTO Contribution(UserID,Title,Content,Type,Date) VALUES(?,?,?,1,CURDATE())";
+            String sql1 = "SELECT LAST_INSERT_ID() as ID";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, cont.getUserID());
             stmt.setString(2, cont.getTitle());
             stmt.setString(3, cont.getContent());
             //stmt.setInt(4, cont.getType());
             int result = stmt.executeUpdate();
-            registerTags(cont.getTags(),cont.getID());
             stmt.close();
+            PreparedStatement stmt1 = conn.prepareStatement(sql1);
+            ResultSet rs = stmt1.executeQuery();
+            rs.next();
+            registerTags(cont.getTags(),rs.getInt("ID"));
+            stmt1.close();
             conn.close();
             return result;
     }
@@ -111,7 +120,7 @@ public class Update {
                  + "SELECT ?,ID FROM Tag WHERE Tag.TagName = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
-            Tag t = new Tag(tags.get(i));
+            Tag t = new Tag(tags.getTag(i));
             stmt.setInt(1, ContributionID);
             stmt.setString(2, t.getTagName());
             stmt.executeUpdate();
@@ -125,7 +134,7 @@ public class Update {
         String sql = "INSERT IGNORE INTO Tag(TagName) VALUES(?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
-            Tag t = new Tag(tags.get(i));
+            Tag t = tags.getTag(i);
             stmt.setString(1, t.getTagName());
             stmt.executeUpdate();
         }
@@ -138,7 +147,7 @@ public class Update {
         String sql = "DELETE FROM ContributionTag WHERE ContributionID = ? AND TagID = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
-            Tag t = new Tag(tags.get(i));
+            Tag t = tags.getTag(i);
             stmt.setInt(1, ContributionID);
             stmt.setInt(2, t.getTagID());
         }
@@ -151,10 +160,12 @@ public class Update {
         String sql = "DELETE FROM Tag WHERE ID = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         for(int i=0;i<tags.length();i++){
-            Tag t = new Tag(tags.get(i));
+            Tag t = tags.getTag(i);
             stmt.setInt(1, t.getTagID());
         }
         stmt.close();
         conn.close();
     }
+    
+
 }
