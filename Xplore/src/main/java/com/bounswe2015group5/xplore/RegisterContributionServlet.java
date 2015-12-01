@@ -21,9 +21,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  *
@@ -60,7 +57,6 @@ public class RegisterContributionServlet extends HttpServlet {
                 cont.setName(us.getName());
                 cont.setSurname(us.getSurname());
                 cont.setType(1); //to be changed
-                JOptionPane.showMessageDialog(null, cont);
                 Update.registerContribution(cont);
                 out.println("Your Contribution is saved!");
             }
