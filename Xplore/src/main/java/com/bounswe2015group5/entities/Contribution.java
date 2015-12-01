@@ -156,7 +156,6 @@ public class Contribution extends JSONObject{
         cont.setTitle(jsonObj.getString("Title"));
         cont.setContent(jsonObj.getString("Content"));
         JSONArray tags = jsonObj.getJSONArray("Tags");
-        JOptionPane.showMessageDialog(null, tags.getJSONObject(0).getString("TagName"));
         TagArray ts = new TagArray(tags);
         cont.setTags(ts);
         return cont;
