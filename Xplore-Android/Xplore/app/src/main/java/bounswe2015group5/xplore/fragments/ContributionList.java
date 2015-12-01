@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,7 @@ import bounswe2015group5.xplore.models.Contribution;
 /**
  * Last updated by Mert Oguz on 7/11/2015.
  */
-public class ContributionList extends Fragment {
+public class ContributionList extends BaseFragment {
 
     private ArrayList<Contribution> contributions;
     private ContributionListAdapter listAdapter;
@@ -159,19 +158,5 @@ public class ContributionList extends Fragment {
         });
 
         Globals.mRequestQueue.add(stringRequest);
-    }
-
-    private void showProgressDialog(){
-        if(pDialog == null)
-            pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Please wait..");
-        pDialog.setIndeterminate(true);
-        pDialog.setCancelable(false);
-        pDialog.show();
-    }
-
-    private void hideProgressDialog(){
-        if(pDialog != null && pDialog.isShowing())
-            pDialog.dismiss();
     }
 }

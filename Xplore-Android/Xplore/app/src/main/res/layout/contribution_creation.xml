@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                xmlns:autolabel="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <EditText
         android:layout_width="match_parent"
@@ -12,26 +13,32 @@
         android:hint="Title"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_weight="5"/>
+        android:layout_marginRight="5dp"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/conText"
         android:layout_below="@+id/conTitle"
         android:hint="Write Something ..."
-        android:gravity="top"
-        android:layout_weight="90"
-        android:layout_above="@+id/linearLayout"/>
+        android:gravity="top"/>
+
+    <com.dpizarro.autolabel.library.AutoLabelUI
+        android:id="@+id/conTagLabels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/conText"
+        autolabel:max_labels="5"
+        autolabel:text_color="#FFFFFF"
+        autolabel:show_cross="true"
+        autolabel:icon_cross="@drawable/cross"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
@@ -42,14 +49,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/conTag"
             android:hint="Tag"
-            android:visibility="invisible"
             android:layout_weight="90"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Tag"
-            android:visibility="invisible"
             android:id="@+id/addTagBtn"
             android:layout_weight="3"/>
 
