@@ -80,8 +80,9 @@ function bringCommentForm(contributionID) {
             event.preventDefault();
             var content = $("#content").val();
             var type = "1";
-            $.post("RegisterComment", {ContributionID: contributionID, Content: content, Type: type}, function (responseText) {
-                window.alert(responseText);
+            var msgObj = {ContributionID: contributionID, Content: content, Type: type};
+            postToServer("RegisterComment", msgObj, function (responseText) {
+                 window.alert(responseText.responseText);
                 bringAllCommentsWithID(contributionID);
             });
         });
@@ -217,9 +218,10 @@ function bringContributeForm(e) {
             for (index = 0; index < tags.length; index++) {
                 TagArray.push({TagName: tags[index]});
             }
-            var msgObj = {Title: title, Content: content, Type: type, Tags: TagArray};
+            
 
             var type = "1";
+            var msgObj = {Title: title, Content: content, Type: type, Tags: TagArray};
             postToServer("RegisterContribution", msgObj, function (responseText) {
                  window.alert(responseText.responseText);
                 bringAllTags();
