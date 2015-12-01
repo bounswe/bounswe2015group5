@@ -19,13 +19,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author burak
  */
 public class RateContributionServlet extends HttpServlet {
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,12 +42,15 @@ public class RateContributionServlet extends HttpServlet {
                 User us = Query.getUserByEmail(email);
                 Rate r = Rate.stringToRate(json);
                 r.setUserID(us.getID());
-                Update.registerRate(r);
+                try {
+                    Update.registerRate(r);
+                } catch (SQLException | ClassNotFoundException e) {
+                }
                 out.print("Your rate is saved.");
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(RateContributionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+
 }
