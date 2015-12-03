@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Xplore Project</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(tags)}">
+        <h2>Tag List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="tag : ${tags}">
+                <td th:text="${tag.id}"><a href="/tag/${tag.id}">Id</a></td>
+                <td th:text="${tag.name}">tag name</td>
+                <td><a th:href="${'/tag/' + tag.id}">View</a></td>
+                <td><a th:href="${'/tag/edit/' + tag.id}">Edit</a></td>
+                <td><a th:href="${'/tag/delete/' + tag.id}">Delete</a></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>
