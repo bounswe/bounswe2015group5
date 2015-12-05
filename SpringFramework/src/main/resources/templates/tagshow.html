@@ -29,6 +29,29 @@
             </div>
         </form>
     </div>
+
+    <div th:if="${not #lists.isEmpty(tag.contributions)}">
+        <h2>Contribution List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="contribution : ${tag.contributions}">
+                <td th:text="${contribution.id}"><a href="/contribution/${contribution.id}">Id</a></td>
+                <td th:text="${contribution.title}">contribution title</td>
+                <td th:text="${contribution.content}">contribution content</td>
+                <td><a th:href="${'/contribution/' + contribution.id}">View</a></td>
+                <td><a th:href="${'/contribution/edit/' + contribution.id}">Edit</a></td>
+                <td><a th:href="${'/contribution/delete/' + contribution.id}">Delete</a></td>
+            </tr>
+        </table>
+
+    </div>
 </div>
 
 </body>

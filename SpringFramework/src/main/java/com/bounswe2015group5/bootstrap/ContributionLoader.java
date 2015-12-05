@@ -29,7 +29,7 @@ public class ContributionLoader implements ApplicationListener<ContextRefreshedE
         cont1.setContent("The editor-in-chief of the Cumhuriyet daily, Can Dundar, and the paper's Ankara representative Erdem Gul have been arrested on charges of being members of a terror organization, espionage and revealing confidential documents -- charges that could see them spend life in prison.");
         contributionRepository.save(cont1);
 
-        log.info("Saved news excerpt#1 - id: " + cont1.getId());
+        log.info("Saved CONTRIB Cumhuriyet daily’s Dundar - id: " + cont1.getId());
 
         Contribution cont2 = new Contribution();
 
@@ -37,7 +37,7 @@ public class ContributionLoader implements ApplicationListener<ContextRefreshedE
         cont2.setContent("The Istanbul 7th Court of Peace said that that there was \"no unlawful aspect\" regarding the decision of their arrest. The court has then transferred the appeal demand to a higher court of the Istanbul 8th Court of Peace for further evaluation.");
         contributionRepository.save(cont2);
 
-        log.info("Saved news excerpt#2 - id: " + cont2.getId());
+        log.info("Saved CONTRIB Istanbul court - id: " + cont2.getId());
 
     }
 }

@@ -1,6 +1,8 @@
 package com.bounswe2015group5.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Contribution {
@@ -11,10 +13,20 @@ public class Contribution {
     @Version
     private Integer version;
 
-    private String title;
 
+    @ManyToMany(mappedBy = "contributions")
+    private Set<Tag> tags = new HashSet<>();
+    private String title;
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
 
     public String getTitle() {
         return title;

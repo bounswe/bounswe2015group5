@@ -28,14 +28,13 @@ public class TagLoader implements ApplicationListener<ContextRefreshedEvent> {
         justice.setName("Justice System");
         tagRepository.save(justice);
 
-        log.info("Saved Justice - id: " + justice.getId());
+        log.info("Saved TAG Justice - id: " + justice.getId());
 
         Tag freedom = new Tag();
 
         freedom.setName("Freedom of Speech");
         tagRepository.save(freedom);
 
-        log.info("Saved Freedom of speech- id: " + justice.getId());
-
+        log.info("Saved TAG Freedom of speech- id: " + justice.getId());
     }
 }

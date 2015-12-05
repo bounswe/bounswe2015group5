@@ -36,6 +36,14 @@
             </div>
         </form>
     </div>
+
+    <div th:if="${not #lists.isEmpty(contribution.tags)}">
+        <h3> Tags :</h3>
+        <ul class="list-group">
+            <li class="list-group-item" th:each="tag : ${contribution.tags}" th:text="${tag.name}">Tag name here...</li>
+        </ul>
+    </div>
+
 </div>
 
 </body>
