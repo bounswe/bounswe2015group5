@@ -1,6 +1,5 @@
 package bounswe2015group5.xplore.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,10 +12,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -42,7 +38,6 @@ public class ContributionList extends BaseFragment {
     private ContributionListAdapter listAdapter;
     private Boolean isContListLoaded;
     private PullToRefreshListView contList;
-    private ProgressDialog pDialog;
 
     public ContributionList(){
         contributions = new ArrayList<>();
@@ -122,14 +117,12 @@ public class ContributionList extends BaseFragment {
 
     private void populateData() {
 
-        final String URL = getString(R.string.service_url) + "AllContributions"; //for POST to server
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
-                new Response.Listener<String>() {
+        Response.Listener<JSONObject> responseListener =
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         Log.d("LOG", response.toString());
-                        if(!response.isEmpty()){ // Server replies with the list of contributions
+                        if(!response.toString().isEmpty()){
                             contributions.clear();
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
@@ -149,14 +142,8 @@ public class ContributionList extends BaseFragment {
                             Toast.makeText(getActivity().getApplicationContext(), "Unsuccessful Register Attempt", Toast.LENGTH_SHORT).show();
                         hideProgressDialog();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("LOG", error.toString());
-                hideProgressDialog();
-            }
-        });
+                };
 
-        Globals.mRequestQueue.add(stringRequest);
+        Globals.connectionManager.getAllContributions(responseListener);
     }
 }

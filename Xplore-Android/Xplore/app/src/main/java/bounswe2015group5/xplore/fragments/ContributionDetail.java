@@ -13,19 +13,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.R;
@@ -124,14 +114,7 @@ public class ContributionDetail extends BaseFragment {
         final String content = et_enterComment.getText().toString();
         if(content.equals("")) return;
 
-
-        Map<String, String> mParams = new HashMap<>();
-        mParams.put("ContributionID", ""+contribution.getId());
-        mParams.put("Content", content);
-        final JSONObject postBody = new JSONObject(mParams);
-
-        final String URL = getString(R.string.service_url) + "RegisterComment"; //for POST to server
-        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST,URL,
+        Response.Listener<String> responseListener =
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -149,34 +132,9 @@ public class ContributionDetail extends BaseFragment {
                         et_enterComment.setText("");
                         hideProgressDialog();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("LOG_ERROR", error.toString());
-                hideProgressDialog();
-                // TODO if the request fails, show a warning.
-            }
-        }){
+                };
 
-            private final String PROTOCOL_CHARSET = "utf-8";
-            private final String PROTOCOL_CONTENT_TYPE =
-                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return postBody.toString().getBytes(PROTOCOL_CHARSET);
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", postBody, PROTOCOL_CHARSET);
-                    return null;
-                }
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return postBody.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
-            }
-        };
-
-        Globals.mRequestQueue.add(jsonObjectRequest);
+        // TODO construct an error listener. (hideProgressDialog)
+        Globals.connectionManager.registerComment(contribution.getId(), content, responseListener);
     }
 }
