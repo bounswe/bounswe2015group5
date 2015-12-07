@@ -9,5 +9,5 @@
         android:id="@+id/imageView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/icon"/>
+        android:src="@drawable/logo"/>
 </RelativeLayout>
