@@ -5,10 +5,12 @@ import com.bounswe2015group5.repositories.TagRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
+@DependsOn("contributionLoader")
 public class TagLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private TagRepository tagRepository;
@@ -35,6 +37,6 @@ public class TagLoader implements ApplicationListener<ContextRefreshedEvent> {
         freedom.setName("Freedom of Speech");
         tagRepository.save(freedom);
 
-        log.info("Saved TAG Freedom of speech- id: " + justice.getId());
+        log.info("Saved TAG Freedom of speech- id: " + freedom.getId());
     }
 }

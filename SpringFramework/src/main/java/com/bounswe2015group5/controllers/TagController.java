@@ -1,6 +1,8 @@
 package com.bounswe2015group5.controllers;
 
+import com.bounswe2015group5.domain.Contribution;
 import com.bounswe2015group5.domain.Tag;
+import com.bounswe2015group5.services.ContributionService;
 import com.bounswe2015group5.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TagController {
 
     private TagService tagService;
+    private ContributionService contributionService;
 
     @Autowired
     public void setTagService(TagService tagService) {
         this.tagService = tagService;
+    }
+
+    @Autowired
+    public void setContributionService(ContributionService contributionService) {
+        this.contributionService = contributionService;
     }
 
     @RequestMapping(value = "/tags", method = RequestMethod.GET)
@@ -53,5 +61,15 @@ public class TagController {
     public String delete(@PathVariable Integer id) {
         tagService.deleteTag(id);
         return "redirect:/tags";
+    }
+
+    @RequestMapping("tag/{tagId}/addContribution/{contributionId}")
+    public String addContribution(@PathVariable Integer tagId, @PathVariable Integer contributionId, Model model) {
+        Contribution c = contributionService.getContributionById(contributionId);
+        Tag t = tagService.getTagById(tagId);
+        t.getContributions().add(c);
+        tagService.saveTag(t);
+        model.addAttribute("tag", t);
+        return "tagshow";
     }
 }
