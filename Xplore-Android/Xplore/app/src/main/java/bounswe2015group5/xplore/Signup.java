@@ -2,23 +2,12 @@ package bounswe2015group5.xplore;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class is created by Mert Oguz on 06/11/2015.
@@ -102,49 +91,8 @@ public class Signup extends Activity {
             Toast.makeText(getApplicationContext(), "Please fill in all of the required fields", Toast.LENGTH_SHORT).show();
             return;
         }
-        //Signup successfull
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("LOG", response.toString());
-                        if(response.toLowerCase().contains("succes")){ // Server replies with "Success"
-                            SharedPreferences.Editor editor = Globals.share.edit();
-                            editor.putBoolean("SignedIn", true);
-                            editor.putString("Email",email);
-                            editor.putString("Name",name);
-                            editor.putString("Surname",surname);
-                            editor.apply();
 
-                            Toast.makeText(getApplicationContext(), "You have successfully registered", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Signup.this, MainActivity.class));
-                            finishAffinity();
-                        } else //unsuccessful register attempt
-                            Toast.makeText(getApplicationContext(), "Unsuccessful Register Attempt", Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("LOG", error.toString());
-            }
-        }){
-            /**
-             * Puts arguments for POST that will be sent to the server
-             * @auth Mert Oguz
-             * @throws AuthFailureError
-             */
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> mParams = new HashMap<String, String>();
-                mParams.put("Email", email);
-                mParams.put("Pass", pass);
-                mParams.put("Name", name);
-                mParams.put("Surname", surname);
-
-                return mParams;
-            }
-        };
-        Globals.mRequestQueue.add(stringRequest);
+        Globals.connectionManager.registerUser(Signup.this, email, pass, name, surname);
     }
 
 }

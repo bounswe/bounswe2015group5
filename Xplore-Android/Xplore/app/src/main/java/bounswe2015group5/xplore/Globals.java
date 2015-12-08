@@ -3,10 +3,8 @@ package bounswe2015group5.xplore;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpStack;
-import com.android.volley.toolbox.Volley;
 
 import org.apache.http.client.CookieStore;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -19,7 +17,7 @@ public class Globals {
     public static XploreApp instance;
     public static Context appContext;
     public static SharedPreferences share;
-    public static RequestQueue mRequestQueue;
+    public static ConnectionManager connectionManager;
     public static HttpStack httpStack;
 
     public static void init(){
@@ -31,7 +29,7 @@ public class Globals {
         httpStack = new HttpClientStack( httpclient );
 
         share = appContext.getSharedPreferences("appdata", Context.MODE_PRIVATE);
-        mRequestQueue = Volley.newRequestQueue(appContext, httpStack);
+        connectionManager = new ConnectionManager(appContext, httpStack);
     }
 
 }

@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="123 Contributions"
+        android:text=""
         android:id="@+id/cont_date"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
