@@ -27,7 +27,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadTags();
         loadContributions();
-        loadRelations();
+//        loadRelations();
     }
 
     private void loadTags() {
