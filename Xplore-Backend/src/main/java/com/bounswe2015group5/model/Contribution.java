@@ -1,4 +1,4 @@
-package com.bounswe2015group5.models;
+package com.bounswe2015group5.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,7 +8,7 @@ public class Contribution implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer contributionId;
+    private Integer id;
 
     @Version
     private Integer version;
@@ -18,12 +18,12 @@ public class Contribution implements Serializable{
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    public Integer getContributionId() {
-        return contributionId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setContributionId(Integer contributionId) {
-        this.contributionId = contributionId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getVersion() {
@@ -57,7 +57,7 @@ public class Contribution implements Serializable{
 
         Contribution that = (Contribution) o;
 
-        if (getContributionId() != null ? !getContributionId().equals(that.getContributionId()) : that.getContributionId() != null)
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null)
             return false;
         if (getVersion() != null ? !getVersion().equals(that.getVersion()) : that.getVersion() != null) return false;
         if (getTitle() != null ? !getTitle().equals(that.getTitle()) : that.getTitle() != null) return false;
@@ -67,7 +67,7 @@ public class Contribution implements Serializable{
 
     @Override
     public int hashCode() {
-        int result = getContributionId() != null ? getContributionId().hashCode() : 0;
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
         result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);

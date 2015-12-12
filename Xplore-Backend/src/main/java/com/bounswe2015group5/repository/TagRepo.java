@@ -1,6 +1,6 @@
 package com.bounswe2015group5.repository;
 
-import com.bounswe2015group5.models.Tag;
+import com.bounswe2015group5.model.Tag;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

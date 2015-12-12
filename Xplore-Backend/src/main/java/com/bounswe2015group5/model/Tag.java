@@ -1,4 +1,4 @@
-package com.bounswe2015group5.models;
+package com.bounswe2015group5.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Tag implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer tagId;
+    private Integer id;
 
     @Version
     private Integer version;
@@ -30,12 +30,12 @@ public class Tag implements Serializable{
         this.name = name;
     }
 
-    public Integer getTagId() {
-        return tagId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Tag implements Serializable{
 
         Tag tag = (Tag) o;
 
-        if (getTagId() != null ? !getTagId().equals(tag.getTagId()) : tag.getTagId() != null) return false;
+        if (getId() != null ? !getId().equals(tag.getId()) : tag.getId() != null) return false;
         if (getVersion() != null ? !getVersion().equals(tag.getVersion()) : tag.getVersion() != null) return false;
         return !(getName() != null ? !getName().equals(tag.getName()) : tag.getName() != null);
 
@@ -53,7 +53,7 @@ public class Tag implements Serializable{
 
     @Override
     public int hashCode() {
-        int result = getTagId() != null ? getTagId().hashCode() : 0;
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         return result;
