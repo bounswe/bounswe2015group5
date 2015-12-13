@@ -11,6 +11,14 @@ public class Relation implements Serializable {
 
     @EmbeddedId
     private RelationID id;
+    @ManyToOne
+    @MapsId("id")
+    @JoinColumn(name = "tagId", nullable = false, insertable = false, updatable = false)
+    private Tag tag;
+    @ManyToOne
+    @MapsId("id")
+    @JoinColumn(name = "contributionId", nullable = false, insertable = false, updatable = false)
+    private Contribution contribution;
 
     public Relation(Tag tag, Contribution contribution) {
         this.id = new RelationID(tag.getId(),contribution.getId());
@@ -20,16 +28,6 @@ public class Relation implements Serializable {
 
     public Relation() {
     }
-
-    @ManyToOne
-    @MapsId("id")
-    @JoinColumn(name = "tagId", nullable = false, insertable = false, updatable = false)
-    private Tag tag;
-
-    @ManyToOne
-    @MapsId("id")
-    @JoinColumn(name = "contributionId", nullable = false, insertable = false, updatable = false)
-    private Contribution contribution;
 
     public Tag getTag() {
         return tag;
@@ -71,7 +69,18 @@ public class Relation implements Serializable {
     public static class RelationID implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        @GeneratedValue
         protected Integer tagId;
+        @GeneratedValue
+        protected Integer contributionId;
+
+        public RelationID(Integer tagId, Integer contributionId) {
+            this.tagId = tagId;
+            this.contributionId = contributionId;
+        }
+
+        public RelationID() {
+        }
 
         public Integer getContributionId() {
             return contributionId;
@@ -89,16 +98,6 @@ public class Relation implements Serializable {
             this.tagId = tagId;
         }
 
-        protected Integer contributionId;
-
-        public RelationID(Integer tagId, Integer contributionId) {
-            this.tagId = tagId;
-            this.contributionId = contributionId;
-        }
-
-        public RelationID() {
-        }
-
         @Override
         public String toString() {
             return tagId + "_" + contributionId;
@@ -111,8 +110,7 @@ public class Relation implements Serializable {
 
             RelationID that = (RelationID) o;
 
-            if (!tagId.equals(that.tagId)) return false;
-            return contributionId.equals(that.contributionId);
+            return getTagId().equals(that.getTagId()) && getContributionId().equals(that.getContributionId());
 
         }
 
