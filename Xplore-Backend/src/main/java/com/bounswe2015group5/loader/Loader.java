@@ -68,9 +68,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         Tag t1 = tagRepo.findOne(1);
         Contribution c1 = contributionRepo.findOne(1);
 
-        Relation rel1 = new Relation();
-        rel1.setContribution(c1);
-        rel1.setTag(t1);
+        Relation rel1 = new Relation(t1,c1);
 
         log.info("try to save relation : " + t1.getName() + " - " + c1.getTitle());
 

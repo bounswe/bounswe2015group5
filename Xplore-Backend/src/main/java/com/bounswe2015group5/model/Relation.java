@@ -12,14 +12,23 @@ public class Relation implements Serializable {
     @EmbeddedId
     private RelationID id;
 
+    public Relation(Tag tag, Contribution contribution) {
+        this.id = new RelationID(tag.getId(),contribution.getId());
+        this.tag = tag;
+        this.contribution = contribution;
+    }
+
+    public Relation() {
+    }
+
     @ManyToOne
     @MapsId("id")
-    @JoinColumn(name = "tagId")
+    @JoinColumn(name = "tagId", nullable = false, insertable = false, updatable = false)
     private Tag tag;
 
     @ManyToOne
     @MapsId("id")
-    @JoinColumn(name = "contributionId")
+    @JoinColumn(name = "contributionId", nullable = false, insertable = false, updatable = false)
     private Contribution contribution;
 
     public Tag getTag() {
