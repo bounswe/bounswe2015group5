@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -62,6 +63,25 @@ public class ContributionDetail extends BaseFragment {
             @Override
             public void onClick(View view) {
                 postComment();
+            }
+        });
+
+        final TextView rateTxt = (TextView) parent.findViewById(R.id.conDetailrate);
+        rateTxt.setText("" + contribution.getRate());
+
+        ImageButton upVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_up_vote_btn);
+        upVoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                upDownVote(rateTxt, contribution, 1);
+            }
+        });
+
+        ImageButton downVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_down_vote_btn);
+        downVoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                upDownVote(rateTxt, contribution, -1);
             }
         });
 
@@ -136,5 +156,24 @@ public class ContributionDetail extends BaseFragment {
 
         // TODO construct an error listener. (hideProgressDialog)
         Globals.connectionManager.registerComment(contribution.getId(), content, responseListener);
+    }
+
+    public void upDownVote(final TextView rateTxt, final Contribution contribution, final int rate){
+
+        //if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
+        if(contribution.isRated() != 0) return;
+
+        Response.Listener<String> responseListener =
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.contains("saved")){
+                            contribution.setRated(rate);
+                            rateTxt.setText("" + contribution.getRate());
+                        }
+                    }
+                };
+
+        Globals.connectionManager.rateContribution(contribution.getId(), rate, responseListener);
     }
 }
