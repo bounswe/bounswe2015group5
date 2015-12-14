@@ -23,66 +23,78 @@ $(document).ready(function () {
         }
     });
 
-    bringAllTags();
+    init();
 });
 
+/**
+ * Initializes the page.
+ * @returns {undefined}
+ */
+function init() {
+    bringAllTags();
+}
 
+/**
+ * Displays all tags.
+ * @returns {undefined}
+ */
 function bringAllTags() {
     $("#main-div").html("");
-    $.get("tag.html", function (tmpStr) {
+    $.get("tag.html", function (tagTemplateStr) {
         $.post("AllTags", {}, function (tags) {
             for (index = 0; index < tags.length; index++) {
-                tmp = $(tmpStr);
-                tmp.find(".tag-name").html(tags[index].TagName);
-                tmp.find(".view-contribution-button").click({TagName: tags[index].TagName}, function (event) {
+                var tagTemplate = $(tagTemplateStr);
+                tagTemplate.find(".tag-name").html(tags[index].TagName);
+                tagTemplate.find(".view-contribution-button").click({TagName: tags[index].TagName}, function (event) {
                     bringAllContributionsWithTag(event.data.TagName);
                 });
-                $("#main-div").append(tmp);
+                $("#main-div").append(tagTemplate);
             }
         });
     });
 }
 
+
+/**
+ * Upvotes the contribution with contributionID.
+ * @param {number} contributionID - ID of the contribution.
+ * @returns {undefined}
+ */
 function upvoteContributionWithID(contributionID) {
     postToServer("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
-                 window.alert(responseText.responseText);
+        window.alert(responseText.responseText);
     });
 }
 
+
+/**
+ * Downvotes the contribution with contributionID.
+ * @param {number} contributionID - ID of the contribution.
+ * @returns {undefined}
+ */
 function downvoteContributionWithID(contributionID) {
     postToServer("RateContribution", {ContributionID: contributionID, Rate: -1}, function (responseText) {
-                window.alert(responseText.responseText);
-    });
-}
-
-function bringAllContributions() {
-    $("#main-div").html("");
-    $.get("contribution.html", function (tmpStr) {
-        $.post("AllContributions", {}, function (contributions) {
-            for (index = 0; index < contributions.length; index++) {
-                tmp = $(tmpStr);
-                tmp.find(".contrib-title").html(contributions[index].Title);
-                tmp.find(".contrib-author").html(contributions[index].Name + " " + contributions[index].Surname);
-                tmp.find(".contrib-date").html(contributions[index].Date);
-                tmp.find(".contrib-content").html(contributions[index].Content);
-                $("#main-div").append(tmp);
-            }
-        });
+        window.alert(responseText.responseText);
     });
 }
 
 
+/**
+ * Loads comment entry form for contribution with contributionID.
+ * @param {number} contributionID - ID of the contribution that will be commented.
+ * @returns {undefined}
+ */
 function bringCommentForm(contributionID) {
 
     $.get("comment-form.html", function (formStr) {
-        form = $(formStr);
+        var form = $(formStr);
         form.find("#submit").click(function (event) {
             event.preventDefault();
             var content = $("#content").val();
             var type = "1";
             var msgObj = {ContributionID: contributionID, Content: content, Type: type};
             postToServer("RegisterComment", msgObj, function (responseText) {
-                 window.alert(responseText.responseText);
+                window.alert(responseText.responseText);
                 bringAllCommentsWithID(contributionID);
             });
         });
@@ -91,6 +103,11 @@ function bringCommentForm(contributionID) {
 }
 
 
+/**
+ * Displays comments of the contribution whose ID is given.
+ * @param {number} contributionID - ID of the contribution.
+ * @returns {undefined}
+ */
 function bringAllCommentsWithID(contributionID) {
     $("#main-div").html("");
     $.post("UserInfo", {}, function (userObj) {
@@ -100,14 +117,14 @@ function bringAllCommentsWithID(contributionID) {
         }
     });
 
-    $.get("comment.html", function (tmpStr) {
+    $.get("comment.html", function (commentTemplateStr) {
         $.post("CommentsByContributionID", {ContributionID: contributionID}, function (comments) {
             for (index = 0; index < comments.length; index++) {
-                tmp = $(tmpStr);
-                tmp.find(".comment-author").html(comments[index].Name + " " + comments[index].Surname);
-                tmp.find(".comment-date").html(comments[index].Date);
-                tmp.find(".comment-content").html(comments[index].Content);
-                $("#main-div").append(tmp);
+                var commentTemplate = $(commentTemplateStr);
+                commentTemplate.find(".comment-author").html(comments[index].Name + " " + comments[index].Surname);
+                commentTemplate.find(".comment-date").html(comments[index].Date);
+                commentTemplate.find(".comment-content").html(comments[index].Content);
+                $("#main-div").append(commentTemplate);
             }
         });
     });
@@ -115,21 +132,26 @@ function bringAllCommentsWithID(contributionID) {
 
 function upvoteContributionWithID(contributionID, tagName) {
     postToServer("RateContribution", {ContributionID: contributionID, Rate: 1}, function (responseText) {
-                 window.alert(responseText.responseText);
-                 bringAllContributionsWithTag(tagName);
+        window.alert(responseText.responseText);
+        bringAllContributionsWithTag(tagName);
     });
 }
 
+/**
+ * Displays all contributions with a specific tag.
+ * @param {string} TagName - Name of the tag.
+ * @returns {undefined}
+ */
 function bringAllContributionsWithTag(TagName) {
     $("#main-div").html("");
-    $.get("contribution.html", function (tmpStr) {
+    $.get("contribution.html", function (contributionTemplateStr) {
         $.post("SearchByTag", {Tag: TagName}, function (contributions) {
             for (index = 0; index < contributions.length; index++) {
-                tmp = $(tmpStr);
-                tmp.find(".contrib-title").html(contributions[index].Title);
-                tmp.find(".contrib-author").html(contributions[index].Name + " " + contributions[index].Surname);
-                tmp.find(".contrib-date").html(contributions[index].Date);
-                tmp.find(".contrib-content").html(contributions[index].Content);
+                var contributionTemplate = $(contributionTemplateStr);
+                contributionTemplate.find(".contrib-title").html(contributions[index].Title);
+                contributionTemplate.find(".contrib-author").html(contributions[index].Name + " " + contributions[index].Surname);
+                contributionTemplate.find(".contrib-date").html(contributions[index].Date);
+                contributionTemplate.find(".contrib-content").html(contributions[index].Content);
                 tags = contributions[index].Tags;
                 for (tagIndex = 0; tagIndex < contributions[index].Tags.length; tagIndex++) {
                     tagName = contributions[index].Tags[tagIndex].TagName;
@@ -137,31 +159,42 @@ function bringAllContributionsWithTag(TagName) {
                     tagItem.click({TagName: tagName}, function (event) {
                         bringAllContributionsWithTag(event.data.TagName);
                     });
-                    tmp.find(".contrib-tags").append(tagItem);
+                    contributionTemplate.find(".contrib-tags").append(tagItem);
                 }
-                tmp.find(".view-comment-button").click({ContributionID: contributions[index].ID}, function (event) {
+                contributionTemplate.find(".view-comment-button").click({ContributionID: contributions[index].ID}, function (event) {
                     bringAllCommentsWithID(event.data.ContributionID);
                 });
-                tmp.find(".like-button").click({ContributionID: contributions[index].ID, TagName: TagName}, function (event) {
+                contributionTemplate.find(".like-button").click({ContributionID: contributions[index].ID, TagName: TagName}, function (event) {
                     upvoteContributionWithID(event.data.ContributionID, event.data.TagName);
                 });
-                tmp.find(".dislike-button").click({ContributionID: contributions[index].ID}, function (event) {
+                contributionTemplate.find(".dislike-button").click({ContributionID: contributions[index].ID}, function (event) {
                     upvoteContributionWithID(event.data.ContributionID);
                 });
-                tmp.find(".contrib-rate").html("Rate: " + contributions[index].Rate);
-                $("#main-div").append(tmp);
+                contributionTemplate.find(".contrib-rate").html("Rate: " + contributions[index].Rate);
+                $("#main-div").append(contributionTemplate);
             }
         });
     });
 }
 
 
+/**
+ * Logs out the user
+ * @param {type} e
+ * @returns {undefined}
+ */
 function logOut(e) {
     $.post("Logout", {}, function (userObj) {
         loggedOutActions();
     });
 }
 
+
+/**
+ * Displays sign-up form.
+ * @param {type} e
+ * @returns {undefined}
+ */
 function bringSignupForm(e) {
     $("#main-div").load("signup-form.html", function () {
         $("#submit").click(function (event) {
@@ -187,6 +220,11 @@ function bringSignupForm(e) {
 }
 
 
+/**
+ * Displays login form.
+ * @param {type} e
+ * @returns {undefined}
+ */
 function bringLoginForm(e) {
     $("#main-div").load("login-form.html", function () {
         $("#submit").click(function (event) {
@@ -208,6 +246,12 @@ function bringLoginForm(e) {
     });
 }
 
+
+/**
+ * Displays contribution form.
+ * @param {type} e
+ * @returns {undefined}
+ */
 function bringContributeForm(e) {
     $("#main-div").load("contribute-form.html", function () {
         $("#submit").click(function (event) {
@@ -219,12 +263,12 @@ function bringContributeForm(e) {
             for (index = 0; index < tags.length; index++) {
                 TagArray.push({TagName: tags[index]});
             }
-            
+
 
             var type = "1";
             var msgObj = {Title: title, Content: content, Type: type, Tags: TagArray};
             postToServer("RegisterContribution", msgObj, function (responseText) {
-                 window.alert(responseText.responseText);
+                window.alert(responseText.responseText);
                 bringAllTags();
             });
         });
@@ -244,6 +288,11 @@ function postToServer(url, data, func) {
 }
 
 
+/**
+ * Sequence of actions after logging in.
+ * @param {type} userObj
+ * @returns {undefined}
+ */
 function loggedInActions(userObj) {
     displayUserInfo(userObj);
     $("#signup").hide();
@@ -252,6 +301,11 @@ function loggedInActions(userObj) {
     $("#logout").show();
 }
 
+
+/**
+ * Sequence of actions after logging out.
+ * @returns {undefined}
+ */
 function loggedOutActions() {
     $("#user-info").html("User<strong class=\"caret\"></strong>");
     $("#signup").show();
@@ -260,14 +314,33 @@ function loggedOutActions() {
     $("#logout").hide();
 }
 
+
+/**
+ * Displays user info.
+ * @param {type} userObj
+ * @returns {undefined}
+ */
 function displayUserInfo(userObj) {
     $("#user-info").html(userObj.Name + " " + userObj.Surname + "<strong class=\"caret\"></strong>");
 }
 
+
+/**
+ * Checks whether logged in.
+ * @param {type} userObj
+ * @returns {Boolean} True if logged in.
+ */
 function isLoggedIn(userObj) {
     return (typeof userObj.Email !== 'undefined');
 }
 
+
+/**
+ * A callback wrapper for login dependent actions.
+ * @param {type} thenFunction - Action taken if logged in.
+ * @param {type} elseFunction - Action taken if logged out.
+ * @returns {undefined}
+ */
 function doIfLoggedIn(thenFunction, elseFunction) {
     $.post("UserInfo", {}, function (userObj) {
         if (typeof userObj.Email !== 'undefined') {
