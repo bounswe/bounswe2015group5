@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.bounswe2015group5.database;
 
 import com.bounswe2015group5.entities.*;
@@ -19,35 +14,10 @@ import org.json.JSONObject;
 
 /**
  *
- * @author burak
+ * @author Mehmet Burak Kurutmaz
  */
 public class Query {
 
-    /*
-    public static Contribution getContributionByID(int ID) throws SQLException, ClassNotFoundException {
-        DBConnection conn = new DBConnection();
-        String sql = "SELECT \n"
-                + "Contribution.ID as ID,\n"
-                + "Contribution.Title as Title, \n"
-                + "Contribution.Content as Content, \n"
-                + "Contribution.Date as Date, \n"
-                + "Contribution.Type as Type, \n"
-                + "User2.Name as Name, \n"
-                + "User2.Surname as Surname\n"
-                + "FROM Contribution\n"
-                + "INNER JOIN User2\n"
-                + "ON Contribution.UserID = User2.ID \n"
-                + "WHERE Contribution.ID = ?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, ID);
-        Contribution cont = new Contribution(resultSetToJSONObject(stmt.executeQuery()));
-        stmt.close();
-        conn.close();
-        cont.put("Tags", getTagsByContributionID(ID));
-        cont.put("Rate", getRateByContributionID(ID));
-        return cont;
-    }
-    */
     
     public static Contribution getContributionByID(int ID) throws SQLException, ClassNotFoundException{
         return getContributionByID(ID,-1);

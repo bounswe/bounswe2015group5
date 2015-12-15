@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.bounswe2015group5.xplore;
 
 import com.bounswe2015group5.database.Query;
@@ -19,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author burak
+ * @author Mehmet Burak Kurutmaz
  */
 public class ContributionsByUserIDServlet extends HttpServlet {
 
@@ -37,21 +31,20 @@ public class ContributionsByUserIDServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         try(PrintWriter out=response.getWriter()){
-            int UserID = Integer.parseInt(request.getParameter("UserID"));
-            HttpSession session = request.getSession(false);
-            if (session == null) {
-                out.print(Query.getContributionByID(UserID,-1));
-            } else {
-                String email = session.getAttribute("Email").toString();
-                User us = Query.getUserByEmail(email);
-                out.print(Query.getContributionsByUserID(UserID, us.getID()));
+            int UserID = Integer.parseInt(request.getParameter("UserID")); // get UserID from request
+            HttpSession session = request.getSession(false); // get session without creating a new one
+            if (session == null) { // if session is null then user is not logged in yet
+                out.print(Query.getContributionsByUserID(UserID,-1)); // send a JSONArray containing Contribution objects
+            } else { // if user is logged in
+                String email = session.getAttribute("Email").toString(); // send a JSONArray containing Contribution objects
+                User us = Query.getUserByEmail(email); //  get user
+                out.print(Query.getContributionsByUserID(UserID, us.getID())); // send a JSONArray containing Contribution objects
             }
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | NumberFormatException ex) {
             Logger.getLogger(CommentsByContributionIDServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -87,7 +80,7 @@ public class ContributionsByUserIDServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "Returns Contributions of an user by UserID";
+    }
 
 }
