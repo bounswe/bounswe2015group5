@@ -27,7 +27,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadTags();
         loadContributions();
-//        loadRelations();
+        loadRelations();
     }
 
     private void loadTags() {
@@ -74,7 +74,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
         relationRepo.save(rel1);
 
-        log.info("Saved relation : " + t1.getName() + " - " + c1.getTitle());
+        log.info("Saved relation : " + rel1.getId());
     }
 
 }
