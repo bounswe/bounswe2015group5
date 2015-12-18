@@ -1,0 +1,15 @@
+<!doctype html>
+<html ng-app>
+	<head>
+		<title>Hello AngularJS</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="js/apitest.js"></script>
+	</head>
+
+	<body>
+		<div ng-controller="ApiTest">
+			<h1>Tags:</h1>
+			<a ng-repeat='tag in tags' ng-href='{{tag._links.self.href}}'>{{tag.name}}</b></a>
+		</div>
+	</body>
+</html>
