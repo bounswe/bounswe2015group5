@@ -2,6 +2,7 @@ package com.bounswe2015group5.controller;
 
 import com.bounswe2015group5.model.Contribution;
 import com.bounswe2015group5.model.Relation;
+import com.bounswe2015group5.model.Tag;
 import com.bounswe2015group5.repository.ContributionRepo;
 import com.bounswe2015group5.repository.RelationRepo;
 import org.jsondoc.core.annotation.*;
@@ -63,5 +64,12 @@ public class ContributionController {
     public @ApiResponseObject
     Page<Relation> findRelationsByTagID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
         return relationRepo.findByContributionId(id,pageable);
+    }
+
+    @ApiMethod(description = "returns all tags related to given contribution id")
+    @RequestMapping(value = "/{id}/tags", method = RequestMethod.GET)
+    public @ApiResponseObject
+    Page<Tag> findTagsByContributionID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
+        return relationRepo.findByContributionId(id,pageable).map(Relation::getTag);
     }
 }

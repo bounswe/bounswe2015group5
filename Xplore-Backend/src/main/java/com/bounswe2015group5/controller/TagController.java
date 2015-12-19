@@ -5,6 +5,8 @@ import com.bounswe2015group5.model.Relation;
 import com.bounswe2015group5.model.Tag;
 import com.bounswe2015group5.repository.RelationRepo;
 import com.bounswe2015group5.repository.TagRepo;
+import com.sun.javafx.tools.packager.Log;
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ public class TagController {
     @Autowired
     RelationRepo relationRepo;
 
+    private Logger log = Logger.getLogger(TagController.class);
+
     @ApiMethod
     @RequestMapping(method = RequestMethod.GET)
     public @ApiResponseObject Iterable<Tag> findAll() {
@@ -45,6 +49,7 @@ public class TagController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public @ApiResponseObject
     ResponseEntity<Void> save(@ApiBodyObject @RequestBody Tag tag, UriComponentsBuilder uriComponentsBuilder) {
+        log.info("tag post request : " + tag.getId());
         tagRepo.save(tag);
 
         HttpHeaders headers = new HttpHeaders();
@@ -66,4 +71,12 @@ public class TagController {
     Page<Relation> findRelationsByTagID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
         return relationRepo.findByTagId(id,pageable);
     }
+
+    @ApiMethod(description = "returns all contributions related to given tag id")
+    @RequestMapping(value = "/{id}/tags", method = RequestMethod.GET)
+    public @ApiResponseObject
+    Page<Contribution> findContributionsByTagID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
+        return relationRepo.findByContributionId(id,pageable).map(Relation::getContribution);
+    }
+
 }
