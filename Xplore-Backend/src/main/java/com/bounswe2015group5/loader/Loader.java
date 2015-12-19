@@ -3,9 +3,11 @@ package com.bounswe2015group5.loader;
 import com.bounswe2015group5.model.Contribution;
 import com.bounswe2015group5.model.Relation;
 import com.bounswe2015group5.model.Tag;
+import com.bounswe2015group5.model.User;
 import com.bounswe2015group5.repository.ContributionRepo;
 import com.bounswe2015group5.repository.RelationRepo;
 import com.bounswe2015group5.repository.TagRepo;
+import com.bounswe2015group5.repository.UserRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -20,6 +22,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private ContributionRepo contributionRepo;
     @Autowired
     private RelationRepo relationRepo;
+    @Autowired
+    private UserRepo userRepo;
 
     private Logger log = Logger.getLogger(Loader.class);
 
@@ -28,6 +32,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         loadTags();
         loadContributions();
         loadRelations();
+        loadUsers();
     }
 
     private void loadTags() {
@@ -75,6 +80,16 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         relationRepo.save(rel1);
 
         log.info("Saved relation : " + rel1.getId());
+    }
+
+    private void loadUsers() {
+        User hanefi = new User("hanefi","hanefi","hanefi@hanefi.com");
+
+        log.info("trying to save user : " + hanefi.getUsername());
+
+        userRepo.save(hanefi);
+
+        log.info("Saved USER Hanefi - id : " + hanefi.getUsername());
     }
 
 }

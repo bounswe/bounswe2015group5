@@ -1,22 +1,27 @@
 package com.bounswe2015group5.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.springframework.validation.annotation.Validated;
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
+@ApiObject
 public class User implements Serializable{
 
     @Id
+    @ApiObjectField(description = "username of the user", required = true)
     private String username;
 
+    @ApiObjectField(description = "password of the user", required = true)
+    @NotNull
     private String password;
 
+    @NotNull
+    @ApiObjectField(description = "email of the user", required = true)
     private String email;
 
     public User(String username, String password, String email) {
@@ -33,8 +38,12 @@ public class User implements Serializable{
         this.username = username;
     }
 
+    public User() {
+    }
+
     public String getPassword() {
         return password;
+
     }
 
     public void setPassword(String password) {
