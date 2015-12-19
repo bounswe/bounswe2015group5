@@ -54,6 +54,12 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         tagRepo.save(freedom);
 
         log.info("Saved TAG Freedom of speech- id: " + freedom.getId());
+
+        for (int i=3;i<20;i++){
+            Tag t = new Tag();
+            t.setName("dummy tag : " + i);
+            tagRepo.save(t);
+        }
     }
 
     private void loadContributions(){
@@ -73,6 +79,11 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         contributionRepo.save(cont2);
 
         log.info("Saved CONTRIB Istanbul court - id: " + cont2.getId());
+
+        for (int i=3;i<20;i++){
+            Contribution c = new Contribution("cont title" + i,"cont content " + i,hanefi);
+            contributionRepo.save(c);
+        }
     }
 
     private void loadRelations() {
@@ -83,6 +94,22 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         relationRepo.save(rel1);
 
         log.info("Saved relation : " + rel1.getId());
+
+        for (int i=3;i<=tagRepo.count();i++){
+            for (int j=3;j<=contributionRepo.count();j++) {
+                if (gcd(i, j) == 1) {
+                    Tag t = tagRepo.findOne(i);
+                    Contribution c = contributionRepo.findOne(j);
+                    Relation r = new Relation(t,c,hanefi);
+                    relationRepo.save(r);
+                }
+            }
+        }
+
+    }
+
+    private int gcd(int i, int j) {
+        return (j!=0) ? gcd(j,i%j) : i ;
     }
 
     private void loadUsers() {
