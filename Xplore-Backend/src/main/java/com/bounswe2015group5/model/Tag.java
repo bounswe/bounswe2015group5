@@ -2,6 +2,7 @@ package com.bounswe2015group5.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Tag implements Serializable{
@@ -9,17 +10,22 @@ public class Tag implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Version
-    private Integer version;
-
     private String name;
 
-    public Integer getVersion() {
-        return version;
+    @Column(name = "created_at")
+    public Date createdAt;
+
+    @Column(name = "updated_at")
+    public Date updatedAt;
+
+    @PrePersist
+    void createdAt() {
+        this.createdAt = this.updatedAt = new Date();
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    @PreUpdate
+    void updatedAt() {
+        this.updatedAt = new Date();
     }
 
     public String getName() {
@@ -46,7 +52,6 @@ public class Tag implements Serializable{
         Tag tag = (Tag) o;
 
         if (getId() != null ? !getId().equals(tag.getId()) : tag.getId() != null) return false;
-        if (getVersion() != null ? !getVersion().equals(tag.getVersion()) : tag.getVersion() != null) return false;
         return !(getName() != null ? !getName().equals(tag.getName()) : tag.getName() != null);
 
     }
@@ -54,7 +59,6 @@ public class Tag implements Serializable{
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         return result;
     }

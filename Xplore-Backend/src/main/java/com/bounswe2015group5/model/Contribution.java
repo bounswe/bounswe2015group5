@@ -2,6 +2,7 @@ package com.bounswe2015group5.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Contribution implements Serializable{
@@ -10,13 +11,40 @@ public class Contribution implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Version
-    private Integer version;
-
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "creatorUser", referencedColumnName = "username")
+    private User creator;
+
+    @Column(name = "created_at")
+    public Date createdAt;
+
+    @Column(name = "updated_at")
+    public Date updatedAt;
+
+    @PrePersist
+    void createdAt() {
+        this.createdAt = this.updatedAt = new Date();
+    }
+
+    @PreUpdate
+    void updatedAt() {
+        this.updatedAt = new Date();
+    }
+
+    public Contribution(String title, String content, User creator) {
+        this.title = title;
+        this.content = content;
+        this.creator = creator;
+    }
+
+    public Contribution() {
+        createdAt = new Date();
+    }
 
     public Integer getId() {
         return id;
@@ -24,14 +52,6 @@ public class Contribution implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     public String getTitle() {
@@ -50,6 +70,14 @@ public class Contribution implements Serializable{
         this.content = content;
     }
 
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,7 +87,6 @@ public class Contribution implements Serializable{
 
         if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null)
             return false;
-        if (getVersion() != null ? !getVersion().equals(that.getVersion()) : that.getVersion() != null) return false;
         if (getTitle() != null ? !getTitle().equals(that.getTitle()) : that.getTitle() != null) return false;
         return !(getContent() != null ? !getContent().equals(that.getContent()) : that.getContent() != null);
 
@@ -68,7 +95,6 @@ public class Contribution implements Serializable{
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
         result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
         return result;
