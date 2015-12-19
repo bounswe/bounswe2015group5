@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="XploreApp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="row" style="height: 100vh">
+    <div class="col-xs-7" style="height: 100vh">
+        <div ui-view="graph" style="height: 100vh">
+            1
+        </div>
+    </div>
+    <div class="col-xs-5">
+        <div ui-view="content">
+            2
+        </div>
+    </div>
+</div>
+
+<script src="scripts/vendor/angular.js"></script>
+<script src="scripts/vendor/angular-ui-router.js"></script>
+<script src="scripts/vendor/sigma.min.js"></script>
+<script src="scripts/vendor/tooltips.js"></script>
+<script src="scripts/vendor/supervisor.js"></script>
+<script src="scripts/vendor/worker.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/HomeGraphController.js"></script>
+</body>
+</html>
