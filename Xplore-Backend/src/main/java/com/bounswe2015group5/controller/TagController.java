@@ -73,7 +73,7 @@ public class TagController {
     }
 
     @ApiMethod(description = "returns all contributions related to given tag id")
-    @RequestMapping(value = "/{id}/tags", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/contributions", method = RequestMethod.GET)
     public @ApiResponseObject
     Page<Contribution> findContributionsByTagID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
         return relationRepo.findByContributionId(id,pageable).map(Relation::getContribution);
