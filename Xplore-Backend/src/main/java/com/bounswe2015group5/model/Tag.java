@@ -18,6 +18,19 @@ public class Tag implements Serializable{
     @Column(name = "updated_at")
     public Date updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "creatorUser", referencedColumnName = "username")
+    private User creator;
+
+    public Tag() {
+    }
+
+    public Tag(String name, User creator) {
+
+        this.name = name;
+        this.creator = creator;
+    }
+
     @PrePersist
     void createdAt() {
         this.createdAt = this.updatedAt = new Date();
@@ -42,6 +55,15 @@ public class Tag implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     @Override
