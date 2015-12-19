@@ -1,5 +1,6 @@
 package com.bounswe2015group5.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
@@ -18,6 +19,7 @@ public class User implements Serializable{
 
     @ApiObjectField(description = "password of the user", required = true)
     @NotNull
+    @JsonIgnore
     private String password;
 
     @NotNull

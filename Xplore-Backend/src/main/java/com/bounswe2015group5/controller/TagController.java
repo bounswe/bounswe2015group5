@@ -5,7 +5,6 @@ import com.bounswe2015group5.model.Relation;
 import com.bounswe2015group5.model.Tag;
 import com.bounswe2015group5.repository.RelationRepo;
 import com.bounswe2015group5.repository.TagRepo;
-import com.sun.javafx.tools.packager.Log;
 import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
