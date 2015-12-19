@@ -17,4 +17,7 @@ import java.util.List;
 public interface RelationRepo extends PagingAndSortingRepository<Relation,Relation.RelationID>{
     Page<Relation> findByContributionId(@Param("id")Integer id, Pageable pageable);
     Page<Relation> findByTagId(@Param("id")Integer id, Pageable pageable);
+
+    List<Relation> findByContributionId(@Param("id")Integer id);
+    List<Relation> findByTagId(@Param("id")Integer id);
 }
