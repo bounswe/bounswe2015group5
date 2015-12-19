@@ -1,5 +1,8 @@
 package com.bounswe2015group5.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiResponseObject;
@@ -23,7 +26,14 @@ public class UserController {
 
     @ApiMethod(description = "returns the principal")
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public @ApiResponseObject String currentUserName(Authentication authentication) {
+    public @ApiResponseObject String currentUserName(Authentication authentication) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(authentication.getName());
+    }
+
+
+//    @ApiMethod(description = "returns the principal")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public @ApiResponseObject String login(Authentication authentication) {
         return authentication.getName();
     }
 }
