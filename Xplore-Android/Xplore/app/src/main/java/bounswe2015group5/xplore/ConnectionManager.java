@@ -168,11 +168,11 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void getAllContributions(Response.Listener<JSONObject> responseListener){
+    public void getAllContributions(Response.Listener<JSONArray> responseListener){
 
         String URL = BASE_URL + "AllContributions";
 
-        JsonRequest request = new JsonObjectRequest(Request.Method.POST, URL, null, responseListener, errorListener);
+        JsonRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
     }
 

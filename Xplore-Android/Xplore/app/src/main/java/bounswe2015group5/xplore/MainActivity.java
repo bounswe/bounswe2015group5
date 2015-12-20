@@ -41,8 +41,8 @@ public class MainActivity extends FragmentActivity{
 
     public void launchFragment(Fragment fragment, String title){
 
-        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
-            fragmentManager.popBackStackImmediate();
+//        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
+//            fragmentManager.popBackStackImmediate();
 
         setTitle(title);
         getSupportFragmentManager().beginTransaction()
