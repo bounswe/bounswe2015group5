@@ -8,7 +8,7 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
         s = new sigma({
             container: 'graph-container',
         });
-        //var fa = sigma.layouts.startForceLink(s, {autoStop: true});
+        var fa = sigma.layouts.startForceLink(s, {autoStop: true});
 
         var config = {
             node: {}
