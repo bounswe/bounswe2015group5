@@ -53,6 +53,10 @@ angular.module('XploreApp', [
                         views: {
                             'content': {
                                 templateUrl: 'views/viewTag.html'
+                            },
+                            'graph': {
+                                templateUrl: 'views/graph.html',
+                                controller: 'ViewTagGraphCtrl'
                             }
                         }
                     })

@@ -1,17 +1,16 @@
 angular.module('XploreAppDep').controller('ViewTagCtrl', function ($scope, $http, $state, $stateParams) {
     $http.get('/tags/' + $stateParams.tagId + '/contributions').success(function (data) {
         $scope.contributions = [];
-        data.forEach(function(contribution){
+        data.forEach(function (contribution) {
             var tags = [];
-            $http.get('/contributions/' + contribution.id + '/tags').success(function(tagsData){
-                tagsData.forEach(function(tagData){
+            $http.get('/contributions/' + contribution.id + '/tags').success(function (tagsData) {
+                tagsData.forEach(function (tagData) {
                     tags.push({
                         id: tagData.id,
                         name: tagData.name
                     });
                 });
-            }).then(function() {
-
+            }).then(function () {
                 $scope.contributions.push({
                     title: contribution.title,
                     content: contribution.content,

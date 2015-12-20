@@ -1,4 +1,4 @@
-angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $http, $state) {
+angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, $http, $state, $stateParams) {
     $http.get('/tags').success(function (data) {
 
         var i,
@@ -31,6 +31,10 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
                         size: neighbors.neighbor,
                         color: 'rgba(10,20,30,0.15)'
                     });
+                    if (tag.id == $stateParams.tagId) {
+                        var locate = sigma.plugins.locate(s);
+                        locate.nodes($stateParams.tagId);
+                    }
                 }
                 s.refresh();
             });
@@ -48,6 +52,7 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
             f(data[i]);
 
         }
+
 
     });
 });
