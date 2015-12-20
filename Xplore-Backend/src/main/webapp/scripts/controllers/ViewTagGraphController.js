@@ -8,7 +8,8 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
         s = new sigma({
             container: 'graph-container',
         });
-        var fa = sigma.layouts.startForceLink(s, {autoStop: true});
+
+        sigma.layouts.fruchtermanReingold.configure(s, {});
 
         var config = {
             node: {}
@@ -21,22 +22,24 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
         });
 
 
-        var f = function(tag) {
+        var addEdges = function(tag) {
             $http.get('/tags/' + tag.id + '/tags').success(function(neighbors){
                 for(neighbor in neighbors) {
-                    s.graph.addEdge({
-                        id: 'e' + tag.id + 'to' + neighbor,
-                        source: tag.id,
-                        target: neighbor,
-                        size: Math.log10(neighbors[neighbor]),
-                        color: 'rgba(10,20,30,0.15)'
-                    });
-                    if (tag.id == $stateParams.tagId) {
-                        var locate = sigma.plugins.locate(s);
-                        locate.nodes($stateParams.tagId);
+                    if (neighbor == tag.id) {
+                        s.graph.nodes(tag.id).size = neighbors[neighbor];
+                    } else {
+                        s.graph.addEdge({
+                            id: 'e' + tag.id + 'to' + neighbor,
+                            source: tag.id,
+                            target: neighbor,
+                            size: Math.log10(neighbors[neighbor]),
+                            color: 'rgba(10,20,30,0.15)'
+                        });
                     }
                 }
                 s.refresh();
+                sigma.layouts.fruchtermanReingold.start(s);
+                sigma.plugins.locate(s).nodes($stateParams.tagId);
             });
         }
         // Generate a random graph:
@@ -44,13 +47,12 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
             s.graph.addNode({
                 id: data[i].id,
                 label: data[i].name,
-                x: Math.random(),
-                y: Math.random(),
-                size: Math.random() * 2 + 1,
+                x: data[i].id *  data[i].id,
+                y: data[i].id,
+                size: 1,
                 color: '#f00'
             });
-            f(data[i]);
-
+            addEdges(data[i]);
         }
 
 
