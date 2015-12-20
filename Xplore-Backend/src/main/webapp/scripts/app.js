@@ -54,6 +54,21 @@ angular.module('XploreApp', ['ui.bootstrap',
                             }
                         }
                     })
+                    .state("signup", {
+                        // Use a url of "/" to set a state as the "index".
+                        url: "/signup",
+                        views: {
+                            'content': {
+                                templateUrl: 'views/signup.html',
+                                controller: 'SignUpCtrl'
+                            },
+                            'graph': {
+                                templateUrl: 'views/graph.html',
+                                controller: 'HomeGraphCtrl'
+                            }
+                        }
+                    })
+                ;
             }
         ]
     );

@@ -39,7 +39,7 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
                 }
                 s.refresh();
                 sigma.layouts.fruchtermanReingold.start(s);
-                sigma.plugins.locate(s).nodes($stateParams.tagId);
+                //sigma.plugins.locate(s).nodes($stateParams.tagId);
             });
         }
         // Generate a random graph:
