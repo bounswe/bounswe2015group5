@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div ng-controller="ViewContributionCtrl">
+    <!-- Comment Form -->
 
-</body>
-</html>
+    <h4>{{contribution.title}}</h4>
+    <p>{{contribution.content}}</p>
+    <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+
+    <ul class="list-inline">
+        <li>Tags:</li>
+        <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
+    </ul>
+    <br/>
+
+    <div ng-repeat="comment in comments">
+        <p>{{contribution.content}}</p>
+        <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+        <br/>
+    </div>
+</div>

@@ -5,7 +5,6 @@ angular.module('XploreAppDep').controller('LoginCtrl', function ($scope, $rootSc
     $scope.loginUser = function(){
         //if validated
         $rootScope.user = {name: "deneme"   , surname: "surname" , email: "email"};
-        $scope.userData = {};
         $state.go('home');
     };
 });
