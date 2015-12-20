@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 import bounswe2015group5.xplore.Globals;
@@ -99,15 +102,37 @@ public class ContributionDetail extends BaseFragment {
         tv_tags.setText(tags);
 
         comments = new ArrayList<>();
-        comments = (ArrayList<Comment>) getArguments().getSerializable("Comments");
-        populateComments();
+        fetchComments();
         return parent;
     }
 
-    public void populateComments(){
+    public void fetchComments(){
+        comments = new ArrayList<>();
 
-        for(Comment comment : comments)
-            addComment(comment);
+        Response.Listener<String> responseListener =
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(!response.isEmpty()){
+                            try {
+                                JSONArray jArray = new JSONArray(response);
+                                for(int i = 0; i < jArray.length(); i++){
+                                    Comment comment = new Comment(jArray.getJSONObject(i));
+                                    comments.add(comment);
+                                    addComment(comment);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else{
+                            System.err.println("response is empty");
+                        }
+                    }
+                };
+
+        // TODO construct an error listener. (hideProgressDialog)
+        Globals.connectionManager.commentsByContributionID(contribution.getId(), responseListener);
     }
 
     public void addComment(Comment comment){

@@ -117,18 +117,17 @@ public class ContributionList extends BaseFragment {
 
     private void populateData() {
 
-        Response.Listener<JSONObject> responseListener =
-                new Response.Listener<JSONObject>() {
+        Response.Listener<JSONArray> responseListener =
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
                         Log.d("LOG", response.toString());
                         if(!response.toString().isEmpty()){
                             contributions.clear();
                             try {
-                                JSONArray jsonArray = new JSONArray(response);
-                                int numContributions = jsonArray.length();
+                                int numContributions = response.length();
                                 for(int i = 0; i < numContributions; i++){
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    JSONObject jsonObject = response.getJSONObject(i);
 
                                     contributions.add(new Contribution(jsonObject));
                                     listAdapter.notifyDataSetChanged();

@@ -41,8 +41,8 @@ public class MainActivity extends FragmentActivity{
 
     public void launchFragment(Fragment fragment, String title){
 
-        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
-            fragmentManager.popBackStackImmediate();
+//        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
+//            fragmentManager.popBackStackImmediate();
 
         setTitle(title);
         getSupportFragmentManager().beginTransaction()
@@ -123,9 +123,9 @@ public class MainActivity extends FragmentActivity{
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            if (getSupportFragmentManager().getBackStackEntryCount() > 1)
+            if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                 getSupportFragmentManager().popBackStackImmediate();
-            else {
+            } else {
                 if(signedIn)
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("Exit")

@@ -2,6 +2,7 @@ package bounswe2015group5.xplore.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,9 +86,14 @@ public class Trending extends BaseFragment {
                             tagBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    tagBtn.clearAnimation();
 
-                                    ((MainActivity) getActivity()).setTitle("#" + tag.getName());
+                                    Fragment fragment = new TagDetail();
+                                    Bundle args = new Bundle();
+                                    args.putInt("TAGID",tag.getID());
+                                    args.putString("TAGNAME",tag.getName());
+                                    fragment.setArguments(args);
+
+                                    ((MainActivity) getActivity()).launchFragment(fragment, "#" + tag.getName());
                                 }
                             });
 
