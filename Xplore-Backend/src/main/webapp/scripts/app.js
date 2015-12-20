@@ -15,6 +15,7 @@ angular.module('XploreApp', ['ui.bootstrap',
             function ($stateProvider, $urlRouterProvider) {
 
                 $urlRouterProvider
+                    .when("/","/viewTag/1")
                     .otherwise('/');
 
                 $stateProvider
@@ -22,21 +23,29 @@ angular.module('XploreApp', ['ui.bootstrap',
                         // Use a url of "/" to set a state as the "index".
                         url: "/",
                     })
+                    .state("login", {
+                        url: "/login",
+                        templateUrl: 'views/login.html',
+                    })
+                    .state("signup", {
+                        url: "/signup",
+                        templateUrl: 'views/signup.html',
+                    })
+                    .state("profile", {
+                        url: "/profile",
+                        templateUrl: 'views/profile.html',
+                    })
                     .state("viewTag", {
                         url: '/viewTag/:tagId',
                         templateUrl: 'views/viewTag.html'
                     })
-                    .state("login", {
-                        // Use a url of "/" to set a state as the "index".
-                        url: "/login",
-                        templateUrl: 'views/login.html',
-                        controller: 'LoginCtrl'
+                    .state("viewContribution", {
+                        url: "/viewContribution/:conId",
+                        templateUrl: 'views/viewContribution.html',
                     })
-                    .state("signup", {
-                        // Use a url of "/" to set a state as the "index".
-                        url: "/signup",
-                        templateUrl: 'views/signup.html',
-                        controller: 'SignUpCtrl'
+                    .state("viewSearch", {
+                        url: "/viewSearch/:searchText",
+                        templateUrl: 'views/viewSearch.html',
                     })
                 ;
             }

@@ -1,4 +1,4 @@
-angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, $http, $state, $stateParams) {
+angular.module('XploreAppDep').controller('GraphCtrl', function ($scope, $http, $state) {
     $http.get('/tags').success(function (data) {
 
         var i,
@@ -6,7 +6,7 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
             N = data.length;
 
         s = new sigma({
-            container: 'graph-container',
+            container: 'graph-container'
         });
 
         sigma.layouts.fruchtermanReingold.configure(s, {});
@@ -26,6 +26,8 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
             $http.get('/tags/' + tag.id + '/tags').success(function(neighbors){
                 for(neighbor in neighbors) {
                     if (neighbor == tag.id) {
+                        console.log(neighbor);
+                        console.log(neighbors[neighbor]);
                         s.graph.nodes(tag.id).size = neighbors[neighbor];
                     } else {
                         s.graph.addEdge({
@@ -39,7 +41,6 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
                 }
                 s.refresh();
                 sigma.layouts.fruchtermanReingold.start(s);
-                //sigma.plugins.locate(s).nodes($stateParams.tagId);
             });
         }
         // Generate a random graph:
@@ -47,14 +48,13 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
             s.graph.addNode({
                 id: data[i].id,
                 label: data[i].name,
-                x: data[i].id *  data[i].id,
-                y: data[i].id,
+                x: Math.random(),
+                y: Math.random(),
                 size: 1,
                 color: '#f00'
             });
             addEdges(data[i]);
         }
-
 
     });
 });
