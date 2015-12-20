@@ -1,6 +1,11 @@
 /**
  * Created by burak on 20.12.2015.
  */
-angular.module('XploreAppDep').controller('LoginCtrl', function ($scope, $http, $state, $stateParams) {
-
+angular.module('XploreAppDep').controller('LoginCtrl', function ($scope, $rootScope , $http, $state) {
+    $scope.loginUser = function(){
+        //if validated
+        $rootScope.user = {name: "deneme"   , surname: "surname" , email: "email"};
+        $scope.userData = {};
+        $state.go('home');
+    };
 });

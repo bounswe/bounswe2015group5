@@ -6,6 +6,5 @@ angular.module("XploreAppDep").directive("navBar",function(){
         restrict: 'E',
         templateUrl: 'views/nav-bar.html',
         controller: 'NavBarController',
-        controllerAs: 'navbarCtrl'
     };
 });

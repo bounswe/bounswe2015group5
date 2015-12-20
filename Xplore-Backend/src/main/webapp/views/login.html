@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Please login
-</body>
-</html>
+<form name="loginForm"  ng-controller="LoginCtrl" ng-submit="loginUser()">
+    <!--  Login Form -->
+    <fieldset class="form-group">
+        <input ng-model="userData.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
+    </fieldset>
+    <fieldset class="form-group">
+        <input ng-model="userData.password" type="password" class="form-control" placeholder="Password" title="Password" required/>
+    </fieldset>
+    <fieldset class="form-group">
+        <input type="submit" class="btn btn-primary pull-right" value="Login" />
+    </fieldset>
+</form>

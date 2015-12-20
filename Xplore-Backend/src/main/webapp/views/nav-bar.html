@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" ng-controller="NavBarController">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -18,7 +18,7 @@
 
             <search-form></search-form>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-hide="navbarCtrl.user" uib-dropdown >
+                <li ng-hide="$root.user" uib-dropdown >
                     <a href uib-dropdown-toggle>
                         Login
                     </a>
@@ -31,9 +31,9 @@
                         </li>
                     </ul>
                 </li>
-                <li ng-show="navbarCtrl.user" uib-dropdown >
+                <li ng-show="$root.user" uib-dropdown >
                     <a href uib-dropdown-toggle>
-                        {{navbarCtrl.user.name + " " + navbarCtrl.user.surname}}
+                        {{$root.user.name + " " + $root.user.surname}}
                     </a>
                     <ul class="uib-dropdown-menu" aria-labelledby="simple-dropdown">
                         <li>
