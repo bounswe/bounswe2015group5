@@ -8,7 +8,8 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
         s = new sigma({
             container: 'graph-container'
         });
-        var fa = sigma.layouts.startForceLink(s, {autoStop: true});
+
+        sigma.layouts.fruchtermanReingold.configure(s, {});
 
         var config = {
             node: {}
@@ -33,6 +34,7 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
                     });
                 }
                 s.refresh();
+                sigma.layouts.fruchtermanReingold.start(s);
             });
         }
         // Generate a random graph:

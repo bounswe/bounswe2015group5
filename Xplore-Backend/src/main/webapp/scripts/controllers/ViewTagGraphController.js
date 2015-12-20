@@ -8,7 +8,8 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
         s = new sigma({
             container: 'graph-container',
         });
-        var fa = sigma.layouts.startForceLink(s, {autoStop: true});
+
+        sigma.layouts.fruchtermanReingold.configure(s, {});
 
         var config = {
             node: {}
@@ -31,12 +32,11 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
                         size: Math.log10(neighbors[neighbor]),
                         color: 'rgba(10,20,30,0.15)'
                     });
-                    if (tag.id == $stateParams.tagId) {
-                        var locate = sigma.plugins.locate(s);
-                        locate.nodes($stateParams.tagId);
-                    }
+
                 }
                 s.refresh();
+                sigma.layouts.fruchtermanReingold.start(s);
+                sigma.plugins.locate(s).nodes($stateParams.tagId);
             });
         }
         // Generate a random graph:
@@ -44,8 +44,8 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
             s.graph.addNode({
                 id: data[i].id,
                 label: data[i].name,
-                x: Math.random(),
-                y: Math.random(),
+                x: data[i].id *  data[i].id,
+                y: data[i].id,
                 size: Math.random() * 2 + 1,
                 color: '#f00'
             });
