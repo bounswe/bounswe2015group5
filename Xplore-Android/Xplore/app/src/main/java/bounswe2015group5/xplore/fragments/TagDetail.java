@@ -174,13 +174,13 @@ public class TagDetail extends BaseFragment{
                         if(!response.isEmpty()){
                             try {
                                 JSONArray jArray = new JSONArray(response);
+                                contributions.clear();
                                 for(int i = 0; i < jArray.length(); i++){
                                     Contribution contribution = new Contribution(jArray.getJSONObject(i));
                                     contributions.add(contribution);
 
                                     listAdapter.notifyDataSetChanged();
                                 }
-                                contList.onRefreshComplete();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -243,8 +243,5 @@ public class TagDetail extends BaseFragment{
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        showContributionList();
     }
 }
