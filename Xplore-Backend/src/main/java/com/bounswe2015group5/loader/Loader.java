@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     @Autowired
@@ -55,7 +57,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
         log.info("Saved TAG Freedom of speech- id: " + freedom.getId());
 
-        for (int i=3;i<20;i++){
+        for (int i=3;i<11;i++){
             Tag t = new Tag();
             t.setName("dummy tag : " + i);
             tagRepo.save(t);
@@ -80,7 +82,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
         log.info("Saved CONTRIB Istanbul court - id: " + cont2.getId());
 
-        for (int i=3;i<20;i++){
+        for (int i=3;i<11;i++){
             Contribution c = new Contribution("cont title" + i,"cont content " + i,hanefi);
             contributionRepo.save(c);
         }
@@ -95,16 +97,43 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
         log.info("Saved relation : " + rel1.getId());
 
-        for (int i=3;i<=tagRepo.count();i++){
-            for (int j=3;j<=contributionRepo.count();j++) {
-                if (gcd(i, j) == 1) {
-                    Tag t = tagRepo.findOne(i);
-                    Contribution c = contributionRepo.findOne(j);
-                    Relation r = new Relation(t,c,hanefi);
-                    relationRepo.save(r);
-                }
-            }
+        Iterable<Relation> dummyRelations = new ArrayList<>();
+        int rels[][] = {
+                {3,3},
+                {3,4},
+                {3,10},
+                {4,3},
+                {4,9},
+                {5,5},
+                {5,6},
+                {6,6},
+                {6,7},
+                {6,8},
+                {7,5},
+                {8,3},
+                {8,9},
+                {8,10},
+                {9,4},
+                {10,7},
+                {10,8}
+        };
+
+        for (int i=0; i<17;i++){
+            Tag t = tagRepo.findOne(rels[i][0]);
+            Contribution c = contributionRepo.findOne(rels[i][1]);
+            Relation r = new Relation(t,c,hanefi);
+            relationRepo.save(r);
         }
+//        for (int i=3;i<=tagRepo.count();i++){
+//            for (int j=3;j<=contributionRepo.count();j++) {
+//                if (gcd(i, j) == 1) {
+//                    Tag t = tagRepo.findOne(i);
+//                    Contribution c = contributionRepo.findOne(j);
+//                    Relation r = new Relation(t,c,hanefi);
+//                    relationRepo.save(r);
+//                }
+//            }
+//        }
 
     }
 
