@@ -1,0 +1,10 @@
+<div ng-controller="ViewTagCtrl">
+    <div ng-repeat="contribution in contributions">
+        <h4>{{contribution.title}}</h4>
+        <p>{{contribution.content}}</p>
+        <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+
+
+        <br/>
+    </div>
+</div>

@@ -9,24 +9,30 @@
 <div class="row">
     <div class="col-xs-7">
         <div ui-view="graph">
-            1
+            Graph
         </div>
     </div>
     <div class="col-xs-5">
         <div ui-view="content">
-            2
+            Content
         </div>
     </div>
 </div>
 
+<!--AngularJS libraries-->
 <script src="scripts/vendor/angular.js"></script>
 <script src="scripts/vendor/angular-ui-router.js"></script>
 <script src="scripts/vendor/ui-bootstrap.js"></script>
+
+<!--Graph visualization libraries-->
 <script src="scripts/vendor/sigma.min.js"></script>
 <script src="scripts/vendor/tooltips.js"></script>
 <script src="scripts/vendor/supervisor.js"></script>
 <script src="scripts/vendor/worker.js"></script>
+
+<!--App scripts-->
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/HomeGraphController.js"></script>
+<script src="scripts/controllers/ViewTagController.js"></script>
 </body>
 </html>

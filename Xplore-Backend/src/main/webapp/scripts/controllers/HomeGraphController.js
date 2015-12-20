@@ -12,7 +12,7 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
         // Generate a random graph:
         for (i = 0; i < N; i++)
             g.nodes.push({
-                id: 'tag' + data[i].id,
+                id: data[i].id,
                 label: data[i].name,
                 x: Math.random(),
                 y: Math.random(),
@@ -22,8 +22,8 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
         for (i = 0; i < E; i++)
             g.edges.push({
                 id: 'e' + i,
-                source: 'tag' + ((Math.random() * N | 0) + 1),
-                target: 'tag' + ((Math.random() * N | 0) + 1),
+                source: ((Math.random() * N | 0) + 1),
+                target: ((Math.random() * N | 0) + 1),
                 size: Math.random(),
                 color: 'rgba(10,20,30,0.15)'
             });
@@ -40,7 +40,8 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
         var tooltips = sigma.plugins.tooltips(s, s.renderers[0], config);
 
         tooltips.bind('shown', function (event) {
-            $state.go('route');
+
+            $state.go('viewTag', {tagId: event.data.node.id});
         });
     });
 });

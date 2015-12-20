@@ -48,11 +48,11 @@ angular.module('XploreApp', [
                         }
 
                     })
-                    .state("route", {
-                        url: '/route',
+                    .state("viewTag", {
+                        url: '/viewTag/:tagId',
                         views: {
                             'content': {
-                                template: 'hello'
+                                templateUrl: 'views/viewTag.html'
                             }
                         }
                     })
