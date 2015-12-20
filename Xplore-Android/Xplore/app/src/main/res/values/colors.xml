@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="tab_btn_center">#277792</color>
+    <color name="tab_btn_start">#12607A</color>
+    <color name="tab_btn_end">#418BA4</color>
+    <color name="tab_btn_text">#C36F17</color>
+
+</resources>

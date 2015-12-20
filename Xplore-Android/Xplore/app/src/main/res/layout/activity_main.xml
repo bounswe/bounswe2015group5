@@ -1,29 +1,111 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/drawer_layout"
-                tools:context=".MainActivity">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tab_btn_center"
+        android:layout_alignParentTop="true"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PlaceHolder"
+            android:textSize="20sp"
+            android:textColor="@color/tab_btn_text"
+            android:textAlignment="gravity"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"/>
+
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView"
+            android:layout_alignEnd="@+id/title"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tab_btn_center"
+        android:layout_below="@+id/searchLayout"
+        android:padding="5dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_home"
+            android:layout_marginStart="35dp"
+            android:id="@+id/homeTabBtn"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_trending"
+            android:id="@+id/trendingTabBtn"
+            android:layout_marginStart="50dp"/>
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_profile"
+            android:id="@+id/profileTabBtn"
+            android:layout_marginStart="50dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_logout"
+            android:id="@+id/logoutTabBtn"
+            android:layout_marginStart="50dp"/>
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true">
+        android:clickable="true"
+        android:layout_below="@+id/tabLayout">
 
     </FrameLayout>
 
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#009fe3"
-        android:choiceMode="singleChoice"
-        android:headerDividersEnabled="false"
-        android:footerDividersEnabled="false"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/create_cont_fab"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/tab_btn_center"/>
 
-</android.support.v4.widget.DrawerLayout>
+    <!--<ListView-->
+        <!--android:id="@+id/left_drawer"-->
+        <!--android:layout_width="280dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:background="#009fe3"-->
+        <!--android:choiceMode="singleChoice"-->
+        <!--android:headerDividersEnabled="false"-->
+        <!--android:footerDividersEnabled="false"-->
+        <!--android:divider="@null"-->
+        <!--android:dividerHeight="0dp"-->
+        <!--/>-->
+
+</RelativeLayout>

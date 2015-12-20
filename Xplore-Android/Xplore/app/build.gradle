@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.0"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "bounswe2015group5.xplore"
-        minSdkVersion 19
-        targetSdkVersion 22
+        minSdkVersion 21
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -21,13 +21,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.android.support:support-annotations:22.2.0'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-annotations:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
     compile 'eu.the4thfloor.volley:com.android.volley:2015.01.27'
     compile 'com.navercorp.pulltorefresh:library:3.2.0@aar'
     compile 'com.github.florent37:materialtextfield:1.0.2@aar'
-    compile 'com.android.support:cardview-v7:22.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.github.davidpizarro:autolabelui:1.0.0'
+    compile 'com.github.davidpizarro:autolabelui:1.0.1'
+    compile 'com.wang.avi:library:1.0.1'
+    compile 'com.nineoldandroids:library:2.4.0'
 }

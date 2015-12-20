@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.dpizarro.autolabel.library.AutoLabelUI;
+import com.dpizarro.autolabel.library.Label;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
@@ -64,7 +68,10 @@ public class ContributionCreation extends BaseFragment{
 
         final String title = titleEditText.getText().toString();
         final String content = contentEditText.getText().toString();
-//        List<Label> labels = tagLabels.getLabels();
+
+        List<String> labelList = new ArrayList<>();
+        for(Label label : tagLabels.getLabels())
+            labelList.add(label.getText());
 
         Response.Listener<String> responseListener =
                 new Response.Listener<String>() {
@@ -79,14 +86,14 @@ public class ContributionCreation extends BaseFragment{
                             View view = getActivity().getCurrentFocus();
                             if (view != null) hideKeyboard(view);
 
-                            ((MainActivity) getActivity()).onMenuItemClick(3);
+                            ((MainActivity) getActivity()).pressTab(R.id.homeTabBtn);
 
                         } else //unsuccessful contribution creation attempt
                             Toast.makeText(getActivity().getApplicationContext(), "Contribution is not created. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 };
 
-        Globals.connectionManager.registerContribution(title, content, responseListener);
+        Globals.connectionManager.registerContribution(title, content, labelList, responseListener);
     }
 
     public void hideKeyboard(View view){

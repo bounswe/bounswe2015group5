@@ -8,17 +8,20 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpStack;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 /**
  * Created by hakansahin on 06/12/15.
@@ -33,13 +37,20 @@ import java.util.Map;
 public class ConnectionManager {
 
     private Context context;
-    private RequestQueue mRequestQueue;
+    private RequestQueue requestQueue;
     private String BASE_URL;
     private Response.ErrorListener errorListener;
 
-    public ConnectionManager(Context context, HttpStack httpStack){
+    public ConnectionManager(Context context){
         this.context = context;
-        this. mRequestQueue = Volley.newRequestQueue(context, httpStack);
+
+        // Instantiate the cache
+        Cache cache = new DiskBasedCache(this.context.getCacheDir(), 1024 * 1024); // 1MB cap
+
+        // Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+
+        this.requestQueue = new RequestQueue(cache, network);
         this.BASE_URL = context.getString(R.string.service_url);
         this.errorListener = new Response.ErrorListener() {
             @Override
@@ -47,6 +58,8 @@ public class ConnectionManager {
                 Log.d("CONNECTIONMANAGER_ERROR", error.toString());
             }
         };
+
+        this.requestQueue.start();
     }
 
     public void registerUser(final Activity activity, final String email, String pass, final String name, final String surname){
@@ -92,7 +105,7 @@ public class ConnectionManager {
                 return mParams;
             }
         };
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public void login(String email, String pass, Response.Listener<String> responseListener){
@@ -109,7 +122,7 @@ public class ConnectionManager {
                 return mParams;
             }
         };
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public void getUserInfo(final Activity activity){
@@ -120,6 +133,7 @@ public class ConnectionManager {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("GETUSERINFO",response.toString());
                         if(!response.toString().isEmpty()){
                             try {
                                 int ID = response.getInt("ID");
@@ -143,7 +157,7 @@ public class ConnectionManager {
                 };
 
         JsonRequest request = new JsonObjectRequest(Request.Method.POST, URL, null, responseListener, errorListener);
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public void getAllTags(Response.Listener<JSONArray> responseListener){
@@ -151,7 +165,7 @@ public class ConnectionManager {
         String URL = BASE_URL + "AllTags";
 
         JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public void getAllContributions(Response.Listener<JSONObject> responseListener){
@@ -159,7 +173,7 @@ public class ConnectionManager {
         String URL = BASE_URL + "AllContributions";
 
         JsonRequest request = new JsonObjectRequest(Request.Method.POST, URL, null, responseListener, errorListener);
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public void searchByTag(String tag, Response.Listener<String> responseListener){
@@ -175,7 +189,7 @@ public class ConnectionManager {
                 return mParams;
             }
         };
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public void commentsByContributionID(int contID, Response.Listener<String> responseListener){
@@ -191,10 +205,10 @@ public class ConnectionManager {
                 return mParams;
             }
         };
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
-    public void registerContribution(String title, String content, /* TODO add tags */ Response.Listener<String> responseListener){
+    public void registerContribution(String title, String content, List<String> tags, Response.Listener<String> responseListener){
 
         String URL = BASE_URL + "RegisterContribution";
 
@@ -226,7 +240,7 @@ public class ConnectionManager {
                 return mParams.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
             }
         };
-        mRequestQueue.add(request);
+        requestQueue.add(request);
 
     }
 
@@ -261,7 +275,7 @@ public class ConnectionManager {
                 return mParams.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
             }
         };
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public void registerComment(int contID, String content, Response.Listener<String> responseListener){
@@ -296,7 +310,7 @@ public class ConnectionManager {
                 return mParams.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
             }
         };
-        mRequestQueue.add(request);
+        requestQueue.add(request);
     }
 
     public JSONObject setParameters(HashMap<Object, Object> params){

@@ -8,23 +8,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import bounswe2015group5.xplore.adapters.LeftNavAdapter;
 import bounswe2015group5.xplore.fragments.Home;
+import bounswe2015group5.xplore.fragments.Trending;
 
-public class MainActivity extends FragmentActivity {
-
-    private DrawerLayout drawerLayout;
-    private ListView drawerLeft;
+public class MainActivity extends FragmentActivity{
 
     private boolean signedIn;
+    private String fragmentTag;
+    private Fragment fragment, currentFragment;
+    private FragmentManager fragmentManager;
+
+    private TextView titleTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,106 +32,91 @@ public class MainActivity extends FragmentActivity {
         signedIn = Globals.share.getBoolean("SignedIn",false);
 
         setContentView(R.layout.activity_main);
-        setupDrawer();
+        setupTabLayout();
+
+        titleTextView = (TextView) findViewById(R.id.title);
+
+        pressTab(R.id.homeTabBtn);
     }
 
     public void launchFragment(Fragment fragment, String title){
 
+        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
+            fragmentManager.popBackStackImmediate();
+
+        setTitle(title);
         getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment,title)
                         .addToBackStack(title)
                         .commit();
     }
 
-    private void setupDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawers();
-
-        setupLeftNavDrawer();
+    public void setTitle(String title){
+        titleTextView.setText(title);
     }
 
-    private void setupLeftNavDrawer() {
-        drawerLeft = (ListView) findViewById(R.id.left_drawer);
+    public void setupTabLayout(){
 
-        View header = getLayoutInflater().inflate(R.layout.left_navigator_header, null);
-        TextView username = (TextView) header.findViewById(R.id.tvUsername);
-        TextView email = (TextView) header.findViewById(R.id.tvEmail);
-        TextView edit = (TextView) header.findViewById(R.id.tvEditProfile);
+        fragmentManager = getSupportFragmentManager();
+        currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
 
-        if(signedIn) {
-
-            username.setText(Globals.share.getString("Name", "") + " " + Globals.share.getString("Surname", ""));
-            email.setText(Globals.share.getString("Email", ""));
-
-        } else {
-            ImageView pp = (ImageView) header.findViewById(R.id.profilePic);
-
-            pp.setImageResource(R.mipmap.ic_launcher);
-            username.setVisibility(View.INVISIBLE);
-            email.setText("Guest");
-            edit.setVisibility(View.INVISIBLE);
-        }
-
-        drawerLeft.addHeaderView(header);
-
-        drawerLeft.setAdapter(new LeftNavAdapter(this));
-        drawerLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ImageButton homeBtn = (ImageButton) findViewById(R.id.homeTabBtn);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                drawerLayout.closeDrawers();
+            public void onClick(View view) {
+                fragmentTag = "Home";
+                if (currentFragment == null || !fragmentTag.equals(currentFragment.getTag()))
+                    fragment = new Home();
+                else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                onMenuItemClick(position);
+                launchFragment(fragment, fragmentTag);
             }
         });
-        drawerLayout.closeDrawer(drawerLeft);
-        onMenuItemClick(1);
-    }
 
-    public void onMenuItemClick(int position) {
-        Fragment fragment = null;
-        String title = null;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
+        ImageButton trendingBtn = (ImageButton) findViewById(R.id.trendingTabBtn);
+        trendingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentTag = "Trending";
+                if (currentFragment == null || !fragmentTag.equals(currentFragment.getTag()))
+                    fragment = new Trending();
+                else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-        switch (position) {
-            case 0:
-                return;
-            case 1:
-                title = "Home";
-                if (currentFragment == null || !title.equals(currentFragment.getTag()))
-                    fragment = new Home();
-                else fragment = fragmentManager.findFragmentByTag("Home");
-                break;
-            case 2:
-                /*TODO Trending Page Fragment*/
-                return;
-//            case 3: //Contributions
-//                title = "ContributionList";
-//
-//                if (currentFragment == null || !title.equals(currentFragment.getTag())){
-//                    Log.d("LOG", "currentFragment_is_null_or_different");
-//                    fragment = new ContributionList();
-//                } else {
-//                    Log.d("LOG", "currentFragment_is_same");
-//                    fragment = fragmentManager.findFragmentByTag("ContributionList");
-//                }
-//                break;
-            case 3:
-                /*TODO About Page Fragment*/
-                return;
-            case 4: //Log In OR Log Out
-                SharedPreferences.Editor editor = Globals.share.edit();
-                editor.putBoolean("SignedIn",false);
-                editor.clear();
-                editor.apply();
+                launchFragment(fragment, fragmentTag);
+            }
+        });
+
+        ImageButton profileBtn = (ImageButton) findViewById(R.id.profileTabBtn);
+        profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentTag = "Profile";
+                //TODO construct profile page.
+
+//                launchFragment(fragment, fragmentTag);
+            }
+        });
+
+        ImageButton logoutBtn = (ImageButton) findViewById(R.id.logoutTabBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(signedIn){
+                    SharedPreferences.Editor editor = Globals.share.edit();
+                    editor.putBoolean("SignedIn",false);
+                    editor.clear();
+                    editor.apply();
+                }
 
                 startActivity(new Intent(MainActivity.this, Login.class));
                 finish();
-                return;
-        }
-        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
-            fragmentManager.popBackStackImmediate();
-        launchFragment(fragment, title);
+            }
+        });
+    }
+
+    public void pressTab(int tabId){
+        findViewById(tabId).performClick();
     }
 
     @Override
