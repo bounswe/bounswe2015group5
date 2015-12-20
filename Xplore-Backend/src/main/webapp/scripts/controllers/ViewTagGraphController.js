@@ -6,7 +6,7 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
             N = data.length;
 
         s = new sigma({
-            container: 'graph-container'
+            container: 'graph-container',
         });
         //var fa = sigma.layouts.startForceLink(s, {autoStop: true});
 
@@ -28,7 +28,7 @@ angular.module('XploreAppDep').controller('ViewTagGraphCtrl', function ($scope, 
                         id: 'e' + tag.id + 'to' + neighbor,
                         source: tag.id,
                         target: neighbor,
-                        size: neighbors.neighbor,
+                        size: Math.log10(neighbors[neighbor]),
                         color: 'rgba(10,20,30,0.15)'
                     });
                     if (tag.id == $stateParams.tagId) {

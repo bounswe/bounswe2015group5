@@ -28,7 +28,7 @@ angular.module('XploreAppDep').controller('HomeGraphCtrl', function ($scope, $ht
                         id: 'e' + tag.id + 'to' + neighbor,
                         source: tag.id,
                         target: neighbor,
-                        size: neighbors.neighbor,
+                        size: Math.log10(neighbors[neighbor]),
                         color: 'rgba(10,20,30,0.15)'
                     });
                 }
