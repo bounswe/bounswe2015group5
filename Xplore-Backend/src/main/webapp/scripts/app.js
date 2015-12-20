@@ -21,52 +21,22 @@ angular.module('XploreApp', ['ui.bootstrap',
                     .state("home", {
                         // Use a url of "/" to set a state as the "index".
                         url: "/",
-                        views: {
-                            'graph': {
-                                templateUrl: 'views/graph.html',
-                                controller: 'HomeGraphCtrl'
-                            }
-                        }
                     })
                     .state("viewTag", {
                         url: '/viewTag/:tagId',
-                        views: {
-                            'content': {
-                                templateUrl: 'views/viewTag.html'
-                            },
-                            'graph': {
-                                templateUrl: 'views/graph.html',
-                                controller: 'ViewTagGraphCtrl'
-                            }
-                        }
+                        templateUrl: 'views/viewTag.html'
                     })
                     .state("login", {
                         // Use a url of "/" to set a state as the "index".
                         url: "/login",
-                        views: {
-                            'content': {
-                                templateUrl: 'views/login.html',
-                                controller: 'LoginCtrl'
-                            },
-                            'graph': {
-                                templateUrl: 'views/graph.html',
-                                controller: 'HomeGraphCtrl'
-                            }
-                        }
+                        templateUrl: 'views/login.html',
+                        controller: 'LoginCtrl'
                     })
                     .state("signup", {
                         // Use a url of "/" to set a state as the "index".
                         url: "/signup",
-                        views: {
-                            'content': {
-                                templateUrl: 'views/signup.html',
-                                controller: 'SignUpCtrl'
-                            },
-                            'graph': {
-                                templateUrl: 'views/graph.html',
-                                controller: 'HomeGraphCtrl'
-                            }
-                        }
+                        templateUrl: 'views/signup.html',
+                        controller: 'SignUpCtrl'
                     })
                 ;
             }

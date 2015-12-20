@@ -9,12 +9,20 @@
 <nav-bar></nav-bar>
 <div class="row">
     <div class="col-xs-7">
-        <div ui-view="graph">
-            Graph
+        <div ng-controller="HomeGraphCtrl">
+            <style>
+                #graph-container {
+                    top: 0;
+                    left: 0;
+                    height: 100vh;
+                }
+            </style>
+            <div id="graph-container">
+            </div>
         </div>
     </div>
     <div class="col-xs-5">
-        <div ui-view="content">
+        <div ui-view>
             Content
         </div>
     </div>
