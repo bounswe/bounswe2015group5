@@ -241,7 +241,4 @@ public class TagDetail extends BaseFragment{
 
         contListText.setLayoutParams(params);
     }
-
-    @Override
-    }
 }
