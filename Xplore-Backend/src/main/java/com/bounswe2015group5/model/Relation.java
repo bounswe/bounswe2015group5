@@ -1,5 +1,6 @@
 package com.bounswe2015group5.model;
 
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.springframework.data.annotation.Reference;
 
 import javax.persistence.*;
@@ -18,21 +19,26 @@ public class Relation implements Serializable {
     @ManyToOne
     @MapsId("id")
     @JoinColumn(name = "tagId", nullable = false, insertable = false, updatable = false)
+    @ApiObjectField(description = "the tag that is stored in the relation", required = true)
     private Tag tag;
 
     @ManyToOne
     @MapsId("id")
     @JoinColumn(name = "contributionId", nullable = false, insertable = false, updatable = false)
+    @ApiObjectField(description = "the contribution that is stored in the relation", required = true)
     private Contribution contribution;
 
     @ManyToOne
     @JoinColumn(name = "creatorUser", referencedColumnName = "username")
+    @ApiObjectField(description = "The User that created this relation", required = true)
     private User creator;
 
     @Column(name = "created_at")
+    @ApiObjectField(description = "The Timestamp when relation is created", required = true)
     public Date createdAt;
 
     @Column(name = "updated_at")
+    @ApiObjectField(description = "The Timestamp when relation is updated", required = true)
     public Date updatedAt;
 
     @PrePersist

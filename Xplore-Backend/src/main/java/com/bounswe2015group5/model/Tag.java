@@ -1,5 +1,7 @@
 package com.bounswe2015group5.model;
 
+import org.jsondoc.core.annotation.ApiObjectField;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -8,18 +10,23 @@ import java.util.Date;
 public class Tag implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiObjectField(description = "id of the tag", required = true)
     private Integer id;
 
+    @ApiObjectField(description = "name of the tag", required = true)
     private String name;
 
     @Column(name = "created_at")
+    @ApiObjectField(description = "The Timestamp when tag is created", required = true)
     public Date createdAt;
 
     @Column(name = "updated_at")
+    @ApiObjectField(description = "The Timestamp when tag is updated", required = true)
     public Date updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "creatorUser", referencedColumnName = "username")
+    @ApiObjectField(description = "The User that created this tag", required = true)
     private User creator;
 
     public Tag() {

@@ -17,9 +17,9 @@ public class User implements Serializable{
     @ApiObjectField(description = "username of the user", required = true)
     private String username;
 
-    @ApiObjectField(description = "password of the user", required = true)
     @NotNull
     @JsonIgnore
+    @ApiObjectField(description = "password of the user", required = true)
     private String password;
 
     @NotNull

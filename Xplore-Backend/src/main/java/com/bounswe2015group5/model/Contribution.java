@@ -1,5 +1,7 @@
 package com.bounswe2015group5.model;
 
+import org.jsondoc.core.annotation.ApiObjectField;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,21 +11,27 @@ public class Contribution implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiObjectField(description = "id of the contribution", required = true)
     private Integer id;
 
+    @ApiObjectField(description = "title of the contribution", required = true)
     private String title;
 
     @Column(columnDefinition = "TEXT")
+    @ApiObjectField(description = "content of the contribution", required = true)
     private String content;
 
     @ManyToOne
     @JoinColumn(name = "creatorUser", referencedColumnName = "username")
+    @ApiObjectField(description = "The User that created this contribution", required = true)
     private User creator;
 
     @Column(name = "created_at")
+    @ApiObjectField(description = "The Timestamp when contribution is created", required = true)
     public Date createdAt;
 
     @Column(name = "updated_at")
+    @ApiObjectField(description = "The Timestamp when contribution is updated", required = true)
     public Date updatedAt;
 
     @PrePersist
