@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import bounswe2015group5.xplore.fragments.Home;
+import bounswe2015group5.xplore.fragments.Profile;
 import bounswe2015group5.xplore.fragments.Trending;
 
 public class MainActivity extends FragmentActivity{
@@ -87,13 +88,19 @@ public class MainActivity extends FragmentActivity{
         });
 
         ImageButton profileBtn = (ImageButton) findViewById(R.id.profileTabBtn);
+        // TODO: arrange main layout for not showing Profile button to unsigned users
+        //if(!signedIn){
+        //    profileBtn.setVisibility(View.INVISIBLE);
+        //}
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fragmentTag = "Profile";
-                //TODO construct profile page.
+                if (currentFragment == null || !fragmentTag.equals(currentFragment.getTag()))
+                    fragment = new Profile();
+                else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-//                launchFragment(fragment, fragmentTag);
+                launchFragment(fragment, fragmentTag);
             }
         });
 
