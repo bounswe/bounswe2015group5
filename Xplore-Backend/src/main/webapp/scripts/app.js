@@ -47,8 +47,15 @@ angular.module('XploreApp', ['ui.bootstrap',
                         url: "/viewSearch/:searchText",
                         templateUrl: 'views/viewSearch.html',
                     })
+                    .state("contribute", {
+                        url: "/contribute",
+                        templateUrl: 'views/contribute.html'
+                    })
                 ;
             }
         ]
     );
-angular.module('XploreAppDep', []);
+angular.module('XploreAppDep', [
+    'ui.select',
+    'ngSanitize'
+]);

@@ -26,8 +26,6 @@ angular.module('XploreAppDep').controller('GraphCtrl', function ($scope, $http, 
             $http.get('/tags/' + tag.id + '/tags').success(function(neighbors){
                 for(neighbor in neighbors) {
                     if (neighbor == tag.id) {
-                        console.log(neighbor);
-                        console.log(neighbors[neighbor]);
                         s.graph.nodes(tag.id).size = neighbors[neighbor];
                     } else {
                         s.graph.addEdge({
