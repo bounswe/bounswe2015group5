@@ -1,21 +1,27 @@
-<form name="signupForm"  ng-controller="SignUpCtrl"  ng-submit="signupUser()">
-    <!--  Login Form -->
-    <fieldset class="form-group">
-        <input ng-model="userData.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
-    </fieldset>
-    <fieldset class="form-group">
-        <input ng-model="userData.name" type="text" class="form-control" placeholder="Name" title="Name" required/>
-    </fieldset>
-    <fieldset class="form-group">
-        <input ng-model="userData.surname" type="text" class="form-control" placeholder="Surname" title="Surname" required/>
-    </fieldset>
-    <fieldset class="form-group">
-        <input ng-model="userData.password" type="password" class="form-control" placeholder="Password" title="Password" required/>
-    </fieldset>
-    <fieldset class="form-group">
-        <input ng-model="userData.password2" type="password" class="form-control" placeholder="Password" title="Password" required/>
-    </fieldset>
-    <fieldset class="form-group">
-        <input type="submit" class="btn btn-primary pull-right" value="Sign Up" />
-    </fieldset>
-</form>
+<div class="panel-heading">
+    <h3 class="panel-title">Sign Up</h3>
+</div>
+<div class="panel-body" >
+    <form name="signupForm"  ng-controller="SignUpCtrl"  ng-submit="signupUser()">
+        <!--  Login Form -->
+        <fieldset class="form-group">
+            <input ng-model="userData.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input ng-model="userData.name" type="text" class="form-control" placeholder="Name" title="Name" required/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input ng-model="userData.surname" type="text" class="form-control" placeholder="Surname" title="Surname" required/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input ng-model="userData.password" type="password" class="form-control" placeholder="Password" title="Password" required/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input ng-model="userData.password2" type="password" class="form-control" placeholder="Password" title="Password" required/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="submit" class="btn btn-primary pull-right" value="Sign Up" />
+        </fieldset>
+    </form>
+</div>
+

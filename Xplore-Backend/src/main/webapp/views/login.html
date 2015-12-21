@@ -1,12 +1,18 @@
-<form name="loginForm"  ng-controller="LoginCtrl" ng-submit="loginUser()">
-    <!--  Login Form -->
-    <fieldset class="form-group">
-        <input ng-model="userData.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
-    </fieldset>
-    <fieldset class="form-group">
-        <input ng-model="userData.password" type="password" class="form-control" placeholder="Password" title="Password" required/>
-    </fieldset>
-    <fieldset class="form-group">
-        <input type="submit" class="btn btn-primary pull-right" value="Login" />
-    </fieldset>
-</form>
+<div class="panel-heading">
+    <h3 class="panel-title">Login</h3>
+</div>
+<div class="panel-body" >
+    <form name="loginForm"  ng-controller="LoginCtrl" ng-submit="loginUser()">
+        <!--  Login Form -->
+        <fieldset class="form-group">
+            <input ng-model="userData.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input ng-model="userData.password" type="password" class="form-control" placeholder="Password" title="Password" required/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="submit" class="btn btn-primary pull-right" value="Login" />
+        </fieldset>
+    </form>
+</div>
+

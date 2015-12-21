@@ -10,21 +10,29 @@
 <nav-bar></nav-bar>
 <div class="row">
     <div class="col-xs-7">
-        <div ng-controller="GraphCtrl">
-            <style>
-                #graph-container {
-                    top: 0;
-                    left: 0;
-                    height: 100vh;
-                }
-            </style>
-            <div id="graph-container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Tags</h3>
+            </div>
+            <div class="panel-body">
+                <div ng-controller="GraphCtrl">
+                    <style>
+                        #graph-container {
+                            top: 0;
+                            left: 0;
+                            height: 100vh;
+                        }
+                    </style>
+                    <div id="graph-container">
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
     <div class="col-xs-5">
-        <div ui-view>
-            Content
+        <div class="panel panel-default" ui-view>
+
         </div>
     </div>
 </div>

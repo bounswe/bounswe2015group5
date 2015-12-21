@@ -1,16 +1,20 @@
-<div ng-controller="ViewSearchCtrl">
-
-    <!-- New Contribution Form -->
-
-    <div ng-repeat="contribution in contributions">
-        <h4>{{contribution.title}}</h4>
-        <p>{{contribution.content}}</p>
-        <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
-
-        <ul class="list-inline">
-            <li>Tags:</li>
-            <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
-        </ul>
-        <br/>
-    </div>
+<div class="panel-heading">
+    <h3 class="panel-title">Contributions</h3>
 </div>
+<div class="panel-body" ng-controller="ViewSearchCtrl">
+        <!-- New Contribution Form -->
+
+        <div ng-repeat="contribution in contributions">
+            <h4>{{contribution.title}}</h4>
+            <p>{{contribution.content}}</p>
+            <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+
+            <ul class="list-inline">
+                <li>Tags:</li>
+                <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
+            </ul>
+            <br/>
+        </div>
+</div>
+
+

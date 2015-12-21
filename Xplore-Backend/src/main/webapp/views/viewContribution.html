@@ -1,19 +1,22 @@
-<div ng-controller="ViewContributionCtrl">
-    <!-- Comment Form -->
+<div class="panel-heading">
+    <h3 class="panel-title">Comments</h3>
+</div>
+<div class="panel-body" ng-controller="ViewContributionCtrl">
+        <!-- Comment Form -->
 
-    <h4>{{contribution.title}}</h4>
-    <p>{{contribution.content}}</p>
-    <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
-
-    <ul class="list-inline">
-        <li>Tags:</li>
-        <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
-    </ul>
-    <br/>
-
-    <div ng-repeat="comment in comments">
+        <h4>{{contribution.title}}</h4>
         <p>{{contribution.content}}</p>
         <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+
+        <ul class="list-inline">
+            <li>Tags:</li>
+            <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
+        </ul>
         <br/>
-    </div>
+
+        <div ng-repeat="comment in comments">
+            <p>{{contribution.content}}</p>
+            <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+            <br/>
+        </div>
 </div>
