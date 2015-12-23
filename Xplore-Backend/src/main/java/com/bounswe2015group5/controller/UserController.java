@@ -44,6 +44,7 @@ public class UserController {
                                           @RequestParam(value = "password") String password,
                                           HttpServletRequest request) {
         // Needs to check the credentials
+        System.out.println(username);
         request.getSession().setAttribute("username", username);
         return true;
     }
