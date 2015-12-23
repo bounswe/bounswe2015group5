@@ -13,6 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(description = "The users controller", name = "User Services")
@@ -33,6 +36,22 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public @ApiResponseObject User login(Authentication authentication) throws JsonProcessingException {
         return currentUserName(authentication);
+    }
+
+    @ApiMethod(description = "logs-in and returns true")
+    @RequestMapping(value = "/log", method = RequestMethod.POST)
+    public @ApiResponseObject Boolean log(@RequestParam(value = "username") String username,
+                                          @RequestParam(value = "password") String password,
+                                          HttpServletRequest request) {
+        // Needs to check the credentials
+        request.getSession().setAttribute("username", username);
+        return true;
+    }
+
+    @ApiMethod(description = "returns the username of logged-in user")
+    @RequestMapping(value = "/islog", method = RequestMethod.GET)
+    public @ApiResponseObject String isLog(HttpServletRequest request) {
+        return (String) request.getSession().getAttribute("username");
     }
 
     @ApiMethod
