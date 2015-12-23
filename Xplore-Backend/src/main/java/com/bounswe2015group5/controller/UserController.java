@@ -55,6 +55,12 @@ public class UserController {
         return (String) request.getSession().getAttribute("username");
     }
 
+    @ApiMethod(description = "logs out")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public @ApiResponseObject void logOut(HttpServletRequest request) {
+        request.getSession().setAttribute("username", null);
+    }
+
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)

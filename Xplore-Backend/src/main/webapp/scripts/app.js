@@ -51,11 +51,16 @@ angular.module('XploreApp', ['ui.bootstrap',
                         url: "/contribute",
                         templateUrl: 'views/contribute.html'
                     })
+                    .state("logout", {
+                        url: "/logout",
+                        templateUrl: 'views/logout.html'
+                    })
                 ;
             }
         ]
     );
 angular.module('XploreAppDep', [
     'ui.select',
-    'ngSanitize'
+    'ngSanitize',
+    'ngStorage'
 ]);

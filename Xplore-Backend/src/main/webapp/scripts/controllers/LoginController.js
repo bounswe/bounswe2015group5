@@ -1,7 +1,7 @@
 /**
  * Created by burak on 20.12.2015.
  */
-angular.module('XploreAppDep').controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $httpParamSerializerJQLike) {
+angular.module('XploreAppDep').controller('LoginCtrl', function ($scope, $sessionStorage, $http, $state, $httpParamSerializerJQLike) {
     $scope.loginUser = function () {
         $http({
             method: 'POST',
@@ -11,7 +11,8 @@ angular.module('XploreAppDep').controller('LoginCtrl', function ($scope, $rootSc
         })
             .success(function (data) {
                 if (data === true) {
-                    $rootScope.user = {username: $scope.userData.username};
+                    $sessionStorage.user = {username: $scope.userData.username};
+                    console.log($sessionStorage.user.username);
                     $state.go("home");
                 }
             });
