@@ -26,9 +26,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<Tag> tagList;
-    private HashMap<String, List<Contribution>> contributionList;
+    private HashMap<Integer, List<Contribution>> contributionList;
 
-    public ExpandableListAdapter(Context context, List<Tag> tagList, HashMap<String, List<Contribution>> contributionList) {
+    public ExpandableListAdapter(Context context, List<Tag> tagList, HashMap<Integer, List<Contribution>> contributionList) {
         this.context = context;
         this.tagList = tagList;
         this.contributionList = contributionList;
@@ -36,7 +36,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Contribution getChild(int tagPosition, int contributionPosititon) {
-        return this.contributionList.get(this.tagList.get(tagPosition).getName()).get(contributionPosititon);
+        return this.contributionList.get(this.tagList.get(tagPosition).getID()).get(contributionPosititon);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         contTitle.setText(contribution.getTitle());
 
         TextView nameSurname = (TextView) convertView.findViewById(R.id.ext_cont_name_surname);
-        nameSurname.setText(contribution.getName() + " " + contribution.getSurname());
+        nameSurname.setText(contribution.getCreatorUsername());
 
         TextView date = (TextView) convertView.findViewById(R.id.ext_cont_date);
         date.setText(contribution.getDate());
@@ -87,7 +87,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        List<Contribution> contributions = this.contributionList.get(this.tagList.get(groupPosition).getName());
+        List<Contribution> contributions = this.contributionList.get(this.tagList.get(groupPosition).getID());
         return contributions == null ? 0 : contributions.size();
     }
 

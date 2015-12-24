@@ -45,7 +45,6 @@ public class TagDetail extends BaseFragment{
     private Animation pulse;
     private boolean isContListOpen;
     private int TAG_ID;
-    private String TAG_NAME;
     private ContributionListAdapter listAdapter;
     private PullToRefreshListView contList;
 
@@ -65,7 +64,6 @@ public class TagDetail extends BaseFragment{
         tagBtnLayout = (RelativeLayout) parent.findViewById(R.id.tagBtnLayout);
 
         TAG_ID = getArguments().getInt("TAGID");
-        TAG_NAME = getArguments().getString("TAGNAME");
 
         // Adds all tag buttons into an arraylist.
         for(int id : TAG_BUTTON_IDS)
@@ -87,12 +85,12 @@ public class TagDetail extends BaseFragment{
         });
 
         // Populates contribution list, and creates its views.
-        populateContributions(TAG_NAME);
+        populateContributions(TAG_ID);
         contList = (PullToRefreshListView) parent.findViewById(R.id.contributionList);
         contList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                populateContributions(TAG_NAME);
+                populateContributions(TAG_ID);
             }
         });
 
@@ -165,18 +163,17 @@ public class TagDetail extends BaseFragment{
         Globals.connectionManager.getAllTags(responseListener);
     }
 
-    private void populateContributions(String tag) {
+    private void populateContributions(int tagId) {
 
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
+        Response.Listener<JSONArray> responseListener =
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String response) {
-                        if(!response.isEmpty()){
+                    public void onResponse(JSONArray response) {
+                        if(response.length() > 0){
                             try {
-                                JSONArray jArray = new JSONArray(response);
                                 contributions.clear();
-                                for(int i = 0; i < jArray.length(); i++){
-                                    Contribution contribution = new Contribution(jArray.getJSONObject(i));
+                                for(int i = 0; i < response.length(); i++){
+                                    Contribution contribution = new Contribution(response.getJSONObject(i));
                                     contributions.add(contribution);
 
                                     listAdapter.notifyDataSetChanged();
@@ -189,7 +186,7 @@ public class TagDetail extends BaseFragment{
                     }
                 };
 
-        Globals.connectionManager.searchByTag(tag, responseListener);
+        Globals.connectionManager.searchByTag(tagId, responseListener);
     }
 
 

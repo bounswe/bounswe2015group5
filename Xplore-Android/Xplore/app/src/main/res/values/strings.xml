@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Xplore</string>
 
-    <string name="service_url">http://52.89.206.180:8080/Xplore/</string>
+    <!--<string name="service_url">http://52.89.206.180:8080/Xplore/</string>-->
+
+    <string name="service_url">http://192.168.41.255:8080/</string>
 
 </resources>
