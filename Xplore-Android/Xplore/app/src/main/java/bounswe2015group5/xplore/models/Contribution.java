@@ -15,12 +15,6 @@ public class Contribution implements Serializable {
     private ArrayList<Tag> tags;
 
     /**
-     * Default constructor for Contribution.
-     * @author Mert Oguz
-     */
-    public Contribution(){ }
-
-    /**
      * Constructor with params for Contribution
      * @author Mert Oguz
      */
@@ -57,33 +51,39 @@ public class Contribution implements Serializable {
      * @author Mert Oguz
      */
     public String getTitle(){
-        return title;
+        return title == null ? "Title" : title;
     }
 
     /**
-     * Access date of contribution
+     * Access creation date of contribution
      * @author Mert Oguz
      */
-    public String getDate(){ return createdAt; }
+    public String getDate(){
+        return createdAt == null ? "unknown" : createdAt;
+    }
 
     /**
      * Access username of contribution author
      * @author Mert Oguz
      */
-    public String getCreatorUsername(){ return creatorUsername; }
+    public String getCreatorUsername(){
+        return creatorUsername == null ? "dummyUser" : creatorUsername;
+    }
 
     /**
-     * Access surname of contribution author
+     * Access email of contribution author
      * @author Mert Oguz
      */
-    public String getCreatorEmail(){ return creatorEmail; }
+    public String getCreatorEmail(){
+        return creatorEmail == null ? "dummy@mail.com" : creatorEmail;
+    }
 
     /**
      * Access content of contribution
      * @return @content
      */
     public String getContent(){
-        return content;
+        return content == null ? "empty content" : content;
     }
 
     /**
@@ -91,7 +91,9 @@ public class Contribution implements Serializable {
      * @return @isRated
      * @author Hakan Sahin
      */
-    public int isRated() { return clientRate; }
+    public int isRated() {
+        return clientRate;
+    }
 
     /**
      * Changes the rate status of the contribution

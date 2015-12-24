@@ -2,6 +2,7 @@ package bounswe2015group5.xplore.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import bounswe2015group5.xplore.Globals;
@@ -115,52 +118,65 @@ public class TagDetail extends BaseFragment{
 
         tagList = new ArrayList<>();
 
-        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+        Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
-                if(response.length() > 0){
-                    try {
-                        stopAnim();
+            public void onResponse(JSONObject response) {
+                Iterator<String> tagIds = response.keys();
+                if(tagIds.hasNext()){
+                    stopAnim();
+                    int cnt = 0, btnCnt = 1;
+                    while(tagIds.hasNext() && cnt < TAG_COUNT){
 
-                        for(int i = 0; i < Math.min(TAG_COUNT,response.length()); i++){
+                        int tagId = Integer.parseInt(tagIds.next());
 
-                            final Tag tag = new Tag(response.getJSONObject(i));
-
-                            tagList.add(tag);
-
-                            final Button tagBtn = tagButtonList.get(i);
-
-                            tagBtn.setVisibility(View.VISIBLE);
-                            // TODO if the tag is hot, then start animation.
-                            tagBtn.startAnimation(pulse);
-
-                            tagBtn.setText("#" + tag.getName());
-
-                            tagBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    // if the centered tag is selected, shows its contributions.
-                                    if(TAG_ID == tag.getID()) showContributionList();
-                                    else{
-                                        // TODO Go to detail page of the selected tag.
-                                        tagBtn.clearAnimation();
-
-                                        ((MainActivity) getActivity()).setTitle("#" + tag.getName());
-                                    }
-                                }
-                            });
-
+                        final Button tagBtn;
+                        if(tagId == TAG_ID) tagBtn = tagButtonList.get(0);
+                        else{
+                            tagBtn = tagButtonList.get(btnCnt);
+                            btnCnt++;
                         }
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        Response.Listener<JSONObject> tagResponseListener = new Response.Listener<JSONObject>(){
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                                final Tag tag = new Tag(response);
+
+                                tagBtn.setVisibility(View.VISIBLE);
+                                // TODO if the tag is hot, then start animation.
+                                tagBtn.startAnimation(pulse);
+
+                                tagBtn.setText("#" + tag.getName());
+
+                                tagBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // if the centered tag is selected, shows its contributions.
+                                        if(TAG_ID == tag.getID()) showContributionList();
+                                        else{
+                                            Fragment fragment = new TagDetail();
+                                            Bundle args = new Bundle();
+                                            args.putInt("TAGID",tag.getID());
+                                            args.putString("TAGNAME",tag.getName());
+                                            fragment.setArguments(args);
+
+                                            ((MainActivity) getActivity()).launchFragment(fragment, "#" + tag.getName());
+                                        }
+                                    }
+                                });
+
+                            }
+                        };
+
+                        Globals.connectionManager.getTag(tagId, tagResponseListener);
+                        cnt++;
                     }
                 } // TODO if response is empty, show a warning.
             }
         };
 
         // TODO construct an error listener. (hideProgressDialog)
-        Globals.connectionManager.getAllTags(responseListener);
+        Globals.connectionManager.getRelatedTags(TAG_ID, responseListener);
     }
 
     private void populateContributions(int tagId) {
@@ -186,7 +202,7 @@ public class TagDetail extends BaseFragment{
                     }
                 };
 
-        Globals.connectionManager.searchByTag(tagId, responseListener);
+        Globals.connectionManager.getContributionsByTagId(tagId, responseListener);
     }
 
 

@@ -1,7 +1,7 @@
 package bounswe2015group5.xplore.fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,32 +19,26 @@ import com.android.volley.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.ArrayList;
-
 import bounswe2015group5.xplore.Globals;
+import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.models.Comment;
 import bounswe2015group5.xplore.models.Contribution;
+import bounswe2015group5.xplore.models.Tag;
 
 
 /**
  * Created by Mert on 26.11.2015.
  */
 public class ContributionDetail extends BaseFragment {
-    private LinearLayout commentsList;
+    private LinearLayout commentsList, tagLayout;
     private EditText et_enterComment;
     private Button commentBtn;
-    private ProgressDialog pDialog;
 
-    private String id;
     private Contribution contribution;
-    private ArrayList<Comment> comments;
     private LayoutInflater inflater;
 
-    public ContributionDetail(){
-        contribution = new Contribution();
-        comments = new ArrayList<>();
-    }
+    public ContributionDetail(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,8 +50,7 @@ public class ContributionDetail extends BaseFragment {
         tv_title = (TextView) parent.findViewById(R.id.detailConTitle),
         tv_content = (TextView) parent.findViewById(R.id.detailConContent),
         tv_nameSurname = (TextView) parent.findViewById(R.id.detailConNameSurname),
-        tv_date = (TextView) parent.findViewById(R.id.detailConDate),
-        tv_tags = (TextView) parent.findViewById(R.id.detailConTags);
+        tv_date = (TextView) parent.findViewById(R.id.detailConDate);
 
         commentsList = (LinearLayout) parent.findViewById(R.id.detailConCommentList);
         et_enterComment = (EditText) parent.findViewById(R.id.detailConComment);
@@ -70,7 +63,16 @@ public class ContributionDetail extends BaseFragment {
         });
 
         final TextView rateTxt = (TextView) parent.findViewById(R.id.conDetailrate);
-        rateTxt.setText("" + contribution.getRate());
+
+        tagLayout = (LinearLayout) parent.findViewById(R.id.detailConTagLayout);
+
+        // TODO gives IOException at runtime.
+        contribution = (Contribution) getArguments().getSerializable("Contribution");
+        tv_title.setText(contribution.getTitle());
+        tv_content.setText(contribution.getContent());
+        tv_nameSurname.setText(contribution.getCreatorUsername());
+        tv_date.setText(contribution.getDate());
+        rateTxt.setText(String.valueOf(contribution.getRate()));
 
         ImageButton upVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_up_vote_btn);
         upVoteBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,26 +90,54 @@ public class ContributionDetail extends BaseFragment {
             }
         });
 
-        // TODO gives IOException at runtime.
-        contribution = (Contribution) getArguments().getSerializable("Contribution");
-        String tags = "Tags:  ";
-        tv_title.setText(contribution.getTitle());
-        tv_content.setText(contribution.getContent());
-        tv_nameSurname.setText(contribution.getCreatorUsername());
-        tv_date.setText(contribution.getDate());
-
-        for(int i = 0; i < contribution.getTags().size(); i++){
-            tags+= (contribution.getTags().get(i).getName() + " ");
-        }
-        tv_tags.setText(tags);
-
-        comments = new ArrayList<>();
+        fetchTags();
         fetchComments();
         return parent;
     }
 
+    public void fetchTags(){
+
+        Response.Listener<JSONArray> responseListener =
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        if(response.length() > 0){
+                            for(int i = 0; i < response.length(); i++)
+                                addTag(new Tag(response.optJSONObject(i)));
+                        }
+                        else System.err.println("response is empty");
+                    }
+                };
+
+        // TODO construct an error listener.
+        Globals.connectionManager.getTagsByContributionId(contribution.getId(), responseListener);
+    }
+
+    public void addTag(final Tag tag){
+
+        TextView tagView = new TextView(getContext());
+        tagView.setText(tag.getName());
+        tagView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Fragment fragment = new TagDetail();
+                Bundle args = new Bundle();
+                args.putInt("TAGID",tag.getID());
+                args.putString("TAGNAME",tag.getName());
+                fragment.setArguments(args);
+
+                ((MainActivity) getActivity()).launchFragment(fragment, "#" + tag.getName());
+            }
+        });
+
+        tagView.setTextColor(getResources().getColor(R.color.tab_btn_text));
+        tagView.setPadding(5,5,5,5);
+
+        tagLayout.addView(tagView);
+    }
+
     public void fetchComments(){
-        comments = new ArrayList<>();
 
         Response.Listener<String> responseListener =
                 new Response.Listener<String>() {
@@ -118,7 +148,6 @@ public class ContributionDetail extends BaseFragment {
                                 JSONArray jArray = new JSONArray(response);
                                 for(int i = 0; i < jArray.length(); i++){
                                     Comment comment = new Comment(jArray.getJSONObject(i));
-                                    comments.add(comment);
                                     addComment(comment);
                                 }
                             } catch (JSONException e) {
@@ -131,7 +160,7 @@ public class ContributionDetail extends BaseFragment {
                     }
                 };
 
-        // TODO construct an error listener. (hideProgressDialog)
+        // TODO construct an error listener.
         Globals.connectionManager.commentsByContributionID(contribution.getId(), responseListener);
     }
 
@@ -179,7 +208,7 @@ public class ContributionDetail extends BaseFragment {
                     }
                 };
 
-        // TODO construct an error listener. (hideProgressDialog)
+        // TODO construct an error listener.
         Globals.connectionManager.registerComment(contribution.getId(), content, responseListener);
     }
 

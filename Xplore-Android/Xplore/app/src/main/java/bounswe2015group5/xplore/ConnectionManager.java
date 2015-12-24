@@ -160,11 +160,36 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
+    /**
+     * Gets the tag with given id.
+     * @param tagId
+     * @param responseListener
+     */
+    public void getTag(int tagId, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "tags/" + tagId;
+
+        JsonObjectRequest request = new JsonObjectRequest(URL, null, responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
+    /**
+     * Gets all tags in the system.
+     * @param responseListener
+     */
     public void getAllTags(Response.Listener<JSONArray> responseListener){
 
         String URL = BASE_URL + "tags";
 
         JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
+    public void getRelatedTags(int tagID, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "tags/" + tagID + "/tags";
+
+        JsonObjectRequest request = new JsonObjectRequest(URL, null, responseListener, errorListener);
         requestQueue.add(request);
     }
 
@@ -176,12 +201,25 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void searchByTag(int tagId, Response.Listener<JSONArray> responseListener){
+    /**
+     * Gets contributions of the given tag.
+     * @param tagId : ID of the tag.
+     * @param responseListener
+     */
+    public void getContributionsByTagId(int tagId, Response.Listener<JSONArray> responseListener){
 
         String URL = BASE_URL + "/tags/" + tagId + "/contributions";
 
 
-        JsonRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
+    public void getTagsByContributionId(int contId, Response.Listener<JSONArray> responseListener){
+
+        String URL = BASE_URL + "/contributions/" + contId + "/tags";
+
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
     }
 
