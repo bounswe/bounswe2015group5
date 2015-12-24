@@ -1,9 +1,14 @@
-/**
- * Created by burak on 20.12.2015.
- */
-angular.module("XploreAppDep").controller("SearchFormController",function($rootScope,$http){
-    this.user = {name:"burak", surname:"kurutmaz"};
-    this.searchText = function(Text){
-        window.alert(Text);
+angular.module("XploreAppDep").controller("SearchFormController",function($scope, $rootScope, $http, $state){
+    $scope.tag = {};
+    $scope.refreshTags = function(tag) {
+        return $http.get(
+            'tags'
+        ).then(function(response) {
+            $scope.tags = response.data;
+        });
+    };
+
+    $scope.searchTag = function(item, model) {
+        $state.go('viewTag', {tagId: model});
     };
 });

@@ -1,6 +1,14 @@
 <form class="navbar-form navbar-left" role="search" ng-submit="searchFormCtrl.searchText(searchFormCtrl.Text)">
-    <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search" ng-model="searchFormCtrl.Text">
-    </div>
-    <input type="submit" class="hide"></input>
+    <ui-select ng-model="tag.selected"
+               on-select="searchTag($item, $model)"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false">
+        <ui-select-match placeholder="Enter a tag...">{{$select.selected.name}}</ui-select-match>
+        <ui-select-choices repeat="tag.id as tag in tags | filter: {name: $select.search}"
+                           refresh="refreshTags($select.search)"
+                           refresh-delay="0">
+            <div ng-bind-html="tag.name | highlight: $select.search"></div>
+        </ui-select-choices>
+    </ui-select>
 </form>
