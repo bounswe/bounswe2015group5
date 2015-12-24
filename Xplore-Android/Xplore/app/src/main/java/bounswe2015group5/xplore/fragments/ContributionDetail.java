@@ -93,7 +93,7 @@ public class ContributionDetail extends BaseFragment {
         String tags = "Tags:  ";
         tv_title.setText(contribution.getTitle());
         tv_content.setText(contribution.getContent());
-        tv_nameSurname.setText(contribution.getName() + " " + contribution.getSurname());
+        tv_nameSurname.setText(contribution.getCreatorUsername());
         tv_date.setText(contribution.getDate());
 
         for(int i = 0; i < contribution.getTags().size(); i++){

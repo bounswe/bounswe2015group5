@@ -14,8 +14,8 @@ public class Tag {
 
     public Tag(JSONObject tag){
         try {
-            this.ID = tag.getInt("TagID");
-            this.name = tag.getString("TagName");
+            this.ID = tag.getInt("id");
+            this.name = tag.getString("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }

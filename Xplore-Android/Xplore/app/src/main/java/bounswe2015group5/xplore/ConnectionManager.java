@@ -162,7 +162,7 @@ public class ConnectionManager {
 
     public void getAllTags(Response.Listener<JSONArray> responseListener){
 
-        String URL = BASE_URL + "AllTags";
+        String URL = BASE_URL + "tags";
 
         JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
@@ -176,19 +176,12 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void searchByTag(String tag, Response.Listener<String> responseListener){
+    public void searchByTag(int tagId, Response.Listener<JSONArray> responseListener){
 
-        String URL = BASE_URL + "SearchByTag";
+        String URL = BASE_URL + "/tags/" + tagId + "/contributions";
 
-        final Map<String, String> mParams = new HashMap<>();
-        mParams.put("Tag", tag);
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return mParams;
-            }
-        };
+        JsonRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
     }
 

@@ -1,8 +1,6 @@
 package bounswe2015group5.xplore.models;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -13,25 +11,14 @@ import java.util.ArrayList;
 public class Contribution implements Serializable {
 
     private int ID, type, clientRate = 0, rate;
-    private String title, content, date, name, surname;
+    private String title, content, date, creatorUsername, creatorEmail, createdAt, updatedAt;
     private ArrayList<Tag> tags;
 
     /**
-     * Default constructor for Contribution. Initializes with null values.
+     * Default constructor for Contribution.
      * @author Mert Oguz
      */
-    public Contribution(){
-        this.ID = 0;
-        this.title = null;
-        this.content = null;
-        this.date = null;
-        this.type = -1;
-        this.name = null;
-        this.surname = null;
-        this.clientRate = 0;
-        this.rate = 0;
-        this.tags = new ArrayList<Tag>();
-    }
+    public Contribution(){ }
 
     /**
      * Constructor with params for Contribution
@@ -39,27 +26,30 @@ public class Contribution implements Serializable {
      */
     public Contribution(JSONObject contribution){
 
-        try {
+        this.ID                 = contribution.optInt("id");
+        this.title              = contribution.optString("title");
+        this.content            = contribution.optString("content");
+        JSONObject creator      = contribution.optJSONObject("creator");
+        this.creatorUsername    = creator.optString("username");
+        this.creatorEmail       = creator.optString("email");
+        this.createdAt          = contribution.optString("createdAt");
 
-            this.ID         = contribution.getInt("ID");
-            this.title      = contribution.getString("Title");
-            this.content    = contribution.getString("Content");
-            this.date       = contribution.getString("Date");
-            this.type       = contribution.getInt("Type");
-            this.name       = contribution.getString("Name");
-            this.surname    = contribution.getString("Surname");
-            this.clientRate = contribution.optInt("ClientRate");
-            this.rate       = contribution.getInt("Rate");
+        // TODO set these values.
+        this.rate = 0;
+        this.clientRate = 0;
+        this.tags = new ArrayList<Tag>();
 
-            this.tags = new ArrayList<Tag>();
-            JSONArray tagList = contribution.getJSONArray("Tags");
-            for(int i = 0; i < tagList.length(); i++){
-                JSONObject tag = tagList.getJSONObject(i);
-                this.tags.add(new Tag(tag));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//            this.date       = contribution.getString("Date");
+//            this.type       = contribution.getInt("Type");
+//            this.clientRate = contribution.optInt("ClientRate");
+//            this.rate       = contribution.getInt("Rate");
+//
+//            this.tags = new ArrayList<Tag>();
+//            JSONArray tagList = contribution.getJSONArray("Tags");
+//            for(int i = 0; i < tagList.length(); i++){
+//                JSONObject tag = tagList.getJSONObject(i);
+//                this.tags.add(new Tag(tag));
+//            }
     }
 
     /**
@@ -74,19 +64,19 @@ public class Contribution implements Serializable {
      * Access date of contribution
      * @author Mert Oguz
      */
-    public String getDate(){ return date; }
+    public String getDate(){ return createdAt; }
 
     /**
-     * Access name of contribution author
+     * Access username of contribution author
      * @author Mert Oguz
      */
-    public String getName(){ return name; }
+    public String getCreatorUsername(){ return creatorUsername; }
 
     /**
      * Access surname of contribution author
      * @author Mert Oguz
      */
-    public String getSurname(){ return surname; }
+    public String getCreatorEmail(){ return creatorEmail; }
 
     /**
      * Access content of contribution

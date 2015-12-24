@@ -33,7 +33,7 @@ import bounswe2015group5.xplore.models.Tag;
 public class Home extends BaseFragment{
 
     private List<Tag> tagGroups;
-    private HashMap<String, List<Contribution>> groupContributions;
+    private HashMap<Integer, List<Contribution>> groupContributions;
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
@@ -77,7 +77,7 @@ public class Home extends BaseFragment{
             @Override
             public void onGroupExpand(int groupPosition) {
                 showProgressDialog();
-                prepareGroupItems(tagGroups.get(groupPosition).getName());
+                prepareGroupItems(tagGroups.get(groupPosition).getID());
             }
         });
 
@@ -130,22 +130,20 @@ public class Home extends BaseFragment{
         Globals.connectionManager.getAllTags(responseListener);
     }
 
-    private void prepareGroupItems(final String tag /* TODO send groupId as a parameter */) {
+    private void prepareGroupItems(final int tagId) {
 
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
+        Response.Listener<JSONArray> responseListener =
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("PREPARE_GROUP_ITEMS", response);
-                        if(!response.isEmpty()){
+                    public void onResponse(JSONArray response) {
+                        if(response.length() > 0){
                             List<Contribution> contList = new ArrayList<>();
                             try {
-                                JSONArray jArray = new JSONArray(response);
-                                for(int i = 0; i < jArray.length(); i++){
-                                    Contribution contribution = new Contribution(jArray.getJSONObject(i));
+                                for(int i = 0; i < response.length(); i++){
+                                    Contribution contribution = new Contribution(response.getJSONObject(i));
                                     contList.add(contribution);
                                 }
-                                groupContributions.put(tag, contList);
+                                groupContributions.put(tagId, contList);
 
                                 listAdapter.notifyDataSetChanged();
 
@@ -158,7 +156,7 @@ public class Home extends BaseFragment{
                 };
 
         // TODO construct an error listener. (hideProgressDialog)
-        Globals.connectionManager.searchByTag(tag, responseListener);
+        Globals.connectionManager.searchByTag(tagId, responseListener);
     }
 
     public void fetchComments(final Contribution contribution){

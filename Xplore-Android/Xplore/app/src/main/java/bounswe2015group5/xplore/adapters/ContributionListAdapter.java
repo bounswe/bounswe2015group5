@@ -57,7 +57,7 @@ public class ContributionListAdapter extends BaseAdapter {
         title.setText(contribution.getTitle());
 
         TextView nameSurname = (TextView) convertView.findViewById(R.id.cont_name_surname);
-        nameSurname.setText(contribution.getName() + " " + contribution.getSurname());
+        nameSurname.setText(contribution.getCreatorUsername());
 
         TextView date = (TextView) convertView.findViewById(R.id.cont_date);
         date.setText(contribution.getDate());

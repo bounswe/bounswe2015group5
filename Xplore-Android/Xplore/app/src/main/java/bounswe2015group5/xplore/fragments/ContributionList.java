@@ -88,7 +88,7 @@ public class ContributionList extends BaseFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Contribution selected = (Contribution) adapterView.getItemAtPosition(position);
                 ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected.getTitle(), selected.getContent(),
-                        selected.getName() + " " + selected.getSurname(), selected.getDate()), "ContributionDetail");
+                        selected.getCreatorUsername(), selected.getDate()), "ContributionDetail");
             }
         });
 
