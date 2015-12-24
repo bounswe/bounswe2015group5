@@ -1,5 +1,5 @@
 angular.module('XploreAppDep').controller('GraphCtrl', function ($scope, $http, $state) {
-    $http.get('/tags').success(function (data) {
+    $http.get('tags').success(function (data) {
 
         var i,
             s,
@@ -23,7 +23,7 @@ angular.module('XploreAppDep').controller('GraphCtrl', function ($scope, $http, 
 
 
         var addEdges = function(tag) {
-            $http.get('/tags/' + tag.id + '/tags').success(function(neighbors){
+            $http.get('tags/' + tag.id + '/tags').success(function(neighbors){
                 for(neighbor in neighbors) {
                     if (neighbor == tag.id) {
                         s.graph.nodes(tag.id).size = neighbors[neighbor];
