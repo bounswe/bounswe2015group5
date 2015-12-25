@@ -40,7 +40,7 @@ angular.module('XploreApp', ['ui.bootstrap',
                         templateUrl: 'views/viewTag.html'
                     })
                     .state("viewContribution", {
-                        url: "/viewContribution/:conId",
+                        url: "/viewContribution/:contributionId",
                         templateUrl: 'views/viewContribution.html',
                     })
                     .state("viewSearch", {

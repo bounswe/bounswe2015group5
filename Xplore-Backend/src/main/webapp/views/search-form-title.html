@@ -1,0 +1,14 @@
+<form class="navbar-form navbar-left" role="search" ng-submit="searchFormTitleCtrl.searchText(searchFormTitleCtrl.Text)">
+    <ui-select ng-model="contribution.selected"
+               on-select="searchContribution($item, $model)"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false">
+        <ui-select-match placeholder="Enter a title...">{{$select.selected.title}}</ui-select-match>
+        <ui-select-choices repeat="contribution.id as contribution in contributions | filter: {title: $select.search}"
+                           refresh="refreshContributions($select.search)"
+                           refresh-delay="0">
+            <div ng-bind-html="contribution.title | highlight: $select.search"></div>
+        </ui-select-choices>
+    </ui-select>
+</form>
