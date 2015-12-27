@@ -61,6 +61,24 @@ public class UserController {
         request.getSession().setAttribute("username", null);
     }
 
+    /*
+    		    @ApiMethod(description = "logs-in and returns the principal")
+    @RequestMapping(value = "/loglogin", method = RequestMethod.POST)
+    public @ApiResponseObject void loglogin(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request)
+            throws JsonProcessingException {
+        request.getSession().setAttribute("username", username);
+    }
+    @ApiMethod(description = "logs-in and returns the principal")
+    @RequestMapping(value = "/islogin", method = RequestMethod.GET)
+    public @ApiResponseObject User islogin(HttpServletRequest request)
+            throws JsonProcessingException {
+        String username = (String) request.getSession().getAttribute("username");
+        User u = new User();
+        u.setEmail(username);
+        u.setUsername(username);
+        return u;
+     */
+
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
