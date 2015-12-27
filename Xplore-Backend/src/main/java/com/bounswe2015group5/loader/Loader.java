@@ -1,13 +1,7 @@
 package com.bounswe2015group5.loader;
 
-import com.bounswe2015group5.model.Contribution;
-import com.bounswe2015group5.model.Relation;
-import com.bounswe2015group5.model.Tag;
-import com.bounswe2015group5.model.User;
-import com.bounswe2015group5.repository.ContributionRepo;
-import com.bounswe2015group5.repository.RelationRepo;
-import com.bounswe2015group5.repository.TagRepo;
-import com.bounswe2015group5.repository.UserRepo;
+import com.bounswe2015group5.model.*;
+import com.bounswe2015group5.repository.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -26,6 +20,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private RelationRepo relationRepo;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private CommentRepo commentRepo;
 
     private Logger log = Logger.getLogger(Loader.class);
 
@@ -40,6 +36,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         loadTags();
         loadContributions();
         loadRelations();
+        loadComments();
     }
 
     private void loadTags() {
@@ -149,6 +146,14 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         userRepo.save(hanefi);
 
         log.info("Saved USER Hanefi - id : " + hanefi.getUsername());
+    }
+
+    private void loadComments() {
+        contributionRepo.findAll().forEach(contribution -> {
+            Comment c = new Comment("dummy comment for contrib " + contribution.getId(),hanefi,contribution);
+            if (contribution.getId()%2 == 0)
+                commentRepo.save(c);
+        });
     }
 
 }

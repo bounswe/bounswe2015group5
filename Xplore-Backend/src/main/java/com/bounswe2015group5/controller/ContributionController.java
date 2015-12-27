@@ -1,8 +1,8 @@
 package com.bounswe2015group5.controller;
 
-import com.bounswe2015group5.model.Contribution;
-import com.bounswe2015group5.model.Relation;
-import com.bounswe2015group5.model.Tag;
+import com.bounswe2015group5.model.*;
+import com.bounswe2015group5.repository.CommentRepo;
+import com.bounswe2015group5.repository.UserRepo;
 import com.bounswe2015group5.service.ContributionService;
 import com.bounswe2015group5.service.RelationService;
 import org.jsondoc.core.annotation.*;
@@ -26,6 +26,12 @@ public class ContributionController {
 
     @Autowired
     RelationService relationService;
+
+    @Autowired
+    CommentRepo commentRepo;
+
+    @Autowired
+    UserRepo userRepo;
 
     @ApiMethod(description = "returns one contribution with given id")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -69,5 +75,70 @@ public class ContributionController {
     public @ApiResponseObject
     Iterable<Tag> findTagsByContributionID(@ApiPathParam(name = "id") @PathVariable int id) {
         return relationService.getTagsByContributionId(id);
+    }
+
+    @ApiMethod(description = "returns all comments related to given contribution id")
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
+    public @ApiResponseObject
+    java.util.List<Comment> findCommentsByContributionID(@ApiPathParam(name = "id") @PathVariable int id) {
+        return commentRepo.findByContributionId(id);
+    }
+
+    @ApiMethod
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ApiResponseObject java.util.List<Comment>
+    saveComment(@ApiPathParam(name = "id") @PathVariable int id,
+                @ApiBodyObject @RequestBody CommentContext commentContext) {
+        User user = userRepo.findOne(commentContext.getUsername());
+        Contribution contribution = contributionService.getContributionById(id);
+        String commentBody = commentContext.getCommentBody();
+
+        Comment comment = new Comment(commentBody,user,contribution);
+
+        commentRepo.save(comment);
+        return  commentRepo.findByContributionId(id);
+    }
+
+    @ApiObject
+    public static class CommentContext {
+        @ApiObjectField(description = "username of creator of the comment", required = true)
+        private String username;
+
+        //private int contributionId;
+        @ApiObjectField(description = "Comment content", required = true)
+        private String commentBody;
+
+        public CommentContext() {
+        }
+
+        public CommentContext(String username, String commentBody) {
+
+            this.username = username;
+            this.commentBody = commentBody;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+//        public int getContributionId() {
+//            return contributionId;
+//        }
+//
+//        public void setContributionId(int contributionId) {
+//            this.contributionId = contributionId;
+//        }
+
+        public String getCommentBody() {
+            return commentBody;
+        }
+
+        public void setCommentBody(String commentBody) {
+            this.commentBody = commentBody;
+        }
     }
 }
