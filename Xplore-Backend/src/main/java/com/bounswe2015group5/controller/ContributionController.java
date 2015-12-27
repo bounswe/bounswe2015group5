@@ -5,6 +5,7 @@ import com.bounswe2015group5.repository.CommentRepo;
 import com.bounswe2015group5.repository.UserRepo;
 import com.bounswe2015group5.service.ContributionService;
 import com.bounswe2015group5.service.RelationService;
+import com.bounswe2015group5.service.TagService;
 import org.jsondoc.core.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -23,13 +24,12 @@ public class ContributionController {
 
     @Autowired
     ContributionService contributionService;
-
+    @Autowired
+    TagService tagService;
     @Autowired
     RelationService relationService;
-
     @Autowired
     CommentRepo commentRepo;
-
     @Autowired
     UserRepo userRepo;
 
@@ -82,6 +82,21 @@ public class ContributionController {
     public @ApiResponseObject
     java.util.List<Comment> findCommentsByContributionID(@ApiPathParam(name = "id") @PathVariable int id) {
         return commentRepo.findByContributionId(id);
+    }
+
+    @ApiMethod(description = "Adds a tag to given contribution")
+    @RequestMapping(value = "/{id}/addTag/{tagId}", method = RequestMethod.GET)
+    public @ApiResponseObject
+    Iterable<Tag> addTagToContribution(@ApiPathParam(name = "id") @PathVariable int id,
+                                                         @ApiPathParam(name = "tagId") @PathVariable int tagId) {
+        Tag tag = tagService.getTagById(tagId);
+        Contribution contribution = contributionService.getContributionById(id);
+        User user = userRepo.findOne("hanefi");
+        Relation relation = new Relation(tag,contribution,user);
+
+        relationService.saveRelation(relation);
+
+        return relationService.getTagsByContributionId(id);
     }
 
     @ApiMethod

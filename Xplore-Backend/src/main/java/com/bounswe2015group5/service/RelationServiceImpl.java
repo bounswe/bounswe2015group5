@@ -61,4 +61,9 @@ public class RelationServiceImpl implements  RelationService {
                                 (e1, e2) -> e1, LinkedHashMap::new));
         return sortedMap;
     }
+
+    @Override
+    public Relation saveRelation(Relation relation) {
+        return relationRepo.save(relation);
+    }
 }

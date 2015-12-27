@@ -16,4 +16,6 @@ public interface RelationService {
     Iterable<Relation> getRelationsByContributionId(int contributionId);
 
     Map<Integer,Integer> findMostRelatedTagsWithTag(int tagId);
+
+    Relation saveRelation(Relation relation);
 }
