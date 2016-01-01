@@ -51,7 +51,7 @@ public class Home extends BaseFragment{
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "ConributionCreation");
+                    ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "ConributionCreation", true);
                 }
             });
         } else {
@@ -171,7 +171,7 @@ public class Home extends BaseFragment{
                                 for(int i = 0; i < jArray.length(); i++)
                                     commentList.add(new Comment(jArray.getJSONObject(i)));
 
-                                ((MainActivity) getActivity()).launchFragment(newDetailFragment(contribution, commentList), "ContributionDetail");
+                                ((MainActivity) getActivity()).launchFragment(newDetailFragment(contribution, commentList), "ContributionDetail", true);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
