@@ -12,13 +12,16 @@
             <h4>{{contribution.title}}</h4>
             <p>{{contribution.content}}</p>
             <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
-            <input type="submit"  class="btn btn-success" value="Like" />
-            <input type="submit"  class="btn btn-danger" value="Dislike" />
-
             <ul class="list-inline">
                 <li>Tags:</li>
                 <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
             </ul>
+            <!-- like button for each contribution -->
+            <input type="submit"  class="btn btn-success" value="Like" />
+            <!-- dislike button for each contribution -->
+            <input type="submit"  class="btn btn-danger" value="Dislike" />
+            <!-- the button which goes to comments of the contribution-->
+            <p class="btn btn-info" ui-sref="viewContribution({ contributionId: contribution.id })" >Comments</p>
             <br/>
         </div>
 </div>
