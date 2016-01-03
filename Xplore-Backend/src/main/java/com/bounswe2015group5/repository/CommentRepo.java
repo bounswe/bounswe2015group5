@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @SuppressWarnings("unused")
-public interface CommentRepo extends PagingAndSortingRepository<Comment,Comment.CommentId>{
+public interface CommentRepo extends PagingAndSortingRepository<Comment,Integer>{
     Page<Comment> findByContributionId(@Param("id")Integer id, Pageable pageable);
     Page<Comment> findByUser(@Param("username")String username, Pageable pageable);
 
