@@ -3,6 +3,7 @@
  */
 angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($scope, $http, $state, $stateParams) {
     $scope.contribution;
+    $scope.comments = [];
     $http.get('contributions/' + $stateParams.contributionId).success(function (contributionData) {
         var tags= [];
         $http.get('contributions/' + $stateParams.contributionId + '/tags').success(function (tagsData) {
@@ -13,7 +14,7 @@ angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($sco
                 });
             });
         }).then(function () {
-            $scope.contribution= {
+            $scope.contribution = {
                 id: contributionData.id,
                 title: contributionData.title,
                 content: contributionData.content,
@@ -22,5 +23,16 @@ angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($sco
                 tags: tags
             };
         });
+    });
+    $http.get('contributions/' + $stateParams.contributionId + '/comments').success(function(commentsData) {
+        commentsData.forEach(function (commentData){
+            $scope.comments.push({
+               content: commentData.content,
+               user: commentData.user,
+               createdAt: new Date(commentData.createdAt).toLocaleString(),
+               updatedAt: new Date(commentData.createdAt).toLocaleString()
+           });
+       });
+
     });
 });

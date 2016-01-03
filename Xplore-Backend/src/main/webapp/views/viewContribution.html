@@ -8,15 +8,16 @@
         <p>{{contribution.content}}</p>
         <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
 
-        <ul class="list-inline">
+    <ul class="list-inline">
             <li>Tags:</li>
             <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
         </ul>
-        <br/>
+
+    <h6>Comments</h6>
 
         <div ng-repeat="comment in comments">
-            <p>{{contribution.content}}</p>
-            <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+            <p>{{comment.content}}</p>
+            <p>by {{comment.user.username}} at {{comment.createdAt}}</p>
             <br/>
         </div>
 </div>
