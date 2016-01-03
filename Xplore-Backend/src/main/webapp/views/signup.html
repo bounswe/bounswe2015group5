@@ -5,7 +5,9 @@
     <form name="signupForm"  ng-controller="SignUpCtrl"  ng-submit="signupUser()">
         <!--  Login Form -->
         <fieldset class="form-group">
-            <input ng-model="userData.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
+            <input ng-model="userData.email" type="email" name="myAddress" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
+            <!-- checks the validation of the email address written -->
+            <span ng-show="signupForm.myAddress.$error.email">Not a valid e-mail address</span>
         </fieldset>
         <fieldset class="form-group">
             <input ng-model="userData.name" type="text" class="form-control" placeholder="Name" title="Name" required/>

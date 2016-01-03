@@ -12,6 +12,7 @@ angular.module('XploreAppDep').controller('ViewTagCtrl', function ($scope, $http
                 });
             }).then(function () {
                 $scope.contributions.push({
+                    id: contribution.id,
                     title: contribution.title,
                     content: contribution.content,
                     creator: contribution.creator,
