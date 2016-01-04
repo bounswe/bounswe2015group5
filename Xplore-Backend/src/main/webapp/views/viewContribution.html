@@ -2,22 +2,27 @@
     <h3 class="panel-title">Comments</h3>
 </div>
 <div class="panel-body" ng-controller="ViewContributionCtrl">
-        <!-- Comment Form -->
 
-        <h4>{{contribution.title}}</h4>
-        <p>{{contribution.content}}</p>
-        <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
+    <h4>{{contribution.title}}</h4>
+    <p>{{contribution.content}}</p>
+    <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
 
     <ul class="list-inline">
-            <li>Tags:</li>
-            <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
-        </ul>
+        <li>Tags:</li>
+        <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
+    </ul>
 
     <h6>Comments</h6>
 
-        <div ng-repeat="comment in comments">
-            <p>{{comment.content}}</p>
-            <p>by {{comment.user.username}} at {{comment.createdAt}}</p>
-            <br/>
-        </div>
+    <div ng-repeat="comment in comments">
+        <p>{{comment.content}}</p>
+        <p>by {{comment.user.username}} at {{comment.createdAt}}</p>
+    </div>
+
+    <!-- Comment Form -->
+    <form ng-submit="addANewComment()">
+    <textarea ng-model="commentContext.commentBody" style="width:96%;height:90px;padding:2%;" required></textarea>
+        <br>
+        <input type="submit" value="Comment" class="btn btn-warning">
+    </form>
 </div>
