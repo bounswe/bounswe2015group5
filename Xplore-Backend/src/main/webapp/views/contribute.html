@@ -2,15 +2,25 @@
     <h3 class="panel-title">Contribute</h3>
 </div>
 <div class="panel-body" >
-    <form ng-controller="ContributeCtrl">
+    <form ng-controller="ContributeCtrl" ng-submit="contribute()">
+        <label>Title:</label>
+        <textarea class="form-control" rows="1" ng-model="contribution.title" required></textarea>
+
+        <label>Content:</label>
+        <textarea class="form-control" rows="5" ng-model="contribution.content" required></textarea>
+
+        <!--
+        <label>Tags:</label>
         <ui-select multiple ng-model="form.selectedTags" ng-disabled="disabled"
-                   style="width: 100vh;">
+                   style="width: 100%;">
             <ui-select-match placeholder="Select tag...">{{$item.name}}</ui-select-match>
             <ui-select-choices repeat="tag.id as tag in tags | filter: {name: $select.search}">
                 <div ng-bind-html="tag.name | highlight: $select.search"></div>
             </ui-select-choices>
         </ui-select>
-        <p>Selected: {{form.selectedTags}}</p>
+        <p>Selected: {{form.selectedTags}}</p> -->
+
+        <input type="submit" value="Contribute" class="btn btn-success">
 
     </form>
 </div>

@@ -3,23 +3,20 @@
 </div>
 <div class="panel-body" >
     <form name="signupForm"  ng-controller="SignUpCtrl"  ng-submit="signupUser()">
-        <!--  Login Form -->
+        <!--  SignUp Form -->
         <fieldset class="form-group">
             <input ng-model="userData.email" type="email" name="myAddress" class="form-control" placeholder="jimmyDean@example.org" title="Email" required/>
             <!-- checks the validation of the email address written -->
             <span ng-show="signupForm.myAddress.$error.email">Not a valid e-mail address</span>
         </fieldset>
         <fieldset class="form-group">
-            <input ng-model="userData.name" type="text" class="form-control" placeholder="Name" title="Name" required/>
-        </fieldset>
-        <fieldset class="form-group">
-            <input ng-model="userData.surname" type="text" class="form-control" placeholder="Surname" title="Surname" required/>
+            <input ng-model="userData.username" type="text" class="form-control" placeholder="Username" title="Username" required/>
         </fieldset>
         <fieldset class="form-group">
             <input ng-model="userData.password" type="password" class="form-control" placeholder="Password" title="Password" required/>
         </fieldset>
         <fieldset class="form-group">
-            <input ng-model="userData.password2" type="password" class="form-control" placeholder="Password" title="Password" required/>
+            <input ng-model="passwordcheck" type="password" class="form-control" placeholder="Type your password again" title="Password" required/>
         </fieldset>
         <fieldset class="form-group">
             <input type="submit" class="btn btn-primary pull-right" value="Sign Up" />

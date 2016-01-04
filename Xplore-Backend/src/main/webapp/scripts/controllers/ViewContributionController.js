@@ -35,4 +35,16 @@ angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($sco
        });
 
     });
+
+    //Post a comment
+    // Warning: info of current username should be corrected
+    $scope.commentContext = {
+        commentBody: "Enter a new comment",
+        username: "hanefi"
+    }
+    $scope.addANewComment = function () {
+        $http.post('contributions/' + $stateParams.contributionId + '/comments', $scope.commentContext);
+        $state.reload();
+    }
+
 });
