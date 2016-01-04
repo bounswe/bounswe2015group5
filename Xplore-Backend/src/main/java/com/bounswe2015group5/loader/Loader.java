@@ -153,6 +153,10 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
             Comment c = new Comment("dummy comment for contrib " + contribution.getId(),hanefi,contribution);
             if (contribution.getId()%2 == 0)
                 commentRepo.save(c);
+            if (contribution.getId()%4 == 0) {
+                c = new Comment("dummy second comment for contrib " + contribution.getId(),hanefi,contribution);
+                commentRepo.save(c);
+            }
         });
     }
 
