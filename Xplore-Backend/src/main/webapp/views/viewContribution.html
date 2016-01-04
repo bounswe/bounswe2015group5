@@ -21,8 +21,8 @@
 
     <!-- Comment Form -->
     <form ng-submit="addANewComment()">
-    <textarea ng-model="commentContext.commentBody" style="width:96%;height:90px;padding:2%;" required></textarea>
-        <br>
+        <label>Your comment:</label>
+        <textarea ng-model="commentContext.commentBody" class="form-control" rows="3" required></textarea>
         <input type="submit" value="Comment" class="btn btn-warning">
     </form>
 </div>
