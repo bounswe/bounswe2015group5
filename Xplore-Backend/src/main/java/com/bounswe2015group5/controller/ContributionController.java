@@ -48,12 +48,63 @@ public class ContributionController {
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public @ApiResponseObject ResponseEntity<Void> save(@ApiBodyObject @RequestBody Contribution contribution, UriComponentsBuilder uriComponentsBuilder) {
+    public @ApiResponseObject Contribution save(
+            @ApiBodyObject @RequestBody ContributionContext contributionContext, UriComponentsBuilder uriComponentsBuilder) {
+
+        User user = userRepo.findOne(contributionContext.getUsername());
+        Contribution contribution = new Contribution(contributionContext.getTitle(),
+                contributionContext.getContent(),user);
         contributionService.saveContribution(contribution);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path("/contributions/{id}").buildAndExpand(contribution.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return contribution;
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(uriComponentsBuilder.path("/contributions/{id}").buildAndExpand(contribution.getId()).toUri());
+//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @ApiObject
+    public static class ContributionContext{
+        @ApiObjectField(description = "username of creator of the contribution", required = true)
+        private String username;
+
+        @ApiObjectField(description = "Contribution title", required = true)
+        private String title;
+
+        @ApiObjectField(description = "Contribution content", required = true)
+        private String content;
+
+        public ContributionContext() {
+        }
+
+        public ContributionContext(String username, String title, String content) {
+            this.username = username;
+            this.title = title;
+            this.content = content;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
     }
 
     @ApiMethod
@@ -140,13 +191,6 @@ public class ContributionController {
             this.username = username;
         }
 
-//        public int getContributionId() {
-//            return contributionId;
-//        }
-//
-//        public void setContributionId(int contributionId) {
-//            this.contributionId = contributionId;
-//        }
 
         public String getCommentBody() {
             return commentBody;
