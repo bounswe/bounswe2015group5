@@ -17,12 +17,12 @@ public class User implements Serializable{
     @ApiObjectField(description = "username of the user", required = true)
     private String username;
 
-    @NotNull
-    @JsonIgnore
+//    @NotNull
+//    @JsonIgnore
     @ApiObjectField(description = "password of the user", required = true)
     private String password;
 
-    @NotNull
+//    @NotNull
     @ApiObjectField(description = "email of the user", required = true)
     private String email;
 
@@ -45,7 +45,6 @@ public class User implements Serializable{
 
     public String getPassword() {
         return password;
-
     }
 
     public void setPassword(String password) {

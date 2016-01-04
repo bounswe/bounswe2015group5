@@ -103,7 +103,8 @@ public class UserController {
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void save(@ApiBodyObject @RequestBody User user) {
+    public User save(@ApiBodyObject @RequestBody User user) {
         userRepo.save(user);
+        return user;
     }
 }
