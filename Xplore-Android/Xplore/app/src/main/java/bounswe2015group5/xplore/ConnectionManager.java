@@ -62,33 +62,25 @@ public class ConnectionManager {
         this.requestQueue.start();
     }
 
-    public void registerUser(final Activity activity, final String email, String pass, final String name, final String surname){
+    public void registerUser(final Activity activity, final String email, String pass, final String username){
 
-        // TODO fix register functionality.
-        if(true) {
-            Toast.makeText(context, "Register is not functional, please try again later !", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String URL = BASE_URL + "RegisterUser";
+        String URL = BASE_URL + "user";
 
         final Map<String, String> mParams = new HashMap<>();
-        mParams.put("username", email);
+        mParams.put("email", email);
         mParams.put("password", pass);
-        mParams.put("Name", name);
-        mParams.put("Surname", surname);
+        mParams.put("username", username);
 
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
+        Response.Listener<JSONObject> responseListener =
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("REGISTER_USER", response);
-                        if(response.toLowerCase().contains("succes")){ // Server replies with "Success"
+                    public void onResponse(JSONObject response) {
+                        if(response.length() > 0){ // Server replies with "Success"
+
                             SharedPreferences.Editor editor = Globals.share.edit();
                             editor.putBoolean("SignedIn", true);
-                            editor.putString("Email",email);
-                            editor.putString("Name",name);
-                            editor.putString("Surname",surname);
+                            editor.putString("email",email);
+                            editor.putString("username",username);
                             editor.apply();
 
                             Toast.makeText(context, "You have successfully registered", Toast.LENGTH_SHORT).show();
@@ -99,12 +91,7 @@ public class ConnectionManager {
                     }
                 };
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return mParams;
-            }
-        };
+        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
     }
 

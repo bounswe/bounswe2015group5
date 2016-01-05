@@ -18,7 +18,7 @@ public class Signup extends Activity {
      * UI references
      * @author Mert Oguz
      */
-    private EditText edtMail, edtName, edtSurname, edtPass, edtPassRetype;
+    private EditText edtMail, edtUsername, edtPass, edtPassRetype;
     private TextView guestLogin, loginText;
     private Button signupBtn;
 
@@ -28,10 +28,9 @@ public class Signup extends Activity {
 
         setContentView(R.layout.signup);
 
-        edtMail = (EditText) findViewById(R.id.signup_email);
-        edtName = (EditText) findViewById(R.id.signup_name);
-        edtSurname = (EditText) findViewById(R.id.signup_surname);
-        edtPass = (EditText) findViewById(R.id.signup_pass);
+        edtMail     = (EditText) findViewById(R.id.signup_email);
+        edtUsername = (EditText) findViewById(R.id.signup_name);
+        edtPass     = (EditText) findViewById(R.id.signup_pass);
         edtPassRetype = (EditText) findViewById(R.id.signup_repass);
 
         signupBtn = (Button) findViewById(R.id.signupBtn);
@@ -77,8 +76,7 @@ public class Signup extends Activity {
     private void attemptSignup() {
 
         final String email = edtMail.getText().toString();
-        final String name = edtName.getText().toString();
-        final String surname = edtSurname.getText().toString();
+        final String name = edtUsername.getText().toString();
         final String pass = edtPass.getText().toString();
         final String pass_retype = edtPassRetype.getText().toString();
         final String URL = getString(R.string.service_url) + "RegisterUser"; //for POST to server
@@ -87,12 +85,12 @@ public class Signup extends Activity {
             Toast.makeText(getApplicationContext(), "Passwords Don't Match", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(email.isEmpty()||name.isEmpty()||surname.isEmpty()||pass.isEmpty()||pass_retype.isEmpty()){
+        if(email.isEmpty()||name.isEmpty()||pass.isEmpty()||pass_retype.isEmpty()){
             Toast.makeText(getApplicationContext(), "Please fill in all of the required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Globals.connectionManager.registerUser(Signup.this, email, pass, name, surname);
+        Globals.connectionManager.registerUser(Signup.this, email, pass, name);
     }
 
 }
