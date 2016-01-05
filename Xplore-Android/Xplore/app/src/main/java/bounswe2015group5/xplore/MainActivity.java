@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.android.volley.Response;
 
 import bounswe2015group5.xplore.fragments.Home;
 import bounswe2015group5.xplore.fragments.Profile;
@@ -112,14 +115,28 @@ public class MainActivity extends FragmentActivity{
             public void onClick(View view) {
 
                 if(signedIn){
-                    SharedPreferences.Editor editor = Globals.share.edit();
-                    editor.putBoolean("SignedIn",false);
-                    editor.clear();
-                    editor.apply();
+
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            SharedPreferences.Editor editor = Globals.share.edit();
+                            editor.putBoolean("SignedIn",false);
+                            editor.clear();
+                            editor.apply();
+
+                            startActivity(new Intent(MainActivity.this, Login.class));
+                            finish();
+                        }
+                    };
+
+                    Globals.connectionManager.logout(responseListener);
+
+                } else {
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                    finish();
                 }
 
-                startActivity(new Intent(MainActivity.this, Login.class));
-                finish();
             }
         });
     }

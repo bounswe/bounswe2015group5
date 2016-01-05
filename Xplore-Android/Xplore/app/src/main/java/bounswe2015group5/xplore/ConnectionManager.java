@@ -103,7 +103,43 @@ public class ConnectionManager {
         mParams.put("username", email);
         mParams.put("password", pass);
 
-        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
+        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener){
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+
+                Log.d("PARSENETWORK",new String(volleyError.networkResponse.data));
+                return super.parseNetworkError(volleyError);
+            }
+        };
+        requestQueue.add(request);
+    }
+
+    // TODO ??
+    public void logout(Response.Listener<String> responseListener){
+
+        String URL = BASE_URL + "user/logout";
+
+        StringRequest request = new StringRequest(Request.Method.GET, URL, responseListener, errorListener){
+            private final String PROTOCOL_CHARSET = "utf-8";
+            private final String PROTOCOL_CONTENT_TYPE =
+                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return (new JSONObject()).toString().getBytes(PROTOCOL_CHARSET);
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", (new JSONObject()), PROTOCOL_CHARSET);
+                    return null;
+                }
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return (new JSONObject()).toString() == null ? null : PROTOCOL_CONTENT_TYPE;
+            }
+        };
+
+//        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(), responseListener, errorListener);
         requestQueue.add(request);
     }
 
