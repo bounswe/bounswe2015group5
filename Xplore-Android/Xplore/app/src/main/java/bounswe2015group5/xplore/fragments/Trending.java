@@ -1,13 +1,17 @@
 package bounswe2015group5.xplore.fragments;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
@@ -33,8 +37,9 @@ public class Trending extends BaseFragment {
 
     private RelativeLayout parent;
     private List<Tag> tagList;
-    private List<Button> tagButtonList;
-    private Animation pulse;
+    private Button[] tagButtonList;
+    private int connectionSize;
+//    private Animation pulse;
 
     public Trending(){}
 
@@ -44,12 +49,17 @@ public class Trending extends BaseFragment {
         parent = (RelativeLayout) inflater.inflate(R.layout.trending, null);
 
         // Adds all tag buttons into an arraylist.
-        tagButtonList = new ArrayList<>();
-        for(int id : TAG_BUTTON_IDS)
-            tagButtonList.add((Button) parent.findViewById(id));
+        tagButtonList = new Button[TAG_COUNT];
+        for(int i=0; i<TAG_COUNT; i++)
+            tagButtonList[i] = (Button) parent.findViewById(TAG_BUTTON_IDS[i]);
 
         // Creates pulse animation in order to show the tag which is hot.
-        pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
+        //pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int w=dm.widthPixels, h=dm.heightPixels;
+        connectionSize = (int) Math.sqrt(w*w+h*h) / 3;
 
         populateTags();
 
@@ -76,10 +86,10 @@ public class Trending extends BaseFragment {
 
                             tagList.add(tag);
 
-                            final Button tagBtn = tagButtonList.get(i);
+                            final Button tagBtn = tagButtonList[i];
 
                             tagBtn.setVisibility(View.VISIBLE);
-                            tagBtn.startAnimation(pulse);
+//                            tagBtn.startAnimation(pulse);
 
                             tagBtn.setText("#" + tag.getName());
 
@@ -96,8 +106,9 @@ public class Trending extends BaseFragment {
                                     ((MainActivity) getActivity()).launchFragment(fragment, "#" + tag.getName(), false);
                                 }
                             });
-
                         }
+
+                        addCenterConnections();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -113,5 +124,60 @@ public class Trending extends BaseFragment {
     void stopAnim(){
         parent.findViewById(R.id.tagCenterLoadingView).setVisibility(View.GONE);
         parent.findViewById(R.id.tagCenterLoadingText).setVisibility(View.GONE);
+    }
+
+    public void addCenterConnections(){
+
+        Button centerBtn = tagButtonList[0];
+
+        float   x1 = centerBtn.getX() + centerBtn.getWidth() / 2,
+                y1 = centerBtn.getY() + centerBtn.getHeight() / 2;
+
+        for(int i=1; i<TAG_COUNT; i++){
+
+            Button  btn = tagButtonList[i];
+
+            float   x2 = btn.getX() + btn.getWidth() / 2,
+                    y2 = btn.getY() + btn.getHeight() / 2;
+
+            addConnection(new Point((int) x1, (int) y1), new Point((int) x2, (int) y2));
+        }
+    }
+
+    public void addConnection(Point p1, Point p2){
+
+        int xDiff = p1.x - p2.x,
+                yDiff = p1.y - p2.y;
+
+        View connection = new View(getContext());
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(connectionSize, 10);
+        layoutParams.setMargins(p1.x, p1.y, 0, 0);
+        connection.setLayoutParams(layoutParams);
+        connection.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.tab_btn_text));
+
+        float degree = 57.0f;
+        if(xDiff > 0 && yDiff > 0) degree -= 180.0f;
+        else if(xDiff > 0 && yDiff < 0) degree = 180 - degree;
+        else if(xDiff < 0 && yDiff > 0) degree *= -1;
+        else if(xDiff == 0 && yDiff > 0) degree = -90.0f;
+        else if(xDiff == 0 && yDiff < 0) degree = 90.0f;
+        else if(yDiff == 0) degree = 0.0f;
+
+        parent.addView(connection,0);
+
+        AnimationSet animSet = new AnimationSet(true);
+        animSet.setInterpolator(new DecelerateInterpolator());
+        animSet.setFillAfter(true);
+        animSet.setFillEnabled(true);
+
+        final RotateAnimation animRotate = new RotateAnimation(0.0f, degree,
+                RotateAnimation.RELATIVE_TO_SELF, 0.0f,
+                RotateAnimation.RELATIVE_TO_SELF, 0.0f);
+
+        animRotate.setDuration(0);
+        animRotate.setFillAfter(true);
+        animSet.addAnimation(animRotate);
+
+        connection.startAnimation(animSet);
     }
 }

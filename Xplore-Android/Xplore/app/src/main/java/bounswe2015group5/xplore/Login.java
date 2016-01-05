@@ -26,6 +26,8 @@ public class Login extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		XploreApp.initInstance(getApplicationContext());
+
 		setContentView(R.layout.login);
 
 		edtMail = (EditText) findViewById(R.id.login_email);
