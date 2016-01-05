@@ -73,8 +73,8 @@ public class ConnectionManager {
         String URL = BASE_URL + "RegisterUser";
 
         final Map<String, String> mParams = new HashMap<>();
-        mParams.put("Email", email);
-        mParams.put("Pass", pass);
+        mParams.put("username", email);
+        mParams.put("password", pass);
         mParams.put("Name", name);
         mParams.put("Surname", surname);
 
@@ -108,20 +108,15 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void login(String email, String pass, Response.Listener<String> responseListener){
+    public void login(final String email, final String pass, Response.Listener<JSONObject> responseListener){
 
-        String URL = BASE_URL + "Login";
+        String URL = BASE_URL + "user/login";
 
         final Map<String, String> mParams = new HashMap<>();
-        mParams.put("Email", email);
-        mParams.put("Password", pass);
+        mParams.put("username", email);
+        mParams.put("password", pass);
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return mParams;
-            }
-        };
+        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
     }
 
