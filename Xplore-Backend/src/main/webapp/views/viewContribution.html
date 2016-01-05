@@ -30,7 +30,8 @@
     </div>
 
     <!-- Comment Form -->
-    <form ng-submit="addANewComment()">
+
+    <form ng-submit="addANewComment()" ng-show="username">
         <label>Your comment:</label>
         <textarea ng-model="commentContext.commentBody" class="form-control" rows="3"
                   placeholder="Enter a new comment.." required></textarea>

@@ -1,4 +1,4 @@
-angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($scope, $http, $state, $stateParams) {
+angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($scope, $rootScope, $http, $state, $stateParams) {
 
     $http.get('contributions/' + $stateParams.contributionId).then(function (contributionData) {
         $scope.contribution = contributionData.data;
@@ -20,7 +20,7 @@ angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($sco
     // Warning: info of current username should be corrected
     $scope.commentContext = {
         commentBody: "",
-        username: "hanefi"
+        username: $rootScope.username
     }
     $scope.addANewComment = function () {
         $http.post('contributions/' + $stateParams.contributionId + '/comments', $scope.commentContext);
