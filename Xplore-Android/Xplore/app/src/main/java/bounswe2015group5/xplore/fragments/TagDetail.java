@@ -1,9 +1,9 @@
 package bounswe2015group5.xplore.fragments;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +31,12 @@ public class TagDetail extends BaseFragment{
 
     private final int TAG_COUNT = 5;
     private final int[] TAG_BUTTON_IDS = {R.id.tagBtnCenter, R.id.tagBtnUL, R.id.tagBtnDR, R.id.tagBtnUR, R.id.tagBtnDL};
+    private final int[] TAG_BUTTON_PREV_IDS = {R.id.tagBtnCenter, R.id.tagBtnULPREV, R.id.tagBtnDRPREV, R.id.tagBtnURPREV, R.id.tagBtnDLPREV};
 
     private RelativeLayout parent;
-    private List<Button> tagButtonList;
+    private Button[] tagButtonList, tagButtonPrevList;
     private List<Tag> tagList;
+    private Point[] animationPoints;
     private Animation pulse;
     private int TAG_ID;
     private String TAG_NAME;
@@ -44,6 +46,12 @@ public class TagDetail extends BaseFragment{
 
         this.isCreated = false;
         this.tagList = new ArrayList<>();
+
+        // Initializes tag button arrays.
+        tagButtonList = new Button[TAG_BUTTON_IDS.length];
+        tagButtonPrevList = new Button[TAG_BUTTON_PREV_IDS.length];
+
+        animationPoints = new Point[TAG_BUTTON_IDS.length];
     }
 
     @Nullable
@@ -54,12 +62,9 @@ public class TagDetail extends BaseFragment{
         TAG_ID = getArguments().getInt("TAGID");
         TAG_NAME = getArguments().getString("TAGNAME");
 
-        ((MainActivity) getActivity()).setTitle(TAG_NAME);
-
-        // Adds all tag buttons into an arraylist.
-        tagButtonList = new ArrayList<>();
-        for(int id : TAG_BUTTON_IDS)
-            tagButtonList.add((Button) parent.findViewById(id));
+        // Adds all tag buttons into an array.
+        for(int i = 0; i<TAG_BUTTON_IDS.length; i++) tagButtonList[i] = ((Button) parent.findViewById(TAG_BUTTON_IDS[i]));
+        for(int i = 0; i<TAG_BUTTON_PREV_IDS.length; i++) tagButtonPrevList[i] = ((Button) parent.findViewById(TAG_BUTTON_PREV_IDS[i]));
 
         // Creates pulse animation in order to show the tag which is hot.
         pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
@@ -71,24 +76,20 @@ public class TagDetail extends BaseFragment{
         else {
             stopAnim();
 
-            Log.d("TagDetail","isCreated");
-            Log.d("TagDetail","TagList: " + tagList.size());
-
             int btnCnt = 1;
             for(Tag tag : tagList){
 
                 int tagId = tag.getID();
-
-                final Button tagBtn;
-                if(tagId == TAG_ID) tagBtn = tagButtonList.get(0);
+                if(tagId == TAG_ID)  prepareTagButton(tagButtonList[0], animationPoints[0], tagId, tag.getName());
                 else{
-                    tagBtn = tagButtonList.get(btnCnt);
+                    prepareTagButton(tagButtonList[btnCnt], animationPoints[btnCnt], tagId, tag.getName());
                     btnCnt++;
                 }
-
-                prepareTagButton(tagBtn, tagId, tag.getName());
             }
         }
+
+        ((MainActivity) getActivity()).setTitle(TAG_NAME);
+
         return parent;
     }
 
@@ -109,9 +110,13 @@ public class TagDetail extends BaseFragment{
                         int tagId = Integer.parseInt(tagIds.next());
 
                         final Button tagBtn;
-                        if(tagId == TAG_ID) tagBtn = tagButtonList.get(0);
-                        else{
-                            tagBtn = tagButtonList.get(btnCnt);
+                        final Point position;
+                        if(tagId == TAG_ID) {
+                            tagBtn = tagButtonList[0];
+                            position = computePosition(0);
+                        } else{
+                            tagBtn = tagButtonList[btnCnt];
+                            position = computePosition(btnCnt);
                             btnCnt++;
                         }
 
@@ -122,7 +127,7 @@ public class TagDetail extends BaseFragment{
                                 final Tag tag = new Tag(response);
                                 tagList.add(tag);
 
-                                prepareTagButton(tagBtn, tag.getID(), tag.getName());
+                                prepareTagButton(tagBtn, position, tag.getID(), tag.getName());
                             }
                         };
 
@@ -142,11 +147,13 @@ public class TagDetail extends BaseFragment{
         parent.findViewById(R.id.tagCenterLoadingText).setVisibility(View.GONE);
     }
 
-    public void prepareTagButton(Button tagButton, final int tagId, final String tagName){
+    public void prepareTagButton(Button tagButton, Point position, final int tagId, final String tagName){
 
         tagButton.setVisibility(View.VISIBLE);
+        tagButton.animate().translationXBy(position.x).translationYBy(position.y);
+
         // TODO if the tag is hot, then start animation.
-        tagButton.startAnimation(pulse);
+        //tagButton.startAnimation(pulse);
 
         tagButton.setText("#" + tagName);
 
@@ -154,7 +161,7 @@ public class TagDetail extends BaseFragment{
             @Override
             public void onClick(View view) {
                 // if the centered tag is selected, shows its contributions.
-                if(TAG_ID == tagId) showContributionList();
+                if(TAG_ID == tagId) createContributionList();
                 else{
                     Fragment fragment = new TagDetail();
                     Bundle args = new Bundle();
@@ -169,7 +176,7 @@ public class TagDetail extends BaseFragment{
 
     }
 
-    public void showContributionList(){
+    public void createContributionList(){
 
         Fragment fragment = new ContributionList();
         Bundle args = new Bundle();
@@ -178,6 +185,19 @@ public class TagDetail extends BaseFragment{
         fragment.setArguments(args);
 
         ((MainActivity) getActivity()).launchFragment(fragment, "Contributions", false);
+    }
 
+    public Point computePosition(int buttonCnt){
+
+        Button original = tagButtonList[buttonCnt];
+        Button newButton = tagButtonPrevList[buttonCnt];
+
+        int xDiff = original.getLeft() - newButton.getLeft();
+        int yDiff = original.getTop() - newButton.getTop();
+
+        Point position = new Point(xDiff,yDiff);
+        animationPoints[buttonCnt] = position;
+
+        return position;
     }
 }

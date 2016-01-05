@@ -3,7 +3,7 @@
     
     <!--<string name="service_url">http://52.89.206.180:8080/XploreProject/</string>-->
 
-    <string name="service_url">http://192.168.58.253:8080/</string>
+    <string name="service_url">http://192.168.1.9:8080/</string>
     <string name="loading_message">Connecting the Dots</string>
 
 </resources>
