@@ -1,17 +1,18 @@
 /**
- * Created by burak on 20.12.2015.
+ * Created by ulusalomer on 05.01.2016.
  */
 angular.module("XploreAppDep").controller("NavBarController",function($scope, $rootScope , $http){
+    $scope.username;
     $http.get('user/current').success(function(data) {
         if(data!="") {
-            $rootScope.userData.username = data.username;
+            $scope.username = data.username;
         }else {
-            $rootScope.userData.username = null;
+            $scope.username = null;
         }
     });
 
     $scope.userLoggedIn = function(){
-        if($rootScope.userData.username){
+        if($scope.username){
             return true;
         } else{
             return false;

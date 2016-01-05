@@ -1,14 +1,14 @@
 /**
- * Created by burak on 20.12.2015.
+ * Created by ulusalomer on 05.01.2016.
  */
 angular.module('XploreAppDep').controller('LoginCtrl', function ($scope, $rootScope , $http, $state) {
-    $rootScope.userData = {
+    $scope.userData = {
         username: "",
         password: ""
     };
 
     $scope.loginUser = function () {
-        $http.post('user/login', $rootScope.userData).success(function (response){
+        $http.post('user/login', $scope.userData).success(function (response){
             if(response){
                 $state.reload();
                 $state.go('home');
