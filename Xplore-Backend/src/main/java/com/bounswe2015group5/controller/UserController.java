@@ -43,14 +43,16 @@ public class UserController {
     }
 
     @ApiMethod(description = "logs-in and returns the principal")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ApiResponseObject User loglogin(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request)
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public @ApiResponseObject User login(@ApiBodyObject @RequestBody UserContext userContext,
+                                          HttpServletRequest request)
             throws JsonProcessingException {
 
-        User candidate = userRepo.findOne(username);
+        User candidate = userRepo.findOne(userContext.getUsername());
         System.out.println(candidate);
 
-        if (candidate != null && candidate.getPassword().equals(password))
+        if (candidate != null && candidate.getPassword().equals(userContext.getPassword()))
         {
             request.getSession().setAttribute("username", candidate);
             return candidate;
@@ -72,5 +74,37 @@ public class UserController {
     public User save(@ApiBodyObject @RequestBody User user) {
         userRepo.save(user);
         return user;
+    }
+
+    public static class UserContext {
+        @ApiObjectField(description = "username", required = true)
+        private String username;
+
+        @ApiObjectField(description = "password", required = true)
+        private String password;
+
+        public UserContext() {
+        }
+
+        public UserContext(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 }
