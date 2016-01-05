@@ -1,12 +1,10 @@
 package com.bounswe2015group5.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity

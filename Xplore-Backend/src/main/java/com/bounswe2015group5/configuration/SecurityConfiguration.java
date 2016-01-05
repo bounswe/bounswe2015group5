@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/user/login**").fullyAuthenticated();
+//        http.authorizeRequests().antMatchers("/user/login**").fullyAuthenticated();
         http.httpBasic();
         http.csrf().disable();
     }
