@@ -12,8 +12,19 @@
             <input ng-model="searchData.content" id="content" type="text" class="form-control" placeholder="Content" title="Content"/>
         </fieldset>
         <fieldset class="form-group">
-            <label for="tags">Tags</label>
-            <input ng-model="searchData.tags" id="tags" type="text" class="form-control" placeholder="Tags" title="Tags"/>
+            <label>Tags</label>
+            <ui-select multiple
+                       id="tags"
+                       ng-model="searchData.tags"
+                       ng-disabled="disabled"
+                       theme="bootstrap">
+                <ui-select-match placeholder="Select tags..">{{$item.name}}</ui-select-match>
+                <ui-select-choices repeat="tag.id as tag in tags | filter: {name: $select.search}"
+                                   refresh="refreshTags()"
+                                   refresh-delay="0">
+                    <div ng-bind-html="tag.name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
         </fieldset>
         <fieldset class="form-group">
             <label for="dateStart">After</label>
