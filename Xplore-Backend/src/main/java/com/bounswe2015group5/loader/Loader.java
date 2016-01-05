@@ -80,7 +80,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         log.info("Saved CONTRIB Istanbul court - id: " + cont2.getId());
 
         for (int i=3;i<11;i++){
-            Contribution c = new Contribution("cont title" + i,"cont content " + i,hanefi);
+            Contribution c = new Contribution("cont title" + i,"cont content " + i,"",hanefi);
             contributionRepo.save(c);
         }
     }

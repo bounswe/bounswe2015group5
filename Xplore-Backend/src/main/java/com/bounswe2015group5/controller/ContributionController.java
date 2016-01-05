@@ -53,7 +53,7 @@ public class ContributionController {
 
         User user = userRepo.findOne(contributionContext.getUsername());
         Contribution contribution = new Contribution(contributionContext.getTitle(),
-                contributionContext.getContent(),user);
+                contributionContext.getContent(),contributionContext.getReferenseList(),user);
         contributionService.saveContribution(contribution);
 
         return contribution;
@@ -73,13 +73,18 @@ public class ContributionController {
         @ApiObjectField(description = "Contribution content", required = true)
         private String content;
 
+        @ApiObjectField(description = "References of the contribution", required = true)
+        private String referenseList;
+
         public ContributionContext() {
         }
 
-        public ContributionContext(String username, String title, String content) {
+
+        public ContributionContext(String username, String title, String content, String referenseList) {
             this.username = username;
             this.title = title;
             this.content = content;
+            this.referenseList = referenseList;
         }
 
         public String getUsername() {
@@ -104,6 +109,14 @@ public class ContributionController {
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+        public String getReferenseList() {
+            return referenseList;
+        }
+
+        public void setReferenseList(String referenseList) {
+            this.referenseList = referenseList;
         }
     }
 
