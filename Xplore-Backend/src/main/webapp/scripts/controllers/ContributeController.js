@@ -2,8 +2,8 @@ angular.module('XploreAppDep').controller('ContributeCtrl', function ($scope, $r
     // Add a new contribution
     // Warning: info of current username should be corrected
     $scope.contribution = {
-        title: "Enter a title",
-        content: "Enter a content",
+        title: "",
+        content: "",
         username: "hanefi"
     }
     $scope.contribute = function () {
@@ -15,5 +15,5 @@ angular.module('XploreAppDep').controller('ContributeCtrl', function ($scope, $r
         $scope.tags = tags;
         $scope.form = {};
         $scope.form.selectedTags = [];
-    }); */
+    });*/
 });
