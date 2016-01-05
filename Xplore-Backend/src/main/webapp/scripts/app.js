@@ -55,6 +55,10 @@ angular.module('XploreApp', ['ui.bootstrap',
                         url: "/logout",
                         templateUrl: 'views/logout.html'
                     })
+                    .state("advancedSearch", {
+                        url: "/advancedSearch",
+                        templateUrl: 'views/advancedSearch.html'
+                    })
                 ;
             }
         ]
