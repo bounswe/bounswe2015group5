@@ -30,6 +30,8 @@ public class MainActivity extends FragmentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(Globals.instance == null) Globals.init();
+
         signedIn = Globals.share.getBoolean("SignedIn",false);
 
         setContentView(R.layout.activity_main);
@@ -40,12 +42,12 @@ public class MainActivity extends FragmentActivity{
         pressTab(R.id.homeTabBtn);
     }
 
-    public void launchFragment(Fragment fragment, String title){
+    public void launchFragment(Fragment fragment, String title, boolean clearAll){
 
-//        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
-//            fragmentManager.popBackStackImmediate();
+        if(clearAll)
+            for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
+                fragmentManager.popBackStackImmediate();
 
-        setTitle(title);
         getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment,title)
                         .addToBackStack(title)
@@ -70,7 +72,7 @@ public class MainActivity extends FragmentActivity{
                     fragment = new Home();
                 else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                launchFragment(fragment, fragmentTag);
+                launchFragment(fragment, fragmentTag,true);
             }
         });
 
@@ -83,7 +85,7 @@ public class MainActivity extends FragmentActivity{
                     fragment = new Trending();
                 else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                launchFragment(fragment, fragmentTag);
+                launchFragment(fragment, fragmentTag,true);
             }
         });
 
@@ -100,7 +102,7 @@ public class MainActivity extends FragmentActivity{
                     fragment = new Profile();
                 else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                launchFragment(fragment, fragmentTag);
+                launchFragment(fragment, fragmentTag,true);
             }
         });
 

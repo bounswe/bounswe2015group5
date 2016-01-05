@@ -91,7 +91,7 @@ public class ContributionDetail extends BaseFragment {
         });
 
         fetchTags();
-        fetchComments();
+//        fetchComments();
         return parent;
     }
 
@@ -127,7 +127,7 @@ public class ContributionDetail extends BaseFragment {
                 args.putString("TAGNAME",tag.getName());
                 fragment.setArguments(args);
 
-                ((MainActivity) getActivity()).launchFragment(fragment, "#" + tag.getName());
+                ((MainActivity) getActivity()).launchFragment(fragment, "#" + tag.getName(), false);
             }
         });
 
