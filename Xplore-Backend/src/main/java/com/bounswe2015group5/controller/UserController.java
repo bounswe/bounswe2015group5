@@ -5,12 +5,10 @@ import com.bounswe2015group5.model.User;
 import com.bounswe2015group5.repository.UserRepo;
 import com.bounswe2015group5.service.ContributionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.json.JSONObject;
 import org.jsondoc.core.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

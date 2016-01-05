@@ -59,11 +59,11 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20151123</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.json</groupId>-->
+			<!--<artifactId>json</artifactId>-->
+			<!--<version>20151123</version>-->
+		<!--</dependency>-->
 
 		<dependency>
             <groupId>org.jsondoc</groupId>
