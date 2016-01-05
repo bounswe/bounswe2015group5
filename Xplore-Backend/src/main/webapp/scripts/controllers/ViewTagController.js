@@ -10,7 +10,6 @@ angular.module('XploreAppDep').controller('ViewTagCtrl', function ($scope, $http
                         name: tagData.name
                     });
                 });
-            }).then(function () {
                 $scope.contributions.push({
                     id: contribution.id,
                     title: contribution.title,
@@ -20,8 +19,6 @@ angular.module('XploreAppDep').controller('ViewTagCtrl', function ($scope, $http
                     tags: tags
                 });
             });
-
-
         });
     });
 });
