@@ -9,9 +9,15 @@
             <br>
             <label>Email:</label>
             {{userData.email}}
+            <br>
+            <div class="btn-group btn-group-sm" role="group" >
+                <input type="button"  class="btn btn-success" value="Contributions" ng-click="divBool=true;"></input>
+                <input type="button" class="btn btn-info" ng-click="divBool=false;" value="Likes"></input>
+            </div>
         </div>
-        <ul class="list-group">
+        <ul class="list-group" ng-show="divBool">
             <li class="list-group-item" ng-repeat="contribution in userContributions">
+                <h5>{{contribution.title}}</h5>
                 <p>{{contribution.content}}</p>
                 <p>{{contribution.creator.username}}</p>
                 <p>{{contribution.creationDate}}</p>

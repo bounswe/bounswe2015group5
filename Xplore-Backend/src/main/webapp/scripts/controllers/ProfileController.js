@@ -3,7 +3,11 @@
  */
 angular.module('XploreAppDep').controller('ProfileCtrl', function ($scope, $rootScope , $http) {
     $scope.userData;
+    //true for contributions div, false for div of contributions which are liked by user
+    $scope.divBool = true;
     $scope.userContributions = [];
+
+    //get the contributions of user
     $http.get('user/current').success(function(response){
         $scope.userData = response;
         $http.get('user/'+response.username+'/contributions').success(function(contributionsData){
