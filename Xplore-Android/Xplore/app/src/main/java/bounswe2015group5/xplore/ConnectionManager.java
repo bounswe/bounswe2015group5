@@ -25,7 +25,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 /**
  * Created by hakansahin on 06/12/15.
@@ -191,6 +190,11 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
+    /**
+     * Receives comments of the given contribution.
+     * @param contID
+     * @param responseListener
+     */
     public void getCommentsByContributionId(int contID, Response.Listener<JSONArray> responseListener){
 
         String URL = BASE_URL + "contributions/" + contID + "/comments";
@@ -199,38 +203,24 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void registerContribution(String title, String content, List<String> tags, Response.Listener<String> responseListener){
 
-        String URL = BASE_URL + "RegisterContribution";
+    /**
+     * Creates a contribution with given parameters.
+     * @param title
+     * @param content
+     * @param username
+     * @param responseListener
+     */
+    public void createContribution(String title, String content, String username, Response.Listener<JSONObject> responseListener){
 
-        final JSONObject mParams = new JSONObject();
-        try {
-            mParams.put("Title", title);
-            mParams.put("Content", content);
-            mParams.put("Tags", new JSONArray());
-        } catch (JSONException e) {
-            // TODO handle exception.
-        }
+        String URL = BASE_URL + "contributions";
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            private final String PROTOCOL_CHARSET = "utf-8";
-            private final String PROTOCOL_CONTENT_TYPE =
-                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return mParams.toString().getBytes(PROTOCOL_CHARSET);
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mParams, PROTOCOL_CHARSET);
-                    return null;
-                }
-            }
+        final Map<String, String> mParams = new HashMap<>();
+        mParams.put("title", title);
+        mParams.put("content", content);
+        mParams.put("username", username);
 
-            @Override
-            public String getBodyContentType() {
-                return mParams.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
-            }
-        };
+        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
 
     }
@@ -269,6 +259,13 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
+    /**
+     * Posts the given comment to the given contribution.
+     * @param contID
+     * @param content
+     * @param username
+     * @param responseListener
+     */
     public void postComment(int contID, String content, String username, Response.Listener<JSONArray> responseListener){
 
         String URL = BASE_URL + "contributions/" + contID + "/comments";

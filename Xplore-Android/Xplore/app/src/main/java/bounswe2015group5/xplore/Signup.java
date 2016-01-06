@@ -86,11 +86,11 @@ public class Signup extends Activity {
         final String pass_retype = edtPassRetype.getText().toString();
 
         if(!pass.equals(pass_retype)) {
-            Toast.makeText(getApplicationContext(), "Passwords Don't Match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Globals.appContext, "Passwords Don't Match", Toast.LENGTH_SHORT).show();
             return;
         }
         if(email.isEmpty()||username.isEmpty()||pass.isEmpty()||pass_retype.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please fill in all of the required fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Globals.appContext, "Please fill in all of the required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 

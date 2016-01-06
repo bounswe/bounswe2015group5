@@ -18,7 +18,6 @@ import com.android.volley.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;

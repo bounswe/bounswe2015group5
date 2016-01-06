@@ -87,7 +87,7 @@
     </FrameLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/right_labels"
+        android:id="@+id/fabMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -103,6 +103,7 @@
         fab:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMenuAddCont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/tab_btn_start"
@@ -110,6 +111,7 @@
             fab:fab_colorPressed="@color/tab_btn_end"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMenuAddTag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/tab_btn_start"

@@ -14,7 +14,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+import bounswe2015group5.xplore.fragments.ContributionCreation;
 import bounswe2015group5.xplore.fragments.Home;
 import bounswe2015group5.xplore.fragments.Profile;
 import bounswe2015group5.xplore.fragments.Trending;
@@ -42,6 +45,20 @@ public class MainActivity extends FragmentActivity{
         titleTextView = (TextView) findViewById(R.id.title);
 
         pressTab(R.id.homeTabBtn);
+
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
+
+        FloatingActionButton fabMenuAddTag = (FloatingActionButton) findViewById(R.id.fabMenuAddTag);
+
+        FloatingActionButton fabMenuAddCont = (FloatingActionButton) findViewById(R.id.fabMenuAddCont);
+        fabMenuAddCont.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fabMenu.collapse();
+                launchFragment(new ContributionCreation(), "Create Contribution", false);
+            }
+        });
+
     }
 
     public void launchFragment(Fragment fragment, String title, boolean clearAll){
