@@ -308,6 +308,17 @@ public class ConnectionManager {
 //        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, new JSONObject(), responseListener, errorListener);
 //        requestQueue.add(request);
     }
+
+    /**
+     * Gets the information of the current user
+     */
+    public void getCurrentUser(Response.Listener<JSONArray> responseListener){
+
+        String URL = BASE_URL + "user/current";
+
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
+    }
 }
 
 class customJsonArrayRequest extends JsonRequest<JSONArray> {
