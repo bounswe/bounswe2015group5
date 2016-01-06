@@ -1,15 +1,12 @@
 package com.bounswe2015group5.controller;
 
-import com.bounswe2015group5.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.hp.hpl.jena.vocabulary.DB;
+import com.hp.hpl.jena.query.*;
 import org.jsondoc.core.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import com.hp.hpl.jena.query.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +142,7 @@ public class SemanticTagController {
                     "                     ?hp wordnet:classifiedByTopic ?s.\n" +
                     "                     ?hp rdfs:label ?lbl.\n" +
                     "                     ?s rdfs:label ?concept.\n" +
-                    "                     filter regex(?lbl,\""+name+"\",\"i\")\n" +
+                    "                     filter regex(?lbl,'"+name+"','i')\n" +
                     "                     } LIMIT " + LIMIT;
             return makeQuery(queryString,WORDNET_EP);
         }
@@ -188,17 +185,17 @@ public class SemanticTagController {
                     "?broad rdfs:label ?concept\n" +
                     "filter regex(?lbl,\""+name+"\",\"i\")\n" +
                     "filter (lang(?concept)=\"en\" && lang(?lbl)=\"en\")\n" +
-                    "} LIMIT " + LIMIT;
+                    "} LIMIT " + LIMIT ;
             return makeQuery(queryString, DBPEDIA_EP);
         }
 
         public static List<SemanticTagContext> exactHyponymOfQuery(String name){
             String queryString = PREFIX_NS_WN + "SELECT DISTINCT ?lbl,?concept WHERE { " +
-                    "                     ?hp wordnet:hyponymOf ?s .\n" +
-                    "                     ?hp rdfs:label ?lbl.\n" +
-                    "                     ?s rdfs:label ?concept.\n" +
-                    "                     filter regex(?lbl,\"^" + name + "$\",\"i\")\n" +
-                    "                     } LIMIT " + LIMIT;
+                    "?hp wordnet:hyponymOf ?s .\n" +
+                    "?hp rdfs:label ?lbl.\n" +
+                    "?s rdfs:label ?concept.\n" +
+                    "filter regex(?lbl,'^" + name + "$','i')\n" +
+                    "} LIMIT " + LIMIT;
             return makeQuery(queryString,WORDNET_EP);
         }
 
