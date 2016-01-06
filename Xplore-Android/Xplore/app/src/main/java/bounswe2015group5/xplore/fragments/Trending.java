@@ -155,19 +155,14 @@ public class Trending extends BaseFragment {
         int xDiff = p1.x - p2.x,
                 yDiff = p1.y - p2.y;
 
+        int size = (int) Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
+        float angle = (float) Math.toDegrees(Math.atan2(p2.y - p1.y, p2.x - p1.x));
+
         View connection = new View(Globals.appContext);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(connectionSize, 10);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(size, 10);
         layoutParams.setMargins(p1.x, p1.y, 0, 0);
         connection.setLayoutParams(layoutParams);
         connection.setBackgroundColor(ContextCompat.getColor(Globals.appContext, R.color.tab_btn_text));
-
-        float degree = 57.0f;
-        if(xDiff > 0 && yDiff > 0) degree -= 175.0f;
-        else if(xDiff > 0 && yDiff < 0) degree = 180 - degree;
-        else if(xDiff < 0 && yDiff > 0) degree -= 108;
-        else if(xDiff == 0 && yDiff > 0) degree = -90.0f;
-        else if(xDiff == 0 && yDiff < 0) degree = 90.0f;
-        else if(yDiff == 0) degree = 0.0f;
 
         parent.addView(connection,0);
 
@@ -176,7 +171,7 @@ public class Trending extends BaseFragment {
         animSet.setFillAfter(true);
         animSet.setFillEnabled(true);
 
-        final RotateAnimation animRotate = new RotateAnimation(0.0f, degree,
+        final RotateAnimation animRotate = new RotateAnimation(0.0f, angle,
                 RotateAnimation.RELATIVE_TO_SELF, 0.0f,
                 RotateAnimation.RELATIVE_TO_SELF, 0.0f);
 

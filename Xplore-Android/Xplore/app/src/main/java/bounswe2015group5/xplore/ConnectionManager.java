@@ -235,45 +235,48 @@ public class ConnectionManager {
      * @param contID
      * @param responseListener
      */
-    public void deleteContribution(int contID, Response.Listener<JSONObject> responseListener){
+    public void deleteContribution(int contID, Response.Listener<String> responseListener){
 
         String URL = BASE_URL + "contributions/" + contID;
 
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, responseListener, errorListener);
-//        requestQueue.add(request);
-    }
-
-    public void rateContribution(int contID, int rate, Response.Listener<String> responseListener){
-
-        String URL = BASE_URL + "RateContribution";
-
-        final JSONObject mParams = new JSONObject();
-        try {
-            mParams.put("ContributionID","" + contID);
-            mParams.put("Rate","" + rate);
-        } catch (JSONException e) {
-            // TODO handle exception.
-        }
-
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
+        StringRequest request = new StringRequest(Request.Method.DELETE, URL, responseListener, errorListener){
             private final String PROTOCOL_CHARSET = "utf-8";
             private final String PROTOCOL_CONTENT_TYPE =
                     String.format("application/json; charset=%s", PROTOCOL_CHARSET);
             @Override
             public byte[] getBody() throws AuthFailureError {
                 try {
-                    return mParams.toString().getBytes(PROTOCOL_CHARSET);
+                    return (new JSONObject()).toString().getBytes(PROTOCOL_CHARSET);
                 } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mParams, PROTOCOL_CHARSET);
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", (new JSONObject()), PROTOCOL_CHARSET);
                     return null;
                 }
             }
 
             @Override
             public String getBodyContentType() {
-                return mParams.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
+                return (new JSONObject()).toString() == null ? null : PROTOCOL_CONTENT_TYPE;
             }
         };
+        requestQueue.add(request);
+    }
+
+    public void getRateByContributionId(int contId, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "contributions/" + contId + "/rates";
+
+        JsonObjectRequest request = new JsonObjectRequest(URL,null,responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
+    public void rateContribution(int contID, int rate, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "contributions/" + contID + "/rates";
+
+        final Map<String, String> mParams = new HashMap<>();
+        mParams.put("vote","" + rate);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
     }
 
@@ -301,12 +304,63 @@ public class ConnectionManager {
      * @param commID
      * @param responseListener
      */
-    public void deleteComment(int commID, Response.Listener<JSONObject> responseListener){
+    public void deleteComment(int commID, Response.Listener<String> responseListener){
 
-        String URL = BASE_URL + "";
+        String URL = BASE_URL + "comments/" + commID;
 
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, new JSONObject(), responseListener, errorListener);
-//        requestQueue.add(request);
+        StringRequest request = new StringRequest(Request.Method.DELETE, URL, responseListener, errorListener){
+            private final String PROTOCOL_CHARSET = "utf-8";
+            private final String PROTOCOL_CONTENT_TYPE =
+                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return (new JSONObject()).toString().getBytes(PROTOCOL_CHARSET);
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", (new JSONObject()), PROTOCOL_CHARSET);
+                    return null;
+                }
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return (new JSONObject()).toString() == null ? null : PROTOCOL_CONTENT_TYPE;
+            }
+        };
+        requestQueue.add(request);
+    }
+
+    /**
+     * Gets the information of the current user
+     */
+    public void getCurrentUser(Response.Listener<JSONArray> responseListener){
+
+        String URL = BASE_URL + "user/current";
+
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
+    /**
+     * Gets all contributions of the given user
+     * @param
+     */
+    public void getContributionsByUsername(String username, Response.Listener<JSONArray> responseListener){
+
+        String URL = BASE_URL + "user/" + username + "/contributions";
+
+
+        Log.d("fetchContributions",URL);
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
+    public void addTagToContribution(int contId, int tagId, Response.Listener<JSONArray> responseListener){
+
+        String URL = BASE_URL + "/contributions/" + contId + "/addTag/" + tagId;
+
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
     }
 }
 

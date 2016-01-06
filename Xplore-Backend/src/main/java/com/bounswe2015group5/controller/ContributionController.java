@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @RestController
 @RequestMapping(value = "/contributions", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,9 +49,11 @@ public class ContributionController {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
     public @ApiResponseObject Contribution save(
-            @ApiBodyObject @RequestBody ContributionContext contributionContext, UriComponentsBuilder uriComponentsBuilder) {
-
-        User user = userRepo.findOne(contributionContext.getUsername());
+            @ApiBodyObject @RequestBody ContributionContext contributionContext, UriComponentsBuilder uriComponentsBuilder, HttpServletRequest request) {
+        User user = (User)request.getSession(false).getAttribute("username");
+        if(user == null){
+            return null;
+        }
         Contribution contribution = new Contribution(contributionContext.getTitle(),
                 contributionContext.getContent(),contributionContext.getReferenseList(),user);
         contributionService.saveContribution(contribution);
@@ -62,9 +66,6 @@ public class ContributionController {
 
     @ApiObject
     public static class ContributionContext{
-        @ApiObjectField(description = "username of creator of the contribution", required = true)
-        private String username;
-
         @ApiObjectField(description = "Contribution title", required = true)
         private String title;
 
@@ -78,19 +79,10 @@ public class ContributionController {
         }
 
 
-        public ContributionContext(String username, String title, String content, String referenseList) {
-            this.username = username;
+        public ContributionContext(String title, String content, String referenseList) {
             this.title = title;
             this.content = content;
             this.referenseList = referenseList;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
         }
 
         public String getTitle() {
@@ -167,8 +159,11 @@ public class ContributionController {
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ApiResponseObject java.util.List<Comment>
     saveComment(@ApiPathParam(name = "id") @PathVariable int id,
-                @ApiBodyObject @RequestBody CommentContext commentContext) {
-        User user = userRepo.findOne(commentContext.getUsername());
+                @ApiBodyObject @RequestBody CommentContext commentContext, HttpServletRequest request) {
+        User user = (User)request.getSession(false).getAttribute("username");
+        if(user == null){
+            return null;
+        }
         Contribution contribution = contributionService.getContributionById(id);
         String commentBody = commentContext.getCommentBody();
 

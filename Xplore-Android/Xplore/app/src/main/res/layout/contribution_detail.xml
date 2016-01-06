@@ -37,7 +37,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="0"
                     android:id="@+id/conDetailrate"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -150,6 +149,13 @@
             android:text="Comment"
             android:layout_below="@id/detailConComment"
             />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailAddTagBtn"
+            android:text="Add Tag"
+            android:layout_below="@id/detailConCommentBtn"/>
 
     </RelativeLayout>
 

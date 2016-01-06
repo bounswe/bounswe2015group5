@@ -1,7 +1,6 @@
 package bounswe2015group5.xplore.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +105,7 @@ public class ContributionList extends BaseFragment {
 
         Globals.connectionManager.getContributionsByTagId(tagId, responseListener);
     }
+
 
     public void stopAnim(){
         parent.findViewById(R.id.contListLoadingView).setVisibility(View.GONE);

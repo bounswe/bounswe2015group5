@@ -57,6 +57,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         for (int i=3;i<11;i++){
             Tag t = new Tag();
             t.setName("dummy tag : " + i);
+            t.setConcept("dummy concept : " + i);
             tagRepo.save(t);
         }
     }
