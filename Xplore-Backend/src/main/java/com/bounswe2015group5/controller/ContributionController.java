@@ -2,6 +2,7 @@ package com.bounswe2015group5.controller;
 
 import com.bounswe2015group5.model.*;
 import com.bounswe2015group5.repository.CommentRepo;
+import com.bounswe2015group5.repository.RateRepo;
 import com.bounswe2015group5.repository.UserRepo;
 import com.bounswe2015group5.service.ContributionService;
 import com.bounswe2015group5.service.RelationService;
@@ -32,6 +33,8 @@ public class ContributionController {
     CommentRepo commentRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    RateRepo rateRepo;
 
     @ApiMethod(description = "returns one contribution with given id")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -133,6 +136,31 @@ public class ContributionController {
         return relationService.getTagsByContributionId(id);
     }
 
+    @ApiMethod(description = "returns all rates related to given contribution id")
+    @RequestMapping(value = "/{id}/rates", method = RequestMethod.GET)
+    public @ApiResponseObject
+    RateResponse findRatesByContributionID(@ApiPathParam(name = "id") @PathVariable int id, HttpServletRequest request) {
+        Integer up=0,down=0,current=0;
+        String username = null;
+        try {
+            username = UserController.currentUser(request).getUsername();
+        } catch (Exception e) {
+        }
+
+        System.out.println("--------*************username :    " + username);
+
+        for (UserRate userRate : rateRepo.findByContributionId(id)) {
+            if(userRate.getValue()==+1)
+                up++;
+            else if (userRate.getValue()==-1)
+                down++;
+
+            if (userRate.getUser().getUsername().equals(username))
+                current = userRate.getValue();
+        }
+        return new RateResponse(up,down,current);
+    }
+
     @ApiMethod(description = "returns all comments related to given contribution id")
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -206,6 +234,47 @@ public class ContributionController {
 
         public void setCommentBody(String commentBody) {
             this.commentBody = commentBody;
+        }
+    }
+
+    @ApiObject
+    public static class RateResponse {
+        private Integer up;
+        private Integer down;
+        private Integer currentUser;
+
+        public RateResponse() {
+            up=down=currentUser=0;
+        }
+
+        public RateResponse(Integer up, Integer down, Integer currentUser) {
+            this.up = up;
+            this.down = down;
+            this.currentUser = currentUser;
+        }
+
+        public Integer getUp() {
+            return up;
+        }
+
+        public void setUp(Integer up) {
+            this.up = up;
+        }
+
+        public Integer getDown() {
+            return down;
+        }
+
+        public void setDown(Integer down) {
+            this.down = down;
+        }
+
+        public Integer getCurrentUser() {
+            return currentUser;
+        }
+
+        public void setCurrentUser(Integer currentUser) {
+            this.currentUser = currentUser;
         }
     }
 }

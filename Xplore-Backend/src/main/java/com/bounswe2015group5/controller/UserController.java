@@ -64,7 +64,7 @@ public class UserController {
 
     @ApiMethod(description = "returns the current principal")
     @RequestMapping(value = "/current", method = RequestMethod.GET)
-    public User currentUser(HttpServletRequest request){
+    public static User currentUser(HttpServletRequest request){
         return (User) request.getSession().getAttribute("username");
     }
 
