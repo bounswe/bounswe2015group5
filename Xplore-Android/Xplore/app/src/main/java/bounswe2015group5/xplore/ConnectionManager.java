@@ -269,25 +269,20 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void registerComment(int contID, String content, Response.Listener<String> responseListener){
+    public void postComment(int contID, String content, String username, Response.Listener<JSONArray> responseListener){
 
-        String URL = BASE_URL + "RegisterComment";
+        String URL = BASE_URL + "contributions/" + contID + "/comments";
 
-        final JSONObject mParams = new JSONObject();
-        try {
-            mParams.put("ContributionID", ""+ contID);
-            mParams.put("Content", content);
-        } catch (JSONException e) {
-            // TODO handle exception.
-        }
+        final Map<String, String> mParams = new HashMap<>();
+        mParams.put("commentBody", ""+ content);
+        mParams.put("username", username);
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener){
             private final String PROTOCOL_CHARSET = "utf-8";
             private final String PROTOCOL_CONTENT_TYPE =
                     String.format("application/json; charset=%s", PROTOCOL_CHARSET);
             @Override
-            public byte[] getBody() throws AuthFailureError {
+            public byte[] getBody() {
                 try {
                     return mParams.toString().getBytes(PROTOCOL_CHARSET);
                 } catch (UnsupportedEncodingException uee) {
@@ -303,18 +298,4 @@ public class ConnectionManager {
         };
         requestQueue.add(request);
     }
-
-    public JSONObject setParameters(HashMap<Object, Object> params){
-
-        final JSONObject mParams = new JSONObject();
-        try {
-            for(Map.Entry entry : params.entrySet())
-                mParams.put((String) entry.getKey(), entry.getValue());
-        } catch (JSONException e) {
-            // TODO handle exception.
-        }
-
-        return mParams;
-    }
-
 }

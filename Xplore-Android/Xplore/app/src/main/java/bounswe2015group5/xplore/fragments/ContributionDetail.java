@@ -18,6 +18,7 @@ import com.android.volley.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
@@ -188,16 +189,17 @@ public class ContributionDetail extends BaseFragment {
         final String content = et_enterComment.getText().toString();
         if(content.equals("")) return;
 
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("POST_COMMENT", response);
-                        if(response.toLowerCase().contains("succes")){
+        final String username = Globals.share.getString("username", "");
 
+        Response.Listener<JSONArray> responseListener =
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("POST_COMMENT", response.toString());
+                        if(response.length() > 0){
                             Comment comm = new Comment();
                             comm.setContent(content);
-                            comm.setUsername(Globals.share.getString("username", ""));
+                            comm.setUsername(username);
                             addComment(comm);
                         } else
                             Toast.makeText(getActivity(), "Please try again later.", Toast.LENGTH_SHORT).show();
@@ -208,7 +210,7 @@ public class ContributionDetail extends BaseFragment {
                 };
 
         // TODO construct an error listener.
-        Globals.connectionManager.registerComment(contribution.getId(), content, responseListener);
+        Globals.connectionManager.postComment(contribution.getId(), content, username, responseListener);
     }
 
     public void upDownVote(final TextView rateTxt, final Contribution contribution, final int rate){
