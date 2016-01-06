@@ -16,6 +16,9 @@ public class Tag implements Serializable{
     @ApiObjectField(description = "name of the tag", required = true)
     private String name;
 
+    @ApiObjectField(description = "concept of the tag", required = true)
+    private String concept;
+
     @Column(name = "created_at")
     @ApiObjectField(description = "The Timestamp when tag is created", required = true)
     public Date createdAt;
@@ -32,8 +35,16 @@ public class Tag implements Serializable{
     public Tag() {
     }
 
-    public Tag(String name, User creator) {
+    public String getConcept() {
+        return concept;
+    }
 
+    public void setConcept(String concept) {
+        this.concept = concept;
+    }
+
+    public Tag(String name, String concept, User creator) {
+        this.concept = concept;
         this.name = name;
         this.creator = creator;
     }

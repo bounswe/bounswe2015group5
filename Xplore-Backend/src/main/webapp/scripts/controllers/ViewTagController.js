@@ -47,9 +47,9 @@ angular.module('XploreAppDep').controller('ViewTagCtrl', function ($scope, $http
     $scope.delete = function (contributionId) {
         var requestAddress = "contributions/" + contributionId;
         console.log("delete to " + requestAddress);
-        //$http.delete(requestAddress).success(function (response) {
-        //    $state.reload();
-        //});
+        $http.delete(requestAddress).success(function (response) {
+            $state.reload();
+        });
     };
 
 });
