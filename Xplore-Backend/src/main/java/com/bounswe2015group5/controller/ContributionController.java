@@ -139,7 +139,7 @@ public class ContributionController {
     @ApiMethod(description = "returns all rates related to given contribution id")
     @RequestMapping(value = "/{id}/rates", method = RequestMethod.GET)
     public @ApiResponseObject
-    RateResponse findRatesByContributionID(@ApiPathParam(name = "id") @PathVariable int id, HttpServletRequest request) {
+    RateResponse rateContribution(@ApiPathParam(name = "id") @PathVariable int id, HttpServletRequest request) {
         Integer up=0,down=0,current=0;
         String username = null;
         try {
@@ -159,6 +159,28 @@ public class ContributionController {
                 current = userRate.getValue();
         }
         return new RateResponse(up,down,current);
+    }
+
+    @ApiMethod(description = "returns all rates related to given contribution id")
+    @RequestMapping(value = "/{id}/rates", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
+    public @ApiResponseObject
+    RateResponse addRate(@ApiPathParam(name = "id") @PathVariable int id,
+                         @ApiBodyObject @RequestBody VotingContext votingContext,
+                         HttpServletRequest request) {
+        int vote = votingContext.getVote();
+        if(vote == 0 || vote ==-1 || vote ==1){
+            Contribution contribution = contributionService.getContributionById(id);
+            String username = null;
+            try {
+                username = UserController.currentUser(request).getUsername();
+
+                User user = userRepo.findOne(username);
+                rateRepo.save(new UserRate(contribution,user,vote));
+            } catch (Exception e) {
+            }
+        }
+
+        return rateContribution(id,request);
     }
 
     @ApiMethod(description = "returns all comments related to given contribution id")
@@ -275,6 +297,27 @@ public class ContributionController {
 
         public void setCurrentUser(Integer currentUser) {
             this.currentUser = currentUser;
+        }
+    }
+
+    @ApiObject
+    public static class VotingContext {
+        @ApiObjectField(description = "Value of the vote", required = true)
+        private Integer vote;
+
+        public VotingContext() {
+        }
+
+        public VotingContext(Integer vote) {
+            this.vote = vote;
+        }
+
+        public Integer getVote() {
+            return vote;
+        }
+
+        public void setVote(Integer vote) {
+            this.vote = vote;
         }
     }
 }
