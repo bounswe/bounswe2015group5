@@ -51,7 +51,7 @@ public class ContributionListAdapter extends BaseAdapter {
         Contribution contribution = getItem(i);
 
         final TextView rateTxt = (TextView) convertView.findViewById(R.id.rate);
-        rateTxt.setText("" + contribution.getRate());
+        rateTxt.setText(String.valueOf(contribution.getRate()));
 
         TextView title = (TextView) convertView.findViewById(R.id.cont_detail);
         title.setText(contribution.getTitle());
