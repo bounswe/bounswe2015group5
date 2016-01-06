@@ -33,7 +33,7 @@ public class Contribution implements Serializable {
         this.rate = 0;
         this.clientRate = 0;
         this.tags = new ArrayList<Tag>();
-        
+
 //            this.type       = contribution.getInt("Type");
 //            this.clientRate = contribution.optInt("ClientRate");
 //            this.rate       = contribution.getInt("Rate");
