@@ -19,7 +19,6 @@ import com.android.volley.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
@@ -101,19 +100,14 @@ public class ContributionDetail extends BaseFragment {
                 @Override
                 public void onClick(View view) {
 
-                    Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>(){
+                    Response.Listener<String> responseListener = new Response.Listener<String>(){
                         @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("Delete Contribution",response.toString());
-                            if(response.length() > 0){
-                                Toast.makeText(Globals.appContext, "Contribution is deleted.", Toast.LENGTH_SHORT).show();
-                                ((MainActivity) getActivity()).onBackPressed();
-                            }
-                            else
-                                Toast.makeText(Globals.appContext, "Contribution is not deleted. Please try again.", Toast.LENGTH_SHORT).show();
+                        public void onResponse(String response) {
+                            Log.d("Delete Contribution",response);
+                            Toast.makeText(Globals.appContext, "Contribution is deleted.", Toast.LENGTH_SHORT).show();
+                            ((MainActivity) getActivity()).onBackPressed();
                         }
                     };
-
                     Globals.connectionManager.deleteContribution(contribution.getId(), responseListener);
                 }
             });
@@ -195,7 +189,7 @@ public class ContributionDetail extends BaseFragment {
 
     public void addComment(final Comment comment){
 
-        View commentView = inflater.inflate(R.layout.comment, null);
+        final View commentView = inflater.inflate(R.layout.comment, null);
 
         TextView tv_content = (TextView) commentView.findViewById(R.id.comment_content);
         tv_content.setText(comment.getContent());
@@ -215,13 +209,13 @@ public class ContributionDetail extends BaseFragment {
                 @Override
                 public void onClick(final View view) {
 
-                    Response.Listener<JSONObject> responsListener = new Response.Listener<JSONObject>(){
+                    Response.Listener<String> responsListener = new Response.Listener<String>(){
                         @Override
-                        public void onResponse(JSONObject response) {
+                        public void onResponse(String response) {
 
-                            Log.d("Delete Comment",response.toString());
+                            Log.d("Delete Comment",response);
 
-                            commentsList.removeView(view);
+                            commentsList.removeView(commentView);
                             Toast.makeText(Globals.appContext, "Comment is deleted.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -251,9 +245,7 @@ public class ContributionDetail extends BaseFragment {
                     public void onResponse(JSONArray response) {
                         Log.d("POST_COMMENT", response.toString());
                         if(response.length() > 0){
-                            Comment comm = new Comment();
-                            comm.setContent(content);
-                            comm.setUsername(username);
+                            Comment comm = new Comment(response.optJSONObject(0));
                             addComment(comm);
                         } else
                             Toast.makeText(getActivity(), "Please try again later.", Toast.LENGTH_SHORT).show();
