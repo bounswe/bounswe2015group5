@@ -6,15 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.android.volley.Response;
 
 import java.util.HashMap;
 import java.util.List;
 
-import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.R;
 import bounswe2015group5.xplore.models.Contribution;
 import bounswe2015group5.xplore.models.Tag;
@@ -54,8 +50,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.home_group_item, null);
         }
 
-        final TextView rateTxt = (TextView) convertView.findViewById(R.id.ext_cont_rate);
-        rateTxt.setText("" + contribution.getRate());
+//        final TextView rateTxt = (TextView) convertView.findViewById(R.id.ext_cont_rate);
+//        rateTxt.setText("" + contribution.getRate());
 
         TextView contTitle = (TextView) convertView.findViewById(R.id.ext_cont_title);
         contTitle.setText(contribution.getTitle());
@@ -66,21 +62,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView date = (TextView) convertView.findViewById(R.id.ext_cont_date);
         date.setText(contribution.getDate());
 
-        ImageButton upVoteBtn = (ImageButton) convertView.findViewById(R.id.ext_cont_up_vote_btn);
-        upVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                upDownVote(rateTxt, contribution, 1);
-            }
-        });
-
-        ImageButton downVoteBtn = (ImageButton) convertView.findViewById(R.id.ext_cont_down_vote_btn);
-        downVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                upDownVote(rateTxt, contribution, -1);
-            }
-        });
+//        ImageButton upVoteBtn = (ImageButton) convertView.findViewById(R.id.ext_cont_up_vote_btn);
+//        upVoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                upDownVote(rateTxt, contribution, 1);
+//            }
+//        });
+//
+//        ImageButton downVoteBtn = (ImageButton) convertView.findViewById(R.id.ext_cont_down_vote_btn);
+//        downVoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                upDownVote(rateTxt, contribution, -1);
+//            }
+//        });
 
         return convertView;
     }
@@ -134,21 +130,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public void upDownVote(final TextView rateTxt, final Contribution contribution, final int rate){
-
-        //if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
-        if(contribution.isRated() != 0) return;
-
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(response.contains("saved")){
-                            contribution.setRated(rate);
-                            rateTxt.setText("" + contribution.getRate());
-                        }
-                    }
-                };
-
-        Globals.connectionManager.rateContribution(contribution.getId(), rate, responseListener);
+//
+//        //if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
+//        if(contribution.isRated() != 0) return;
+//
+//        Response.Listener<String> responseListener =
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        if(response.contains("saved")){
+//                            contribution.setRated(rate);
+//                            rateTxt.setText("" + contribution.getRate());
+//                        }
+//                    }
+//                };
+//
+//        Globals.connectionManager.rateContribution(contribution.getId(), rate, responseListener);
     }
 }

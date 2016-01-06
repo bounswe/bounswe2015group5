@@ -3,72 +3,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
+        android:padding="7dp"
         android:background="@color/tab_btn_end">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/rate_layout"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:layout_alignParentStart="true"
-        android:weightSum="10">
+    <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/rate_layout"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:weightSum="10">-->
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/up_vote_btn"
-            android:src="@drawable/up_arrow"
-            android:layout_weight="4"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"/>
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:id="@+id/up_vote_btn"-->
+            <!--android:src="@drawable/up_arrow"-->
+            <!--android:layout_weight="6"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:background="@null"/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/rate"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/tab_btn_start"
-            android:layout_weight="2"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="0"-->
+            <!--android:id="@+id/rate"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/tab_btn_start"-->
+            <!--android:layout_weight="4"/>-->
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/down_vote_btn"
-            android:rotation="180"
-            android:src="@drawable/up_arrow"
-            android:layout_weight="4"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"/>
-    </LinearLayout>
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:id="@+id/down_vote_btn"-->
+            <!--android:rotation="180"-->
+            <!--android:src="@drawable/up_arrow"-->
+            <!--android:layout_weight="4"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:background="@null"/>-->
+    <!--</LinearLayout>-->
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/rate_layout"
-        android:layout_alignBottom="@+id/rate_layout"
-        android:id="@+id/separator"
-        android:background="@color/tab_btn_text"
-        />
+    <!--<View-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="5dp"-->
+        <!--android:layout_marginStart="5dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_toEndOf="@+id/rate_layout"-->
+        <!--android:layout_alignBottom="@+id/rate_layout"-->
+        <!--android:id="@+id/separator"-->
+        <!--android:background="@color/tab_btn_text"-->
+        <!--/>-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cont_layout"
-        android:layout_alignTop="@+id/rate_layout"
-        android:layout_alignBottom="@+id/rate_layout"
-        android:layout_toEndOf="@+id/separator"
-        android:gravity="center">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/cont_layout"-->
+        <!--android:gravity="center">-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,5 +100,5 @@
         android:layout_alignEnd="@+id/cont_detail"
         android:textColor="@color/tab_btn_start"/>
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 </RelativeLayout>

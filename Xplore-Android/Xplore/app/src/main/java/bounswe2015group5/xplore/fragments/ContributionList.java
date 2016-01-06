@@ -106,6 +106,7 @@ public class ContributionList extends BaseFragment {
         Globals.connectionManager.getContributionsByTagId(tagId, responseListener);
     }
 
+
     public void stopAnim(){
         parent.findViewById(R.id.contListLoadingView).setVisibility(View.GONE);
         parent.findViewById(R.id.contListLoadingText).setVisibility(View.GONE);
