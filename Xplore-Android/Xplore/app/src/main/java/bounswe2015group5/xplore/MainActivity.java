@@ -17,7 +17,6 @@ import com.android.volley.Response;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import bounswe2015group5.xplore.fragments.ContributionCreation;
 import bounswe2015group5.xplore.fragments.Home;
 import bounswe2015group5.xplore.fragments.Profile;
 import bounswe2015group5.xplore.fragments.Trending;
@@ -55,7 +54,8 @@ public class MainActivity extends FragmentActivity{
             @Override
             public void onClick(View view) {
                 fabMenu.collapse();
-                launchFragment(new ContributionCreation(), "Create Contribution", false);
+                startActivity(new Intent(MainActivity.this, ContributionCreation.class));
+//                launchFragment(new ContributionCreation(), "Create Contribution", false);
             }
         });
 
@@ -194,4 +194,9 @@ public class MainActivity extends FragmentActivity{
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    /**
+     * Created by hakansahin on 06/01/16.
+     */
+    public static class ContributionCreationActivity {}
 }

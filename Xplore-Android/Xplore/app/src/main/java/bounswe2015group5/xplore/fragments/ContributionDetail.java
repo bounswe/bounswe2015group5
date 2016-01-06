@@ -37,7 +37,7 @@ public class ContributionDetail extends BaseFragment {
     private EditText et_enterComment;
     private TextView rateTxt;
     private ImageButton upVoteBtn, downVoteBtn;
-    private Button commentBtn;
+    private Button commentBtn,addTagBtn;
 
     private Contribution contribution;
     private LayoutInflater inflater;
@@ -76,6 +76,19 @@ public class ContributionDetail extends BaseFragment {
         tv_content.setText(contribution.getContent());
         tv_nameSurname.setText(contribution.getCreatorUsername());
         tv_date.setText(contribution.getDate());
+
+        addTagBtn = (Button) parent.findViewById(R.id.detailAddTagBtn);
+        addTagBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new AddTagToContribution();
+                Bundle args = new Bundle();
+                args.putInt("contId", contribution.getId());
+                fragment.setArguments(args);
+
+                ((MainActivity) getActivity()).launchFragment(fragment,"add tag to contribution", false);
+            }
+        });
 
         upVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_up_vote_btn);
         downVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_down_vote_btn);

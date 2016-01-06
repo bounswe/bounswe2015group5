@@ -19,7 +19,6 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PlaceHolder"
             android:textSize="20sp"
             android:textColor="@color/tab_btn_text"
             android:textAlignment="gravity"

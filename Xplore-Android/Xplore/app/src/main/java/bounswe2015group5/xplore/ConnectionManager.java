@@ -354,6 +354,14 @@ public class ConnectionManager {
         JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
     }
+
+    public void addTagToContribution(int contId, int tagId, Response.Listener<JSONArray> responseListener){
+
+        String URL = BASE_URL + "/contributions/" + contId + "/addTag/" + tagId;
+
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
+    }
 }
 
 class customJsonArrayRequest extends JsonRequest<JSONArray> {
