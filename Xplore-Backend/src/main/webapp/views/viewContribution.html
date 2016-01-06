@@ -25,6 +25,9 @@
                 <p>{{comment.content}}</p>
                 <span class="badge">{{comment.createdAt}}</span>
                 <p>by {{comment.user.username}}</p>
+                <button type="button" ng-show="username == comment.user.username"
+                        ng-click="delete(comment.id)" class="btn btn-danger">Delete
+                </button>
             </li>
         </ul>
     </div>

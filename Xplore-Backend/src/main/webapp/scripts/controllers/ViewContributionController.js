@@ -27,4 +27,13 @@ angular.module('XploreAppDep').controller('ViewContributionCtrl', function ($sco
         $state.reload();
     }
 
+    $scope.delete = function (commentId) {
+        var requestAddress = "comments/" + commentId;
+        console.log("delete to " + commentId);
+        //$http.delete(requestAddress).success(function(response){
+        //    $state.reload();
+        //});
+
+    }
+
 });
