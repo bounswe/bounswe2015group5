@@ -20,7 +20,7 @@
             <search-form></search-form>
             <search-form-title></search-form-title>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-hide="username" uib-dropdown>
+                <li ng-hide="$root.username" uib-dropdown>
                     <a href uib-dropdown-toggle>
                         Login
                     </a>
@@ -33,9 +33,9 @@
                         </li>
                     </ul>
                 </li>
-                <li ng-show="username" uib-dropdown>
+                <li ng-show="$root.username" uib-dropdown>
                     <a href uib-dropdown-toggle>
-                        {{username}}
+                        {{$root.username}}
                     </a>
                     <ul class="uib-dropdown-menu" aria-labelledby="simple-dropdown">
                         <li>

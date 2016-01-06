@@ -25,7 +25,7 @@
                 <p>{{comment.content}}</p>
                 <span class="badge">{{comment.createdAt}}</span>
                 <p>by {{comment.user.username}}</p>
-                <button type="button" ng-show="username == comment.user.username"
+                <button type="button" ng-show="$root.username == comment.user.username"
                         ng-click="delete(comment.id)" class="btn btn-danger">Delete
                 </button>
             </li>
@@ -34,7 +34,7 @@
 
     <!-- Comment Form -->
 
-    <form ng-submit="addANewComment()" ng-show="username">
+    <form ng-submit="addANewComment()" ng-show="$root.username">
         <label>Your comment:</label>
         <textarea ng-model="commentContext.commentBody" class="form-control" rows="3"
                   placeholder="Enter a new comment.." required></textarea>

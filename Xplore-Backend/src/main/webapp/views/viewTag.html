@@ -26,14 +26,14 @@
             <hr>
             <div class="btn-group btn-group-sm" role="group">
                 <!-- like button for each contribution -->
-                <button type="button" ng-show="username" ng-disabled="contribution.currentUserVote == 1"
+                <button type="button" ng-show="$root.username" ng-disabled="contribution.currentUserVote == 1"
                         ng-click="vote(contribution.id, 1)" class="btn btn-success">Like
                 </button>
                 <!-- dislike button for each contribution -->
-                <button type="button" ng-show="username" ng-disabled="contribution.currentUserVote == -1"
+                <button type="button" ng-show="$root.username" ng-disabled="contribution.currentUserVote == -1"
                         ng-click="vote(contribution.id, -1)" class="btn btn-danger">Dislike
                 </button>
-                <button type="button" ng-show="username == contribution.creator.username"
+                <button type="button" ng-show="$root.username == contribution.creator.username"
                         ng-click="delete(contribution.id)" class="btn btn-danger">Delete
                 </button>
                 <!-- the button which goes to comments of the contribution-->
