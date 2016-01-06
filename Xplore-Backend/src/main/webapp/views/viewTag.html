@@ -33,6 +33,9 @@
                 <button type="button" ng-show="username" ng-disabled="contribution.currentUserVote == -1"
                         ng-click="vote(contribution.id, -1)" class="btn btn-danger">Dislike
                 </button>
+                <button type="button" ng-show="username == contribution.creator.username"
+                        ng-click="delete(contribution.id)" class="btn btn-danger">Delete
+                </button>
                 <!-- the button which goes to comments of the contribution-->
                 <button class="btn btn-info" ui-sref="viewContribution({ contributionId: contribution.id })">Comments
                 </button>
