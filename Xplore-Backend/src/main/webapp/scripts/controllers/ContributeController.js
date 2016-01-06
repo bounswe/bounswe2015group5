@@ -10,11 +10,22 @@ angular.module('XploreAppDep').controller('ContributeCtrl', function ($scope, $r
     $scope.contribute = function () {
         $http.post('contributions', $scope.contribution).success(function (contribution) {
             $scope.form.selectedTags.forEach(function (tagObj) {
-                var requestAddress = "contributions/" + contribution.id + "/addTag/" + tagObj;
-                $http.get(requestAddress);
+                var requestAddress = "tags";
+                $http.post(requestAddress, tagObj).success(function (tagResponse) {
+
+                    var requestAddress = "contributions/" + contribution.id + "/addTag/" + tagResponse.id;
+                    console.log(requestAddress);
+                    $http.get(requestAddress).success(function (response) {
+                        $state.go('viewContribution', {contributionId: contribution.id});
+                    });
+                });
             });
-            $state.go('viewContribution', {contributionId: contribution.id});
+
         });
+    };
+
+    $scope.newTag = function (tagString) {
+        return {id: -1, name: tagString, concept: tagString};
     };
 
     $scope.form = {};

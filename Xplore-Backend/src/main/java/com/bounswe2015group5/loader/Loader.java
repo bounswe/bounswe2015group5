@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
-public class Loader implements ApplicationListener<ContextRefreshedEvent>{
+public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private TagRepo tagRepo;
     @Autowired
@@ -26,8 +26,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private Logger log = Logger.getLogger(Loader.class);
 
     //sample data
-    private Contribution cont1,cont2;
-    private Tag justice,freedom;
+    private Contribution cont1, cont2;
+    private Tag justice, freedom;
     private User hanefi;
 
     @Override
@@ -43,6 +43,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         justice = new Tag();
 
         justice.setName("Justice System");
+        justice.setConcept("justice");
         tagRepo.save(justice);
 
         log.info("Saved TAG Justice - id: " + justice.getId());
@@ -50,11 +51,12 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         freedom = new Tag();
 
         freedom.setName("Freedom of Speech");
+        freedom.setConcept("freedom");
         tagRepo.save(freedom);
 
         log.info("Saved TAG Freedom of speech- id: " + freedom.getId());
 
-        for (int i=3;i<11;i++){
+        for (int i = 3; i < 11; i++) {
             Tag t = new Tag();
             t.setName("dummy tag : " + i);
             t.setConcept("dummy concept : " + i);
@@ -62,7 +64,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         }
     }
 
-    private void loadContributions(){
+    private void loadContributions() {
         cont1 = new Contribution();
         cont1.setTitle("Cumhuriyet daily’s Dundar, Gul arrested over report on Syria arms transfer");
         cont1.setContent("The editor-in-chief of the Cumhuriyet daily, Can Dundar, and the paper's Ankara representative Erdem Gul have been arrested on charges of being members of a terror organization, espionage and revealing confidential documents -- charges that could see them spend life in prison.");
@@ -80,14 +82,14 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
         log.info("Saved CONTRIB Istanbul court - id: " + cont2.getId());
 
-        for (int i=3;i<11;i++){
-            Contribution c = new Contribution("cont title" + i,"cont content " + i,"",hanefi);
+        for (int i = 3; i < 11; i++) {
+            Contribution c = new Contribution("cont title" + i, "cont content " + i, "", hanefi);
             contributionRepo.save(c);
         }
     }
 
     private void loadRelations() {
-        Relation rel1 = new Relation(justice,cont1,hanefi);
+        Relation rel1 = new Relation(justice, cont1, hanefi);
 
         log.info("try to save relation : " + rel1);
 
@@ -97,29 +99,29 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
         Iterable<Relation> dummyRelations = new ArrayList<>();
         int rels[][] = {
-                {3,3},
-                {3,4},
-                {3,10},
-                {4,3},
-                {4,9},
-                {5,5},
-                {5,6},
-                {6,6},
-                {6,7},
-                {6,8},
-                {7,5},
-                {8,3},
-                {8,9},
-                {8,10},
-                {9,4},
-                {10,7},
-                {10,8}
+                {3, 3},
+                {3, 4},
+                {3, 10},
+                {4, 3},
+                {4, 9},
+                {5, 5},
+                {5, 6},
+                {6, 6},
+                {6, 7},
+                {6, 8},
+                {7, 5},
+                {8, 3},
+                {8, 9},
+                {8, 10},
+                {9, 4},
+                {10, 7},
+                {10, 8}
         };
 
-        for (int i=0; i<17;i++){
+        for (int i = 0; i < 17; i++) {
             Tag t = tagRepo.findOne(rels[i][0]);
             Contribution c = contributionRepo.findOne(rels[i][1]);
-            Relation r = new Relation(t,c,hanefi);
+            Relation r = new Relation(t, c, hanefi);
             relationRepo.save(r);
         }
 //        for (int i=3;i<=tagRepo.count();i++){
@@ -136,11 +138,11 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     }
 
     private int gcd(int i, int j) {
-        return (j!=0) ? gcd(j,i%j) : i ;
+        return (j != 0) ? gcd(j, i % j) : i;
     }
 
     private void loadUsers() {
-        hanefi = new User("hanefi","hanefi","hanefi@hanefi.com");
+        hanefi = new User("hanefi", "hanefi", "hanefi@hanefi.com");
 
         log.info("trying to save user : " + hanefi.getUsername());
 
@@ -151,11 +153,11 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
     private void loadComments() {
         contributionRepo.findAll().forEach(contribution -> {
-            Comment c = new Comment("dummy comment for contrib " + contribution.getId(),hanefi,contribution);
-            if (contribution.getId()%2 == 0)
+            Comment c = new Comment("dummy comment for contrib " + contribution.getId(), hanefi, contribution);
+            if (contribution.getId() % 2 == 0)
                 commentRepo.save(c);
-            if (contribution.getId()%4 == 0) {
-                c = new Comment("dummy second comment for contrib " + contribution.getId(),hanefi,contribution);
+            if (contribution.getId() % 4 == 0) {
+                c = new Comment("dummy second comment for contrib " + contribution.getId(), hanefi, contribution);
                 commentRepo.save(c);
             }
         });
