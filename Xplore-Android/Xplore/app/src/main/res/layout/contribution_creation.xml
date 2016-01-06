@@ -92,7 +92,7 @@
         android:id="@+id/conTagLabels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/conText"
+        android:layout_below="@+id/conTag"
         autolabel:max_labels="5"
         autolabel:text_color="#FFFFFF"
         autolabel:show_cross="true"

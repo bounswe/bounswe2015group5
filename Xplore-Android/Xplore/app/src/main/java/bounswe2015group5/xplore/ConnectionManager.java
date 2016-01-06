@@ -163,6 +163,18 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
+    public void createTag(String tagName, String tagConcept, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "tags";
+
+        Map<String, String> mParams = new HashMap<>();
+        mParams.put("concept", tagConcept);
+        mParams.put("name",tagName);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
     public void getAllContributions(Response.Listener<JSONArray> responseListener){
 
         String URL = BASE_URL + "AllContributions";
@@ -213,19 +225,18 @@ public class ConnectionManager {
      * Creates a contribution with given parameters.
      * @param title
      * @param content
-     * @param username
      * @param responseListener
      */
-    public void createContribution(String title, String content, String username, Response.Listener<JSONObject> responseListener){
+    public void createContribution(String title, String content, Response.Listener<JSONObject> responseListener){
 
         String URL = BASE_URL + "contributions";
 
         final Map<String, String> mParams = new HashMap<>();
         mParams.put("title", title);
         mParams.put("content", content);
-        mParams.put("username", username);
+        mParams.put("referenseList", "");
 
-        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
 
     }

@@ -45,6 +45,7 @@
 
         <activity
             android:name=".ContributionCreation"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>

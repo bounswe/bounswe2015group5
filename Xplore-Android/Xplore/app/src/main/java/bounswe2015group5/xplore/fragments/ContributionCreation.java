@@ -97,7 +97,7 @@ public class ContributionCreation extends BaseFragment{
                     }
                 };
 
-        Globals.connectionManager.createContribution(title, content, Globals.share.getString("username", ""), responseListener);
+//        Globals.connectionManager.createContribution(title, content, Globals.share.getString("username", ""), responseListener);
     }
 
     public void hideKeyboard(View view){

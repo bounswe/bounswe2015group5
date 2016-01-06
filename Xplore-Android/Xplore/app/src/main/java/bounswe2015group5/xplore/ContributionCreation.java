@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -13,12 +14,14 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.dpizarro.autolabel.library.AutoLabelUI;
-import com.dpizarro.autolabel.library.Label;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import bounswe2015group5.xplore.models.Contribution;
+import bounswe2015group5.xplore.models.Tag;
 /**
  * Created by hakansahin on 06/01/16.
  */
@@ -27,10 +30,13 @@ public class ContributionCreation extends Activity {
     private EditText titleEditText, contentEditText;
     private TextView tagEditText;
     private AutoLabelUI tagLabels;
+    private ArrayList<Tag> tagList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.tagList = new ArrayList<>();
 
         setContentView(R.layout.contribution_creation);
 
@@ -63,6 +69,20 @@ public class ContributionCreation extends Activity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.d("ContributionCreation","onNewIntent");
+        Bundle b = intent.getExtras();
+        if (b != null){
+            Tag tag = (Tag) b.getSerializable("tag");
+
+            if(tag != null && !tagList.contains(tag)){
+                tagList.add(tag);
+                tagLabels.addLabel(tag.getName());
+            }
+        }
+    }
+
     public void createContribution(){
 
         final String title = titleEditText.getText().toString();
@@ -73,10 +93,6 @@ public class ContributionCreation extends Activity {
             return;
         }
 
-        List<String> labelList = new ArrayList<>();
-        for(Label label : tagLabels.getLabels())
-            labelList.add(label.getText());
-
         Response.Listener<JSONObject> responseListener =
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -85,18 +101,33 @@ public class ContributionCreation extends Activity {
 
                             Toast.makeText(Globals.appContext, "Contribution is created.", Toast.LENGTH_SHORT).show();
 
+                            Contribution cont = new Contribution(response);
                             // Close the keyboard if it is open.
                             View view = getCurrentFocus();
                             if (view != null) hideKeyboard(view);
 
-//                            ((MainActivity) getActivity()).pressTab(R.id.homeTabBtn);
+                            for(Tag tag : tagList){
+
+                                Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+                                    @Override
+                                    public void onResponse(JSONArray response) {
+                                            // Tag Added.
+                                        Log.d("CreateContribution","tag added.");
+                                    }
+                                };
+
+                                Globals.connectionManager.addTagToContribution(cont.getId(), tag.getID(), responseListener);
+
+                            }
+
+                            finish();
 
                         } else //unsuccessful contribution creation attempt
                             Toast.makeText(Globals.appContext, "Contribution is not created. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 };
 
-        Globals.connectionManager.createContribution(title, content, Globals.share.getString("username", ""), responseListener);
+        Globals.connectionManager.createContribution(title, content, responseListener);
     }
 
     public void hideKeyboard(View view){

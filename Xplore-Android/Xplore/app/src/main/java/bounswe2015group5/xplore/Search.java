@@ -2,6 +2,7 @@ package bounswe2015group5.xplore;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,8 @@ public class Search extends Activity {
 
     private ArrayList<Tag> tags;
     private SearchResultAdapter adapter;
+    private EditText searchView;
+    public Tag selectedTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,9 @@ public class Search extends Activity {
 
         setContentView(R.layout.search);
 
-        EditText searchView = (EditText) findViewById(R.id.searchView);
+        selectedTag = null;
+
+        searchView = (EditText) findViewById(R.id.searchView);
         searchView.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -53,10 +59,50 @@ public class Search extends Activity {
 
         tags = new ArrayList<>();
         ListView results = (ListView) findViewById(R.id.resultList);
-        adapter = new SearchResultAdapter(Globals.appContext, tags);
+        adapter = new SearchResultAdapter(this, tags, searchView);
         results.setAdapter(adapter);
 
         getAllTags();
+
+        TextView contributeBtn = (TextView) findViewById(R.id.contributeBtn);
+        contributeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(selectedTag != null){
+                    Intent i = new Intent(Search.this, ContributionCreation.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("tag", selectedTag);
+                    i.putExtras(b);
+                    i.setFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    finish();
+                } else {
+
+                    Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            if(response.length() > 0){
+
+                                Tag tag = new Tag(response);
+
+                                Intent i = new Intent(Search.this, ContributionCreation.class);
+                                Bundle b = new Bundle();
+                                b.putSerializable("tag", tag);
+                                i.putExtras(b);
+                                i.setFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(i);
+                                finish();
+                            }
+                        }
+                    };
+
+                    Globals.connectionManager.createTag(searchView.getText().toString(), searchView.getText().toString(), responseListener);
+                }
+            }
+        });
+
     }
 
     public void getAllTags(){
@@ -79,14 +125,16 @@ public class Search extends Activity {
 }
 
 class SearchResultAdapter extends BaseAdapter implements Filterable{
-    private Context context;
+    private Search activity;
     private ArrayList<Tag> tags;
     private ArrayList<Tag> allTags;
+    private EditText searchView;
 
-    public SearchResultAdapter(Context context, ArrayList<Tag> tags){
+    public SearchResultAdapter(Search activity, ArrayList<Tag> tags, EditText searchView){
         this.tags = tags;
         this.allTags = tags;
-        this.context = context;
+        this.activity = activity;
+        this.searchView = searchView;
     }
 
     @Override
@@ -106,15 +154,28 @@ class SearchResultAdapter extends BaseAdapter implements Filterable{
     public View getView(final int i, View convertView, ViewGroup viewGroup) {
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this.context
+            LayoutInflater inflater = (LayoutInflater) Globals.appContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.comment, null);
         }
 
-        Tag tag = getItem(i);
+        final Tag tag = getItem(i);
 
-        TextView tv_content = (TextView) convertView.findViewById(R.id.comment_content);
-        tv_content.setText(tag.getName());
+        TextView tagNameView = (TextView) convertView.findViewById(R.id.comment_content);
+        tagNameView.setText(tag.getName());
+
+        TextView tagConceptView = (TextView) convertView.findViewById(R.id.comment_username);
+        tagConceptView.setText(tag.getConcept());
+
+        (convertView.findViewById(R.id.comment_date)).setVisibility(View.GONE);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.setText(tag.getName());
+                activity.selectedTag = tag;
+            }
+        });
 
         return convertView;
     }
