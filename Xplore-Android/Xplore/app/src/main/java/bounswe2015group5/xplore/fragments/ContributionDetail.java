@@ -37,7 +37,7 @@ public class ContributionDetail extends BaseFragment {
     private EditText et_enterComment;
     private TextView rateTxt;
     private ImageButton upVoteBtn, downVoteBtn;
-    private Button commentBtn;
+    private Button commentBtn,addTagBtn;
 
     private Contribution contribution;
     private LayoutInflater inflater;
@@ -63,6 +63,14 @@ public class ContributionDetail extends BaseFragment {
             @Override
             public void onClick(View view) {
                 postComment();
+            }
+        });
+
+        addTagBtn = (Button) parent.findViewById(R.id.detailAddTagBtn);
+        addTagBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
