@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +44,9 @@ public class TagDetail extends BaseFragment{
     private List<Tag> tagList;
     private Point[] animationPoints;
     private Animation pulse;
-    private int TAG_ID;
+    private int TAG_ID, connectionCount;
     private String TAG_NAME;
     private boolean isCreated, isConnectionsAdded;
-    private int connectionSize, connectionCount;
 
     public TagDetail(){
 
@@ -80,11 +78,6 @@ public class TagDetail extends BaseFragment{
 
         // Creates pulse animation in order to show the tag which is hot.
         pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int w=dm.widthPixels, h=dm.heightPixels;
-        connectionSize = (int) Math.sqrt(w*w+h*h) / 4 + 20;
 
         if(!isCreated){
             populateTags();
@@ -228,10 +221,13 @@ public class TagDetail extends BaseFragment{
         return position;
     }
 
-    public View createConnection(Point p1){
+    public View createConnection(Point p1, Point p2){
+
+        int xDiff = p1.x - p2.x, yDiff = p1.y - p2.y;
+        int size = (int) Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
 
         View connection = new View(getContext());
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(connectionSize, 10);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(size, 10);
         layoutParams.setMargins(p1.x, p1.y, 0, 0);
         connection.setLayoutParams(layoutParams);
         connection.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.tab_btn_text));
@@ -258,7 +254,7 @@ public class TagDetail extends BaseFragment{
             Point p1 = new Point((int) x1, (int) y1),
                     p2 = new Point((int) x2, (int) y2);
 
-            View connection = createConnection(p1);
+            View connection = createConnection(p1, p2);
             float degree = computeDegree(p1, p2);
 
             addConnection(connection, degree);
@@ -290,18 +286,8 @@ public class TagDetail extends BaseFragment{
 
     public float computeDegree(Point p1, Point p2){
 
-        int xDiff = p1.x - p2.x,
-                yDiff = p1.y - p2.y;
-
-        float degree = 57.0f;
-        if(xDiff > 0 && yDiff > 0) degree -= 175.0f;
-        else if(xDiff > 0 && yDiff < 0) degree = 180 - degree;
-        else if(xDiff < 0 && yDiff > 0) degree -= 108;
-        else if(xDiff == 0 && yDiff > 0) degree = -90.0f;
-        else if(xDiff == 0 && yDiff < 0) degree = 90.0f;
-        else if(yDiff == 0) degree = 0.0f;
-
-        connectionDegrees.add(degree);
-        return degree;
+        float angle = (float) Math.toDegrees(Math.atan2(p2.y - p1.y, p2.x - p1.x));
+        connectionDegrees.add(angle);
+        return angle;
     }
 }
