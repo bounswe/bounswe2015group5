@@ -69,7 +69,7 @@ public class TagController {
         Iterator<Tag> it = allTags.iterator();
         while(it.hasNext()){
             Tag tmp = it.next();
-            if(tmp.getName().equals(tag.getName())){
+            if(tmp.getName().equals(tag.getName()) && tmp.getConcept().equals(tag.getConcept())){
                 return null;
             }
         }
