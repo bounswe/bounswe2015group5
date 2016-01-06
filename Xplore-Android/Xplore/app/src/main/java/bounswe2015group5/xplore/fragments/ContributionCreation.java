@@ -40,26 +40,26 @@ public class ContributionCreation extends BaseFragment{
 
         titleEditText    = (EditText) parent.findViewById(R.id.conTitle);
         contentEditText  = (EditText) parent.findViewById(R.id.conText);
-        tagEditText      = (EditText) parent.findViewById(R.id.conTag);
+//        tagEditText      = (EditText) parent.findViewById(R.id.conTag);
         tagLabels        = (AutoLabelUI) parent.findViewById(R.id.conTagLabels);
 
-        createBtn = (Button) parent.findViewById(R.id.createBtn);
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createContribution();
-            }
-        });
-
-        addTagBtn = (Button) parent.findViewById(R.id.addTagBtn);
-        addTagBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tagLabels.addLabel(tagEditText.getText().toString());
-                tagEditText.setText("");
-                hideKeyboard(view);
-            }
-        });
+//        createBtn = (Button) parent.findViewById(R.id.createBtn);
+//        createBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                createContribution();
+//            }
+//        });
+//
+//        addTagBtn = (Button) parent.findViewById(R.id.addTagBtn);
+//        addTagBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                tagLabels.addLabel(tagEditText.getText().toString());
+//                tagEditText.setText("");
+//                hideKeyboard(view);
+//            }
+//        });
 
         return parent;
     }
