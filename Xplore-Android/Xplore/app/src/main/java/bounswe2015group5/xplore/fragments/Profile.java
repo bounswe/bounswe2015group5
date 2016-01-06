@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
 
@@ -28,6 +29,11 @@ public class Profile extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ScrollView parent = (ScrollView) inflater.inflate(R.layout.profile, null);
 
+        tvUsername = (TextView) parent.findViewById(R.id.profile_username);
+        tvEmail = (TextView) parent.findViewById(R.id.profile_email);
+
+        tvUsername.setText(Globals.share.getString("username","Guest user"));
+        tvEmail.setText(Globals.share.getString("email",""));
         return parent;
     }
 
