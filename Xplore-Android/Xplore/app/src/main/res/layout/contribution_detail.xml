@@ -6,6 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
                     android:id="@+id/conDetailrate"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textColor="#000000"
+                    android:textColor="@color/tab_btn_start"
                     android:layout_weight="2"/>
 
                 <ImageButton
@@ -57,14 +58,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/detailConTitle"
-                android:text="Contribution title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_toStartOf="@+id/contDeleteBtn"
                 android:layout_toEndOf="@+id/conDetailRateLayout"
-                android:textColor="#000000"/>
+                android:textColor="@color/tab_btn_text"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/contDeleteBtn"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/delete_btn"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#FFFFFF"
+                android:visibility="invisible"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"

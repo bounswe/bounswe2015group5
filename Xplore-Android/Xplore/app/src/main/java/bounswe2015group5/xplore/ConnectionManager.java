@@ -225,6 +225,19 @@ public class ConnectionManager {
 
     }
 
+    /**
+     * Deletes the given contribution from the system.
+     * @param contID
+     * @param responseListener
+     */
+    public void deleteContribution(int contID, Response.Listener<String> responseListener){
+
+        String URL = BASE_URL + "contributions/" + contID;
+
+//        StringRequest request = new StringRequest(Request.Method.DELETE, URL, responseListener, errorListener);
+//        requestQueue.add(request);
+    }
+
     public void rateContribution(int contID, int rate, Response.Listener<String> responseListener){
 
         String URL = BASE_URL + "RateContribution";

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -89,6 +90,31 @@ public class ContributionDetail extends BaseFragment {
                 upDownVote(rateTxt, contribution, -1);
             }
         });
+
+        if(contribution.getCreatorUsername().equals(Globals.share.getString("username",""))){
+
+            ImageView deleteBtn = (ImageView) parent.findViewById(R.id.contDeleteBtn);
+            deleteBtn.setVisibility(View.VISIBLE);
+
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Response.Listener<String> responseListener = new Response.Listener<String>(){
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("ContributionDetail",response);
+                            if(response.length() > 0)
+                                ((MainActivity) getActivity()).onBackPressed();
+                            else
+                                Toast.makeText(Globals.appContext, "Contribution is not deleted. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    };
+
+                    Globals.connectionManager.deleteContribution(contribution.getId(), responseListener);
+                }
+            });
+        }
 
         fetchTags();
         fetchComments();
