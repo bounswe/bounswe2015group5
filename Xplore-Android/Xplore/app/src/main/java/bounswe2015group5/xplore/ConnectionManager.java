@@ -269,37 +269,14 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void rateContribution(int contID, int rate, Response.Listener<String> responseListener){
+    public void rateContribution(int contID, int rate, Response.Listener<JSONObject> responseListener){
 
-        String URL = BASE_URL + "RateContribution";
+        String URL = BASE_URL + "contributions/" + contID + "/rates";
 
-        final JSONObject mParams = new JSONObject();
-        try {
-            mParams.put("ContributionID","" + contID);
-            mParams.put("Rate","" + rate);
-        } catch (JSONException e) {
-            // TODO handle exception.
-        }
+        final Map<String, String> mParams = new HashMap<>();
+        mParams.put("vote","" + rate);
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            private final String PROTOCOL_CHARSET = "utf-8";
-            private final String PROTOCOL_CONTENT_TYPE =
-                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return mParams.toString().getBytes(PROTOCOL_CHARSET);
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mParams, PROTOCOL_CHARSET);
-                    return null;
-                }
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return mParams.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
-            }
-        };
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
     }
 

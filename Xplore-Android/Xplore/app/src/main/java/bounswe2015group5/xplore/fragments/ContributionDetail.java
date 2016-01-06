@@ -285,17 +285,16 @@ public class ContributionDetail extends BaseFragment {
 
     public void upDownVote(final Contribution contribution, final int rate){
 
-        //if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
-        if(contribution.isRated() != 0) return;
+        if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
+//        if(contribution.isRated() != 0) return;
 
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
+        Response.Listener<JSONObject> responseListener =
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        if(response.contains("saved")){
+                    public void onResponse(JSONObject response) {
+
                             contribution.setRated(rate);
                             rateTxt.setText(String.valueOf(contribution.getRate()));
-                        }
                     }
                 };
 
