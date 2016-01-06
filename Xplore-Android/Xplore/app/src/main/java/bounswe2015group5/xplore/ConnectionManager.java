@@ -1,11 +1,7 @@
 package bounswe2015group5.xplore;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
@@ -62,101 +58,73 @@ public class ConnectionManager {
         this.requestQueue.start();
     }
 
-    public void registerUser(final Activity activity, final String email, String pass, final String name, final String surname){
+    /**
+     * Registers the user with given parameters to the system.
+     * @param email : email of the user.
+     * @param pass : password of the user.
+     * @param username : username of the user.
+     */
+    public void registerUser(final String email, String pass, final String username, Response.Listener<JSONObject> responseListener){
 
-        // TODO fix register functionality.
-        if(true) {
-            Toast.makeText(context, "Register is not functional, please try again later !", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String URL = BASE_URL + "RegisterUser";
+        String URL = BASE_URL + "user";
 
         final Map<String, String> mParams = new HashMap<>();
-        mParams.put("Email", email);
-        mParams.put("Pass", pass);
-        mParams.put("Name", name);
-        mParams.put("Surname", surname);
+        mParams.put("email", email);
+        mParams.put("password", pass);
+        mParams.put("username", username);
 
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("REGISTER_USER", response);
-                        if(response.toLowerCase().contains("succes")){ // Server replies with "Success"
-                            SharedPreferences.Editor editor = Globals.share.edit();
-                            editor.putBoolean("SignedIn", true);
-                            editor.putString("Email",email);
-                            editor.putString("Name",name);
-                            editor.putString("Surname",surname);
-                            editor.apply();
-
-                            Toast.makeText(context, "You have successfully registered", Toast.LENGTH_SHORT).show();
-                            activity.startActivity(new Intent(activity, MainActivity.class));
-                            activity.finishAffinity();
-                        } else //unsuccessful register attempt
-                            Toast.makeText(context, "Unsuccessful Register Attempt", Toast.LENGTH_SHORT).show();
-                    }
-                };
-
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return mParams;
-            }
-        };
+        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
     }
 
-    public void login(String email, String pass, Response.Listener<String> responseListener){
+    /**
+     * Logs in the user with given parameters to the system.
+     * @param email : email of the user.
+     * @param pass : password of the user.
+     * @param responseListener : Listener saying what will happen after user logs in.
+     */
+    public void login(final String email, final String pass, Response.Listener<JSONObject> responseListener){
 
-        String URL = BASE_URL + "Login";
+        String URL = BASE_URL + "user/login";
 
         final Map<String, String> mParams = new HashMap<>();
-        mParams.put("Email", email);
-        mParams.put("Password", pass);
+        mParams.put("username", email);
+        mParams.put("password", pass);
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return mParams;
-            }
-        };
+        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
     }
 
-    public void getUserInfo(final Activity activity){
+    // TODO ??
+    /**
+     * Logs out the user who logged in already.
+     * @param responseListener : Listener saying what will happen after user logs in.
+     */
+    public void logout(Response.Listener<String> responseListener){
 
-        String URL = BASE_URL + "UserInfo";
+        String URL = BASE_URL + "user/logout";
 
-        Response.Listener<JSONObject> responseListener =
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("GETUSERINFO",response.toString());
-                        if(!response.toString().isEmpty()){
-                            try {
-                                int ID = response.getInt("ID");
-                                String name = response.getString("Name");
-                                String surname = response.getString("Surname");
+        StringRequest request = new StringRequest(Request.Method.GET, URL, responseListener, errorListener){
+            private final String PROTOCOL_CHARSET = "utf-8";
+            private final String PROTOCOL_CONTENT_TYPE = String.format("application/json; charset=%s", PROTOCOL_CHARSET);
 
-                                SharedPreferences.Editor editor = Globals.share.edit();
-                                editor.putInt("ID",ID);
-                                editor.putString("Name",name);
-                                editor.putString("Surname", surname);
-                                editor.apply();
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return (new JSONObject()).toString().getBytes(PROTOCOL_CHARSET);
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", (new JSONObject()), PROTOCOL_CHARSET);
+                    return null;
+                }
+            }
 
-                                activity.startActivity(new Intent(activity, MainActivity.class));
-                                activity.finish();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else //unsuccessful attempt while receiving user info
-                            Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                };
+            @Override
+            public String getBodyContentType() {
+                return (new JSONObject()).toString() == null ? null : PROTOCOL_CONTENT_TYPE;
+            }
+        };
 
-        JsonRequest request = new JsonObjectRequest(Request.Method.POST, URL, null, responseListener, errorListener);
+//        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(), responseListener, errorListener);
         requestQueue.add(request);
     }
 
