@@ -20,12 +20,17 @@
                    id="tags"
                    ng-model="form.selectedTags"
                    ng-disabled="disabled"
-                   theme="bootstrap">
-            <ui-select-match placeholder="Select tags..">{{$item.name}}</ui-select-match>
-            <ui-select-choices repeat="tag.id as tag in tags | filter: {name: $select.search}"
-                               refresh="refreshTags()"
-                               refresh-delay="0">
+                   theme="bootstrap"
+                   tagging="newTag">
+            <ui-select-match placeholder="Select tags..">{{$item.name}} ({{$item.concept}})</ui-select-match>
+            <ui-select-choices
+                    repeat="{name: tag.name, concept: tag.concept} as tag in tags | filter: {name: $select.search}"
+                    refresh="refreshTags()"
+                    refresh-delay="0">
                 <div ng-bind-html="tag.name | highlight: $select.search"></div>
+                <small>
+                    {{tag.concept}}
+                </small>
             </ui-select-choices>
         </ui-select>
         <p>Selected: {{form.selectedTags}}</p>

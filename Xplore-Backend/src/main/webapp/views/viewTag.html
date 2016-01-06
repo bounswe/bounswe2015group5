@@ -2,7 +2,7 @@
     <h3 class="panel-title">Contributions</h3>
 </div>
 <div class="panel-body" ng-controller="ViewTagCtrl">
-    <form ng-submit="$state.go('contribute')">
+    <form ng-show="$root.username" ng-submit="$state.go('contribute')">
         <fieldset align="center" class="form-group">
             <input type="submit" class="btn btn-primary col-lg-pull-3" value="Add Contribution"/>
         </fieldset>
