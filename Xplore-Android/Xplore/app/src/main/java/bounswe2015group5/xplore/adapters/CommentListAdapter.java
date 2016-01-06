@@ -51,11 +51,11 @@ public class CommentListAdapter extends BaseAdapter {
         TextView tv_content = (TextView) convertView.findViewById(R.id.comment_content);
         tv_content.setText(comment.getContent());
 
-        TextView tv_nameSurname = (TextView) convertView.findViewById(R.id.comment_name_surname);
-        tv_nameSurname.setText(comment.getName()+" "+comment.getSurname());
+        TextView tv_nameSurname = (TextView) convertView.findViewById(R.id.comment_username);
+        tv_nameSurname.setText(comment.getUsername());
 
         TextView tv_date = (TextView) convertView.findViewById(R.id.comment_date);
-        tv_date.setText(comment.getDate());
+        tv_date.setText(comment.getCreatedAt());
 
         return convertView;
     }

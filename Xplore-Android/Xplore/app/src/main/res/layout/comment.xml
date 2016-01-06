@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/comment_name_surname"
+        android:id="@+id/comment_username"
         android:layout_below="@+id/comment_content"
         android:textColor="#000000"
         android:textAppearance="?android:attr/textAppearanceSmall"

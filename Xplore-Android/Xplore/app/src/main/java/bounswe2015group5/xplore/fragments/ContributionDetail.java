@@ -91,7 +91,7 @@ public class ContributionDetail extends BaseFragment {
         });
 
         fetchTags();
-//        fetchComments();
+        fetchComments();
         return parent;
     }
 
@@ -139,15 +139,15 @@ public class ContributionDetail extends BaseFragment {
 
     public void fetchComments(){
 
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
+        Response.Listener<JSONArray> responseListener =
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String response) {
-                        if(!response.isEmpty()){
+                    public void onResponse(JSONArray response) {
+                        Log.d("FEtCHCOMMENTS",response.toString());
+                        if(response.length() > 0){
                             try {
-                                JSONArray jArray = new JSONArray(response);
-                                for(int i = 0; i < jArray.length(); i++){
-                                    Comment comment = new Comment(jArray.getJSONObject(i));
+                                for(int i = 0; i < response.length(); i++){
+                                    Comment comment = new Comment(response.getJSONObject(i));
                                     addComment(comment);
                                 }
                             } catch (JSONException e) {
@@ -161,7 +161,7 @@ public class ContributionDetail extends BaseFragment {
                 };
 
         // TODO construct an error listener.
-        Globals.connectionManager.commentsByContributionID(contribution.getId(), responseListener);
+        Globals.connectionManager.getCommentsByContributionId(contribution.getId(), responseListener);
     }
 
     public void addComment(Comment comment){
@@ -171,11 +171,11 @@ public class ContributionDetail extends BaseFragment {
         TextView tv_content = (TextView) commentView.findViewById(R.id.comment_content);
         tv_content.setText(comment.getContent());
 
-        TextView tv_nameSurname = (TextView) commentView.findViewById(R.id.comment_name_surname);
-        tv_nameSurname.setText(comment.getName()+" "+comment.getSurname());
+        TextView tv_nameSurname = (TextView) commentView.findViewById(R.id.comment_username);
+        tv_nameSurname.setText(comment.getUsername());
 
         TextView tv_date = (TextView) commentView.findViewById(R.id.comment_date);
-        tv_date.setText(comment.getDate());
+        tv_date.setText(comment.getCreatedAt());
 
         commentView.setPadding(10,5,10,5);
         commentsList.addView(commentView);
@@ -197,8 +197,7 @@ public class ContributionDetail extends BaseFragment {
 
                             Comment comm = new Comment();
                             comm.setContent(content);
-                            comm.setName(Globals.share.getString("Name", ""));
-                            comm.setSurname(Globals.share.getString("Surname",""));
+                            comm.setUsername(Globals.share.getString("username", ""));
                             addComment(comm);
                         } else
                             Toast.makeText(getActivity(), "Please try again later.", Toast.LENGTH_SHORT).show();

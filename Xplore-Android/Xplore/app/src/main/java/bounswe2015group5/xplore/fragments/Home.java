@@ -165,32 +165,32 @@ public class Home extends BaseFragment{
     }
 
     public void fetchComments(final Contribution contribution){
-        commentList = new ArrayList<>();
-
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(!response.isEmpty()){
-                            try {
-                                JSONArray jArray = new JSONArray(response);
-                                for(int i = 0; i < jArray.length(); i++)
-                                    commentList.add(new Comment(jArray.getJSONObject(i)));
-
-                                ((MainActivity) getActivity()).launchFragment(newDetailFragment(contribution, commentList), "ContributionDetail", true);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else{
-                            System.err.println("response is empty");
-                        }
-//                        hideProgressDialog();
-                    }
-                };
-
-        // TODO construct an error listener. (hideProgressDialog)
-        Globals.connectionManager.commentsByContributionID(contribution.getId(), responseListener);
+//        commentList = new ArrayList<>();
+//
+//        Response.Listener<String> responseListener =
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        if(!response.isEmpty()){
+//                            try {
+//                                JSONArray jArray = new JSONArray(response);
+//                                for(int i = 0; i < jArray.length(); i++)
+//                                    commentList.add(new Comment(jArray.getJSONObject(i)));
+//
+//                                ((MainActivity) getActivity()).launchFragment(newDetailFragment(contribution, commentList), "ContributionDetail", true);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        else{
+//                            System.err.println("response is empty");
+//                        }
+////                        hideProgressDialog();
+//                    }
+//                };
+//
+//        // TODO construct an error listener. (hideProgressDialog)
+//        Globals.connectionManager.commentsByContributionID(contribution.getId(), responseListener);
     }
 
 }

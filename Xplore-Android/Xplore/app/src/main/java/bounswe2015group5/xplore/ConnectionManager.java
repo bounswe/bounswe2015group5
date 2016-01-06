@@ -191,19 +191,11 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void commentsByContributionID(int contID, Response.Listener<String> responseListener){
+    public void getCommentsByContributionId(int contID, Response.Listener<JSONArray> responseListener){
 
-        String URL = BASE_URL + "CommentsByContributionID";
+        String URL = BASE_URL + "contributions/" + contID + "/comments";
 
-        final Map<String, String> mParams = new HashMap<>();
-        mParams.put("ContributionID", String.valueOf(contID));
-
-        StringRequest request = new StringRequest(Request.Method.POST, URL, responseListener, errorListener){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return mParams;
-            }
-        };
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
     }
 
