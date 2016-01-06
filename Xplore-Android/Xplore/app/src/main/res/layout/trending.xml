@@ -27,8 +27,8 @@
             android:textColor="@color/tab_btn_text"
             android:textSize="12sp"
             android:visibility="invisible"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="25dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/big_button_shape"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"/>
@@ -62,7 +62,7 @@
             android:visibility="invisible"
             android:background="@drawable/big_button_shape"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_toEndOf="@+id/tagBtnUL"/>
 
         <Button
             android:layout_width="100dp"
@@ -72,10 +72,9 @@
             android:textSize="12sp"
             android:visibility="invisible"
             android:layout_marginBottom="25dp"
-            android:layout_marginStart="25dp"
             android:background="@drawable/big_button_shape"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_toEndOf="@+id/tagBtnUL"/>
 
         <Button
             android:layout_width="100dp"
@@ -84,23 +83,11 @@
             android:textColor="@color/tab_btn_text"
             android:textSize="12sp"
             android:visibility="invisible"
-            android:layout_marginBottom="25dp"
             android:layout_marginEnd="25dp"
             android:background="@drawable/big_button_shape"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
-
-    <!--<TextView-->
-        <!--android:id="@+id/contributionText"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:text="Contributions"-->
-        <!--android:textSize="15dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:gravity="center"-->
-        <!--android:textColor="#B16F00"-->
-        <!--android:background="#073575"/>-->
 
 </RelativeLayout>

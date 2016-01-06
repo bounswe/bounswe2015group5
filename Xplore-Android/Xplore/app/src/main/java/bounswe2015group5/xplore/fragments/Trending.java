@@ -59,7 +59,7 @@ public class Trending extends BaseFragment {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int w=dm.widthPixels, h=dm.heightPixels;
-        connectionSize = (int) Math.sqrt(w*w+h*h) / 3;
+        connectionSize = (int) Math.sqrt(w*w+h*h) / 4 + 20;
 
         populateTags();
 
@@ -162,9 +162,9 @@ public class Trending extends BaseFragment {
         connection.setBackgroundColor(ContextCompat.getColor(Globals.appContext, R.color.tab_btn_text));
 
         float degree = 57.0f;
-        if(xDiff > 0 && yDiff > 0) degree -= 180.0f;
+        if(xDiff > 0 && yDiff > 0) degree -= 175.0f;
         else if(xDiff > 0 && yDiff < 0) degree = 180 - degree;
-        else if(xDiff < 0 && yDiff > 0) degree *= -1;
+        else if(xDiff < 0 && yDiff > 0) degree -= 108;
         else if(xDiff == 0 && yDiff > 0) degree = -90.0f;
         else if(xDiff == 0 && yDiff < 0) degree = 90.0f;
         else if(yDiff == 0) degree = 0.0f;

@@ -35,8 +35,8 @@ import bounswe2015group5.xplore.models.Tag;
 public class TagDetail extends BaseFragment{
 
     private final int TAG_COUNT = 5;
-    private final int[] TAG_BUTTON_IDS = {R.id.tagBtnCenter, R.id.tagBtnUL, R.id.tagBtnDR, R.id.tagBtnUR, R.id.tagBtnDL};
-    private final int[] TAG_BUTTON_PREV_IDS = {R.id.tagBtnCenter, R.id.tagBtnULPREV, R.id.tagBtnDRPREV, R.id.tagBtnURPREV, R.id.tagBtnDLPREV};
+    private final int[] TAG_BUTTON_IDS = {R.id.tagBtnCenter, R.id.tagBtnUL, R.id.tagBtnDR, R.id.tagBtnDL, R.id.tagBtnUR};
+    private final int[] TAG_BUTTON_PREV_IDS = {R.id.tagBtnCenter, R.id.tagBtnULPREV, R.id.tagBtnDRPREV, R.id.tagBtnDLPREV, R.id.tagBtnURPREV};
 
     private RelativeLayout parent;
     private Button[] tagButtonList, tagButtonPrevList;
@@ -82,7 +82,7 @@ public class TagDetail extends BaseFragment{
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int w=dm.widthPixels, h=dm.heightPixels;
-        connectionSize = (int) Math.sqrt(w*w+h*h) / 3;
+        connectionSize = (int) Math.sqrt(w*w+h*h) / 4 + 20;
 
         if(!isCreated){
             populateTags();
@@ -288,9 +288,9 @@ public class TagDetail extends BaseFragment{
                 yDiff = p1.y - p2.y;
 
         float degree = 57.0f;
-        if(xDiff > 0 && yDiff > 0) degree -= 180.0f;
+        if(xDiff > 0 && yDiff > 0) degree -= 175.0f;
         else if(xDiff > 0 && yDiff < 0) degree = 180 - degree;
-        else if(xDiff < 0 && yDiff > 0) degree *= -1;
+        else if(xDiff < 0 && yDiff > 0) degree -= 108;
         else if(xDiff == 0 && yDiff > 0) degree = -90.0f;
         else if(xDiff == 0 && yDiff < 0) degree = 90.0f;
         else if(yDiff == 0) degree = 0.0f;
