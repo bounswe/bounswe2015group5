@@ -25,7 +25,13 @@ angular.module('XploreAppDep').controller('ContributeCtrl', function ($scope, $r
     };
 
     $scope.newTag = function (tagString) {
-        return {id: -1, name: tagString, concept: tagString};
+        var openPar = tagString.indexOf("(");
+        var closPar = tagString.indexOf(")");
+        if (openPar == -1 || closPar == -1 || closPar <= openPar) {
+            return {name: tagString, concept: tagString};
+        } else {
+            return {name: tagString.substring(0, openPar), concept: tagString.substring(openPar + 1, closPar)};
+        }
     };
 
     $scope.form = {};
