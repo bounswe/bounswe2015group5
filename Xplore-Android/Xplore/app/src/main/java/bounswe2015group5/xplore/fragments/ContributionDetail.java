@@ -183,7 +183,7 @@ public class ContributionDetail extends BaseFragment {
 
     public void postComment(){
 
-        showProgressDialog();
+//        showProgressDialog();
 
         final String content = et_enterComment.getText().toString();
         if(content.equals("")) return;
@@ -204,7 +204,7 @@ public class ContributionDetail extends BaseFragment {
                             Toast.makeText(getActivity(), "Please try again later.", Toast.LENGTH_SHORT).show();
 
                         et_enterComment.setText("");
-                        hideProgressDialog();
+//                        hideProgressDialog();
                     }
                 };
 

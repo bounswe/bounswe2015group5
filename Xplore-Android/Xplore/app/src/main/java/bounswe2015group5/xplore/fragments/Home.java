@@ -75,7 +75,7 @@ public class Home extends BaseFragment{
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                showProgressDialog();
+//                showProgressDialog();
                 prepareGroupItems(tagGroups.get(groupPosition).getID());
             }
         });
@@ -84,13 +84,19 @@ public class Home extends BaseFragment{
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
                 Contribution selected = listAdapter.getChild(groupPosition,childPosition);
-                showProgressDialog();
+//                showProgressDialog();
                 fetchComments(selected);
                 return true;
             }
         });
 
         return parent;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setTitle("Home");
     }
 
     public static ContributionDetail newDetailFragment(Contribution c, ArrayList<Comment> comments){
@@ -121,7 +127,7 @@ public class Home extends BaseFragment{
                                 e.printStackTrace();
                             }
                         } // TODO if response is empty, show a warning.
-                        hideProgressDialog();
+//                        hideProgressDialog();
                     }
                 };
 
@@ -150,7 +156,7 @@ public class Home extends BaseFragment{
                                 e.printStackTrace();
                             }
                         } // TODO if response is empty, show a warning.
-                        hideProgressDialog();
+//                        hideProgressDialog();
                     }
                 };
 
@@ -179,7 +185,7 @@ public class Home extends BaseFragment{
                         else{
                             System.err.println("response is empty");
                         }
-                        hideProgressDialog();
+//                        hideProgressDialog();
                     }
                 };
 

@@ -66,6 +66,12 @@ public class Trending extends BaseFragment {
         return parent;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setTitle("Trending");
+    }
+
     /**
      * Gets Trending Tags and creates related tag buttons.
      */

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
 
 /**
@@ -21,11 +22,18 @@ public class Profile extends BaseFragment {
     private TextView tvEmail;
     private TextView tvTags;
 
+    public Profile(){}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ScrollView parent = (ScrollView) inflater.inflate(R.layout.profile, null);
 
-
         return parent;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setTitle("Profile");
     }
 }
