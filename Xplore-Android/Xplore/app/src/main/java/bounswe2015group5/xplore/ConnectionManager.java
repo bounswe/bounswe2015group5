@@ -235,12 +235,30 @@ public class ConnectionManager {
      * @param contID
      * @param responseListener
      */
-    public void deleteContribution(int contID, Response.Listener<JSONObject> responseListener){
+    public void deleteContribution(int contID, Response.Listener<String> responseListener){
 
         String URL = BASE_URL + "contributions/" + contID;
 
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, responseListener, errorListener);
-//        requestQueue.add(request);
+        StringRequest request = new StringRequest(Request.Method.DELETE, URL, responseListener, errorListener){
+            private final String PROTOCOL_CHARSET = "utf-8";
+            private final String PROTOCOL_CONTENT_TYPE =
+                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return (new JSONObject()).toString().getBytes(PROTOCOL_CHARSET);
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", (new JSONObject()), PROTOCOL_CHARSET);
+                    return null;
+                }
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return (new JSONObject()).toString() == null ? null : PROTOCOL_CONTENT_TYPE;
+            }
+        };
+        requestQueue.add(request);
     }
 
     public void rateContribution(int contID, int rate, Response.Listener<String> responseListener){
@@ -301,12 +319,30 @@ public class ConnectionManager {
      * @param commID
      * @param responseListener
      */
-    public void deleteComment(int commID, Response.Listener<JSONObject> responseListener){
+    public void deleteComment(int commID, Response.Listener<String> responseListener){
 
-        String URL = BASE_URL + "";
+        String URL = BASE_URL + "comments/" + commID;
 
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, new JSONObject(), responseListener, errorListener);
-//        requestQueue.add(request);
+        StringRequest request = new StringRequest(Request.Method.DELETE, URL, responseListener, errorListener){
+            private final String PROTOCOL_CHARSET = "utf-8";
+            private final String PROTOCOL_CONTENT_TYPE =
+                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return (new JSONObject()).toString().getBytes(PROTOCOL_CHARSET);
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", (new JSONObject()), PROTOCOL_CHARSET);
+                    return null;
+                }
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return (new JSONObject()).toString() == null ? null : PROTOCOL_CONTENT_TYPE;
+            }
+        };
+        requestQueue.add(request);
     }
 
     /**
