@@ -47,25 +47,6 @@ public class Home extends BaseFragment{
         RelativeLayout parent = (RelativeLayout) inflater.inflate(R.layout.home, null);
         expListView = (ExpandableListView) parent.findViewById(R.id.home_extend_cont_list);
 
-        FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
-        if(Globals.share.getBoolean("SignedIn",false)) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "ConributionCreation", true);
-                }
-            });
-        } else {
-            fab.setImageResource(R.drawable.signup_fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(getActivity(), Signup.class));
-                    getActivity().finishAffinity();
-                }
-            });
-        }
-
         // preparing list data
         prepareListData();
 
