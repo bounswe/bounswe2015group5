@@ -122,14 +122,16 @@ public class ContributionController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void delete(@ApiPathParam(name = "id") @PathVariable int id) {
+        relationService.deleteRelations(relationService.getRelationsByContributionId(id));
+        commentRepo.delete(commentRepo.findByContributionId(id));
         contributionService.deleteContribution(id);
     }
 
     @ApiMethod(description = "returns all relations of given contribution id")
     @RequestMapping(value = "/{id}/relations", method = RequestMethod.GET)
     public @ApiResponseObject
-    Iterable<Relation> findRelationsByTagID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
-        return relationService.getRelationsByTagId(id);
+    Iterable<Relation> findRelationsByContributionID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
+        return relationService.getRelationsByContributionId(id);
     }
 
     @ApiMethod(description = "returns all tags related to given contribution id")

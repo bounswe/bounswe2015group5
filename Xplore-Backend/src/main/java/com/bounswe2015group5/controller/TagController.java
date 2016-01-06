@@ -61,6 +61,7 @@ public class TagController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void delete(@ApiPathParam(name = "id") @PathVariable int id) {
+        relationService.deleteRelations(relationService.getRelationsByTagId(id));
         tagService.deleteTag(id);
     }
 
