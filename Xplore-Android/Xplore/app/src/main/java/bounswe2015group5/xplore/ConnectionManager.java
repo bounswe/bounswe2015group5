@@ -230,11 +230,11 @@ public class ConnectionManager {
      * @param contID
      * @param responseListener
      */
-    public void deleteContribution(int contID, Response.Listener<String> responseListener){
+    public void deleteContribution(int contID, Response.Listener<JSONObject> responseListener){
 
         String URL = BASE_URL + "contributions/" + contID;
 
-//        StringRequest request = new StringRequest(Request.Method.DELETE, URL, responseListener, errorListener);
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, responseListener, errorListener);
 //        requestQueue.add(request);
     }
 
@@ -307,5 +307,18 @@ public class ConnectionManager {
             }
         };
         requestQueue.add(request);
+    }
+
+    /**
+     * Deletes the given comment.
+     * @param commID
+     * @param responseListener
+     */
+    public void deleteComment(int commID, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "";
+
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, new JSONObject(), responseListener, errorListener);
+//        requestQueue.add(request);
     }
 }
