@@ -149,11 +149,11 @@ public class Trending extends BaseFragment {
         int xDiff = p1.x - p2.x,
                 yDiff = p1.y - p2.y;
 
-        View connection = new View(getContext());
+        View connection = new View(Globals.appContext);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(connectionSize, 10);
         layoutParams.setMargins(p1.x, p1.y, 0, 0);
         connection.setLayoutParams(layoutParams);
-        connection.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.tab_btn_text));
+        connection.setBackgroundColor(ContextCompat.getColor(Globals.appContext, R.color.tab_btn_text));
 
         float degree = 57.0f;
         if(xDiff > 0 && yDiff > 0) degree -= 180.0f;

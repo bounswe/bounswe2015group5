@@ -56,8 +56,4 @@ public class Splash extends Activity{
         }
 
     }
-
-    public void getUserInfo(){
-        Globals.connectionManager.getUserInfo(Splash.this);
-    }
 }
