@@ -319,6 +319,20 @@ public class ConnectionManager {
         JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
     }
+
+    /**
+     * Gets all contributions of the given user
+     * @param
+     */
+    public void getContributionsByUsername(String username, Response.Listener<JSONArray> responseListener){
+
+        String URL = BASE_URL + "user/" + username + "/contributions";
+
+
+        Log.d("fetchContributions",URL);
+        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
+        requestQueue.add(request);
+    }
 }
 
 class customJsonArrayRequest extends JsonRequest<JSONArray> {
