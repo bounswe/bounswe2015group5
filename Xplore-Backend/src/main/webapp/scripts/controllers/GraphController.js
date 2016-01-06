@@ -6,7 +6,11 @@ angular.module('XploreAppDep').controller('GraphCtrl', function ($scope, $http, 
             N = data.length;
 
         s = new sigma({
-            container: 'graph-container'
+            container: 'graph-container',
+            settings: {
+                maxEdgeSize: 5,
+                maxNodeSize: 12
+            }
         });
 
         sigma.layouts.fruchtermanReingold.configure(s, {});
@@ -22,11 +26,11 @@ angular.module('XploreAppDep').controller('GraphCtrl', function ($scope, $http, 
         });
 
 
-        var addEdges = function(tag) {
-            $http.get('tags/' + tag.id + '/tags').success(function(neighbors){
-                for(neighbor in neighbors) {
+        var addEdges = function (tag) {
+            $http.get('tags/' + tag.id + '/tags').success(function (neighbors) {
+                for (neighbor in neighbors) {
                     if (neighbor == tag.id) {
-                        s.graph.nodes(tag.id).size = neighbors[neighbor];
+                        s.graph.nodes(tag.id).size = neighbors[neighbor] + 1;
                     } else {
                         s.graph.addEdge({
                             id: 'e' + tag.id + 'to' + neighbor,
