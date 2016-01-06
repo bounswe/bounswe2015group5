@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Contribution implements Serializable {
 
-    private int ID, type, clientRate = 0, rate;
+    public int ID, clientRate = 0, rate;
     private String title, content, creatorUsername, creatorEmail, createdAt, updatedAt;
     private ArrayList<Tag> tags;
 

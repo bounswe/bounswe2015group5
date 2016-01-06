@@ -261,6 +261,14 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
+    public void getRateByContributionId(int contId, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "contributions/" + contId + "/rates";
+
+        JsonObjectRequest request = new JsonObjectRequest(URL,null,responseListener, errorListener);
+        requestQueue.add(request);
+    }
+
     public void rateContribution(int contID, int rate, Response.Listener<String> responseListener){
 
         String URL = BASE_URL + "RateContribution";

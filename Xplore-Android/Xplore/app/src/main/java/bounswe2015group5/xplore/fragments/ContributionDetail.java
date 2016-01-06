@@ -19,6 +19,7 @@ import com.android.volley.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
@@ -34,6 +35,8 @@ import bounswe2015group5.xplore.models.Tag;
 public class ContributionDetail extends BaseFragment {
     private LinearLayout commentsList, tagLayout;
     private EditText et_enterComment;
+    private TextView rateTxt;
+    private ImageButton upVoteBtn, downVoteBtn;
     private Button commentBtn;
 
     private Contribution contribution;
@@ -63,7 +66,7 @@ public class ContributionDetail extends BaseFragment {
             }
         });
 
-        final TextView rateTxt = (TextView) parent.findViewById(R.id.conDetailrate);
+        rateTxt = (TextView) parent.findViewById(R.id.conDetailrate);
 
         tagLayout = (LinearLayout) parent.findViewById(R.id.detailConTagLayout);
 
@@ -73,23 +76,9 @@ public class ContributionDetail extends BaseFragment {
         tv_content.setText(contribution.getContent());
         tv_nameSurname.setText(contribution.getCreatorUsername());
         tv_date.setText(contribution.getDate());
-        rateTxt.setText(String.valueOf(contribution.getRate()));
 
-        ImageButton upVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_up_vote_btn);
-        upVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                upDownVote(rateTxt, contribution, 1);
-            }
-        });
-
-        ImageButton downVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_down_vote_btn);
-        downVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                upDownVote(rateTxt, contribution, -1);
-            }
-        });
+        upVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_up_vote_btn);
+        downVoteBtn = (ImageButton) parent.findViewById(R.id.conDetail_down_vote_btn);
 
         if(contribution.getCreatorUsername().equals(Globals.share.getString("username",""))){
 
@@ -113,6 +102,8 @@ public class ContributionDetail extends BaseFragment {
             });
         }
 
+        // TODO
+        //fetchRateOfContribution();
         fetchTags();
         fetchComments();
         return parent;
@@ -134,6 +125,39 @@ public class ContributionDetail extends BaseFragment {
 
         // TODO construct an error listener.
         Globals.connectionManager.getTagsByContributionId(contribution.getId(), responseListener);
+    }
+
+    private void fetchRateOfContribution(){
+
+        Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if(response.length() > 0){
+
+                    contribution.rate = response.optInt("up",0) - response.optInt("down",0);
+                    contribution.clientRate = response.optInt("currentUser",0);
+
+                    rateTxt.setText(String.valueOf(contribution.getRate()));
+
+                    upVoteBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            upDownVote(contribution, 1);
+                        }
+                    });
+
+                    downVoteBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            upDownVote(contribution, -1);
+                        }
+                    });
+
+                }
+            }
+        };
+
+        Globals.connectionManager.getRateByContributionId(contribution.getId(), responseListener);
     }
 
     public void addTag(final Tag tag){
@@ -259,7 +283,7 @@ public class ContributionDetail extends BaseFragment {
         Globals.connectionManager.postComment(contribution.getId(), content, username, responseListener);
     }
 
-    public void upDownVote(final TextView rateTxt, final Contribution contribution, final int rate){
+    public void upDownVote(final Contribution contribution, final int rate){
 
         //if(contribution.isRated() == rate) return;    // TODO change the rate functionality. A user, has rated a cont. before, may change its rate.
         if(contribution.isRated() != 0) return;
@@ -270,7 +294,7 @@ public class ContributionDetail extends BaseFragment {
                     public void onResponse(String response) {
                         if(response.contains("saved")){
                             contribution.setRated(rate);
-                            rateTxt.setText("" + contribution.getRate());
+                            rateTxt.setText(String.valueOf(contribution.getRate()));
                         }
                     }
                 };
