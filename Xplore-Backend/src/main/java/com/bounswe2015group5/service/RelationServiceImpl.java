@@ -66,4 +66,17 @@ public class RelationServiceImpl implements  RelationService {
     public Relation saveRelation(Relation relation) {
         return relationRepo.save(relation);
     }
+
+    @Override
+    public void deleteRelation(Relation relation) {
+        relationRepo.delete(relation);
+    }
+
+    @Override
+    public void deleteRelations(Iterable<Relation> relations) {
+        relations.forEach(relation -> {
+            relationRepo.delete(relation);
+            System.out.println("attempted to delete " + relation);
+        });
+    }
 }
