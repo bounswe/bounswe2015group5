@@ -13,6 +13,7 @@ angular.module('XploreAppDep').controller('ContributeCtrl', function ($scope, $r
                 var requestAddress = "contributions/" + contribution.id + "/addTag/" + tagObj;
                 $http.get(requestAddress);
             });
+            $state.go('viewContribution', {contributionId: contribution.id});
         });
     };
 
