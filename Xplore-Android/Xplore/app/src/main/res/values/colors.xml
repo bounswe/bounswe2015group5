@@ -6,8 +6,7 @@
     <color name="tab_btn_end">#418BA4</color>
     <color name="tab_btn_text">#C36F17</color>
 
-    <color name="black_semi_transparent">#B2000000</color>
-    <color name="background">#e5e5e5</color>
+    <color name="backgraound_gray">#8EA4AC</color>
     <color name="half_black">#808080</color>
     <color name="white">#fafafa</color>
     <color name="white_pressed">#f1f1f1</color>

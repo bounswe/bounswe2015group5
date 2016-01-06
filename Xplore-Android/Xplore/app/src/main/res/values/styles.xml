@@ -6,7 +6,7 @@
     </style>
 
     <style name="menu_labels_style">
-        <item name="android:background">@color/black_semi_transparent</item>
+        <item name="android:background">@color/backgraound_gray</item>
         <item name="android:textColor">@color/tab_btn_text</item>
     </style>
 

@@ -1,10 +1,10 @@
 angular.module('XploreAppDep').controller('AdvancedSearchCtrl', function ($scope, $http, $state, $httpParamSerializerJQLike) {
     $scope.searchData = {};
     $scope.searchData.tags = [];
-    $scope.refreshTags = function() {
+    $scope.refreshTags = function () {
         return $http.get(
             'tags'
-        ).then(function(response) {
+        ).then(function (response) {
             $scope.tags = response.data;
         });
     };

@@ -6,6 +6,8 @@ import android.util.Log;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Network;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -13,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -199,6 +202,8 @@ public class ConnectionManager {
 
         String URL = BASE_URL + "contributions/" + contID + "/comments";
 
+
+        Log.d("fetchComments",URL);
         JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener);
         requestQueue.add(request);
     }
@@ -230,11 +235,11 @@ public class ConnectionManager {
      * @param contID
      * @param responseListener
      */
-    public void deleteContribution(int contID, Response.Listener<String> responseListener){
+    public void deleteContribution(int contID, Response.Listener<JSONObject> responseListener){
 
         String URL = BASE_URL + "contributions/" + contID;
 
-//        StringRequest request = new StringRequest(Request.Method.DELETE, URL, responseListener, errorListener);
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, responseListener, errorListener);
 //        requestQueue.add(request);
     }
 
@@ -287,25 +292,47 @@ public class ConnectionManager {
         mParams.put("commentBody", ""+ content);
         mParams.put("username", username);
 
-        JsonArrayRequest request = new JsonArrayRequest(URL, responseListener, errorListener){
-            private final String PROTOCOL_CHARSET = "utf-8";
-            private final String PROTOCOL_CONTENT_TYPE =
-                    String.format("application/json; charset=%s", PROTOCOL_CHARSET);
-            @Override
-            public byte[] getBody() {
-                try {
-                    return mParams.toString().getBytes(PROTOCOL_CHARSET);
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mParams, PROTOCOL_CHARSET);
-                    return null;
-                }
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return mParams.toString() == null ? null : PROTOCOL_CONTENT_TYPE;
-            }
-        };
+        customJsonArrayRequest request = new customJsonArrayRequest(URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
+    }
+
+    /**
+     * Deletes the given comment.
+     * @param commID
+     * @param responseListener
+     */
+    public void deleteComment(int commID, Response.Listener<JSONObject> responseListener){
+
+        String URL = BASE_URL + "";
+
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, new JSONObject(), responseListener, errorListener);
+//        requestQueue.add(request);
+    }
+}
+
+class customJsonArrayRequest extends JsonRequest<JSONArray> {
+
+    /**
+     * Creates a new request.
+     * @param url URL to fetch the JSON from
+     * @param listener Listener to receive the JSON response
+     * @param errorListener Error listener, or null to ignore errors.
+     */
+    public customJsonArrayRequest(String url, JSONObject mParams, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+        super(Method.POST, url, mParams.toString(), listener, errorListener);
+    }
+
+    @Override
+    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+        try {
+            String jsonString =
+                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            return Response.success(new JSONArray(jsonString),
+                    HttpHeaderParser.parseCacheHeaders(response, ignoreNoCache()));
+        } catch (UnsupportedEncodingException e) {
+            return Response.error(new ParseError(e));
+        } catch (JSONException je) {
+            return Response.error(new ParseError(je));
+        }
     }
 }
