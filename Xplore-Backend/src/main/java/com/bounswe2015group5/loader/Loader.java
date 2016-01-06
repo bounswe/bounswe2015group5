@@ -4,6 +4,7 @@ import com.bounswe2015group5.model.*;
 import com.bounswe2015group5.repository.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     private UserRepo userRepo;
     @Autowired
     private CommentRepo commentRepo;
+    @Autowired
+    private RateRepo rateRepo;
 
     private Logger log = Logger.getLogger(Loader.class);
 
@@ -37,6 +40,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         loadContributions();
         loadRelations();
         loadComments();
+        loadRates();
     }
 
     private void loadTags() {
@@ -160,6 +164,15 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
                 c = new Comment("dummy second comment for contrib " + contribution.getId(), hanefi, contribution);
                 commentRepo.save(c);
             }
+        });
+    }
+
+    private void loadRates(){
+        contributionRepo.findAll().forEach(contribution -> {
+            if (contribution.getId()%4 == 0)
+                rateRepo.save(new UserRate(contribution,hanefi,+1));
+            else if (contribution.getId()%4 == 1)
+                rateRepo.save(new UserRate(contribution,hanefi,-1));
         });
     }
 
