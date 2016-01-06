@@ -70,13 +70,10 @@ public class TagController {
         while(it.hasNext()){
             Tag tmp = it.next();
             if(tmp.getName().equals(tag.getName()) && tmp.getConcept().equals(tag.getConcept())){
-                return null;
+                return tmp;
             }
         }
         tagService.saveTag(tag);
-
-        /*HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path("/tags/{id}").buildAndExpand(tag.getId()).toUri());*/
         return tag;
     }
 
