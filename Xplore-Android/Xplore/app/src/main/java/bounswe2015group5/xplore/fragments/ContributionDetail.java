@@ -160,7 +160,7 @@ public class ContributionDetail extends BaseFragment {
             }
         });
 
-        tagView.setTextColor(getResources().getColor(R.color.tab_btn_text));
+        tagView.setTextColor(Globals.appContext.getResources().getColor(R.color.tab_btn_text));
         tagView.setPadding(5,5,5,5);
 
         tagLayout.addView(tagView);

@@ -96,7 +96,6 @@ public class ContributionList extends BaseFragment {
                                 JSONObject contributionJSON = response.optJSONObject(i);
                                 if(contributionJSON == null) continue;
 
-                                Log.d("ContributionList",contributionJSON.toString());
                                 contributions.add(new Contribution(contributionJSON));
                                 listAdapter.notifyDataSetChanged();
                             }
