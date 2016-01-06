@@ -29,6 +29,6 @@
         android:id="@+id/contributionList"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
 </RelativeLayout>

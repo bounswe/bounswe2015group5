@@ -67,7 +67,7 @@ public class ContributionList extends BaseFragment {
             }
         });
 
-        listAdapter = new ContributionListAdapter(getActivity().getApplicationContext(), contributions);
+        listAdapter = new ContributionListAdapter(Globals.appContext, contributions);
         contList.getRefreshableView().setAdapter(listAdapter);
 
         return parent;
