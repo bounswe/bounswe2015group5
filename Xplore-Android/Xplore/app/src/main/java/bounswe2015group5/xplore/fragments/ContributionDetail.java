@@ -172,7 +172,7 @@ public class ContributionDetail extends BaseFragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("FEtCHCOMMENTS",response.toString());
+                        Log.d("FETCHCOMMENTS",response.toString());
                         if(response.length() > 0){
                             try {
                                 for(int i = 0; i < response.length(); i++){
