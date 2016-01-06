@@ -19,6 +19,7 @@ import com.android.volley.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
@@ -100,12 +101,14 @@ public class ContributionDetail extends BaseFragment {
                 @Override
                 public void onClick(View view) {
 
-                    Response.Listener<String> responseListener = new Response.Listener<String>(){
+                    Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>(){
                         @Override
-                        public void onResponse(String response) {
-                            Log.d("ContributionDetail",response);
-                            if(response.length() > 0)
+                        public void onResponse(JSONObject response) {
+                            Log.d("Delete Contribution",response.toString());
+                            if(response.length() > 0){
+                                Toast.makeText(Globals.appContext, "Contribution is deleted.", Toast.LENGTH_SHORT).show();
                                 ((MainActivity) getActivity()).onBackPressed();
+                            }
                             else
                                 Toast.makeText(Globals.appContext, "Contribution is not deleted. Please try again.", Toast.LENGTH_SHORT).show();
                         }
@@ -141,7 +144,7 @@ public class ContributionDetail extends BaseFragment {
 
     public void addTag(final Tag tag){
 
-        TextView tagView = new TextView(getContext());
+        TextView tagView = new TextView(Globals.appContext);
         tagView.setText(tag.getName());
         tagView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +160,7 @@ public class ContributionDetail extends BaseFragment {
             }
         });
 
-        tagView.setTextColor(getResources().getColor(R.color.tab_btn_text));
+        tagView.setTextColor(Globals.appContext.getResources().getColor(R.color.tab_btn_text));
         tagView.setPadding(5,5,5,5);
 
         tagLayout.addView(tagView);
@@ -169,7 +172,7 @@ public class ContributionDetail extends BaseFragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("FEtCHCOMMENTS",response.toString());
+                        Log.d("FETCHCOMMENTS",response.toString());
                         if(response.length() > 0){
                             try {
                                 for(int i = 0; i < response.length(); i++){
@@ -190,7 +193,7 @@ public class ContributionDetail extends BaseFragment {
         Globals.connectionManager.getCommentsByContributionId(contribution.getId(), responseListener);
     }
 
-    public void addComment(Comment comment){
+    public void addComment(final Comment comment){
 
         View commentView = inflater.inflate(R.layout.comment, null);
 
@@ -202,6 +205,32 @@ public class ContributionDetail extends BaseFragment {
 
         TextView tv_date = (TextView) commentView.findViewById(R.id.comment_date);
         tv_date.setText(comment.getCreatedAt());
+
+        if(comment.getUsername().equals(Globals.share.getString("username", ""))){
+
+            ImageView deleteBtn = (ImageView) commentView.findViewById(R.id.commDeleteBtn);
+            deleteBtn.setVisibility(View.VISIBLE);
+
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+
+                    Response.Listener<JSONObject> responsListener = new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("Delete Comment",response.toString());
+
+                            commentsList.removeView(view);
+                            Toast.makeText(Globals.appContext, "Comment is deleted.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    };
+
+                    Globals.connectionManager.deleteComment(comment.getID(), responsListener);
+                }
+            });
+        }
 
         commentView.setPadding(10,5,10,5);
         commentsList.addView(commentView);

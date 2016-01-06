@@ -47,12 +47,14 @@ public class TagDetail extends BaseFragment{
     private Animation pulse;
     private int TAG_ID;
     private String TAG_NAME;
-    private boolean isCreated;
-    private int connectionSize;
+    private boolean isCreated, isConnectionsAdded;
+    private int connectionSize, connectionCount;
 
     public TagDetail(){
 
         this.isCreated = false;
+        this.isConnectionsAdded = false;
+        this.connectionCount = 0;
         this.tagList = new ArrayList<>();
 
         // Initializes tag button arrays.
@@ -123,8 +125,8 @@ public class TagDetail extends BaseFragment{
                 Iterator<String> tagIds = response.keys();
                 if(tagIds.hasNext()){
                     stopAnim();
-                    int cnt = 0, btnCnt = 1;
-                    while(tagIds.hasNext() && cnt < TAG_COUNT){
+                    int btnCnt = 1;
+                    while(tagIds.hasNext() && connectionCount < TAG_COUNT){
 
                         int tagId = Integer.parseInt(tagIds.next());
 
@@ -147,14 +149,18 @@ public class TagDetail extends BaseFragment{
                                 tagList.add(tag);
 
                                 prepareTagButton(tagBtn, position, tag.getID(), tag.getName());
+
+                                if(!isConnectionsAdded){
+                                    addCenterConnections(connectionCount);
+                                    isConnectionsAdded = true;
+                                }
                             }
                         };
 
                         Globals.connectionManager.getTag(tagId, tagResponseListener);
-                        cnt++;
+                        connectionCount++;
                     }
 
-                    addCenterConnections(cnt);
                 } // TODO if response is empty, show a warning.
             }
         };
