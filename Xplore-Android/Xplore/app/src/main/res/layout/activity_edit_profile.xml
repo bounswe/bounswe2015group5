@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="bounswe2015group5.xplore.EditProfile">
+
+
+    <EditText
+        android:id="@+id/changeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Change name" />
+
+    <EditText
+        android:id="@+id/changeSurname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Change surname"/>
+
+    <EditText
+        android:id="@+id/changeMailAdress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Update e-mail address"/>
+
+    <EditText
+        android:id="@+id/changePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="New Password"/>
+
+    <EditText
+        android:id="@+id/confirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Confirm Password"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Changes"
+        android:id="@+id/saveProfileButton"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
