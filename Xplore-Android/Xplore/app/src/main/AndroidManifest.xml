@@ -1,61 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="bounswe2015group5.xplore" >
+    package="bounswe2015group5.xplore">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".XploreApp"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name="XploreApp" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Splash"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Login"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Signup"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ContributionCreation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Search"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".EditProfile"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
