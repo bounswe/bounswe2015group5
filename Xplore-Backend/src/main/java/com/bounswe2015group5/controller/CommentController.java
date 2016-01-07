@@ -10,6 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller class for comment functionality.
+ * Uses RestController annotation to be treated as a controller.
+ * Uses RequestMapping annotation which is treated as ResponseBody semantically.
+ */
+
 @RestController
 @RequestMapping(value = "/comments", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(description = "The comment controller", name = "Comment Services")
@@ -20,6 +26,11 @@ public class CommentController {
     @Autowired
     private CommentRepo commentRepo;
 
+    /**
+     * Delete functionality is provided by this method.
+     * Deletes a comment from its repository given its id.
+      * @param id id of comment
+     */
     @ApiMethod
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
