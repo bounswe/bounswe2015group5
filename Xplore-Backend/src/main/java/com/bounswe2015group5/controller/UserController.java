@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Controller class for user
+ * Uses RestController annotation to be treated as a controller.
+ * Uses RequestMapping annotation which is treated as ResponseBody semantically.
+ */
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(description = "The users controller", name = "User Services")
@@ -23,12 +28,22 @@ public class UserController {
     @Autowired
     private ContributionService contributionService;
 
+    /**
+     * Find details of a user
+     * @param username username
+     * @return details
+     */
     @ApiMethod(description = "returns the user details")
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public @ApiResponseObject User userDetails(@ApiPathParam(name = "username") @PathVariable String username ){
         return userRepo.findOne(username);
     }
 
+    /**
+     * Get the contributions of a user
+     * @param username username
+     * @return contributions
+     */
     @ApiMethod(description = "returns the user details")
     @RequestMapping(value = "/{username}/contributions", method = RequestMethod.GET)
     public @ApiResponseObject Iterable<Contribution> getContributions(@ApiPathParam(name = "username") @PathVariable String username ){
@@ -36,12 +51,23 @@ public class UserController {
         return contributionService.listAllContributionsOfUser(user);
     }
 
+    /**
+     * Log out functionality implemented
+     * @param request HttpServletRequest
+     */
     @ApiMethod(description = "logs out")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public @ApiResponseObject void logOut(HttpServletRequest request) {
         request.getSession().setAttribute("username", null);
     }
 
+    /**
+     * Login functionality implemented.
+     * @param userContext userContext
+     * @param request Http request
+     * @return candidate
+     * @throws JsonProcessingException JsonProcessingException
+     */
     @ApiMethod(description = "logs-in and returns the principal")
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -62,12 +88,23 @@ public class UserController {
         }
     }
 
+    /**
+     * Returns the current principal
+     * @param request HttpServletRequest
+     * @return user
+     */
     @ApiMethod(description = "returns the current principal")
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     public static User currentUser(HttpServletRequest request){
         return (User) request.getSession().getAttribute("username");
     }
 
+    /**
+     * Saves user to user repository
+     * @param user user
+     * @param request HttpServletRequest
+     * @return user
+     */
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -77,6 +114,9 @@ public class UserController {
         return user;
     }
 
+    /**
+     * Defining class for user context
+     */
     public static class UserContext {
         @ApiObjectField(description = "username", required = true)
         private String username;
@@ -87,6 +127,11 @@ public class UserController {
         public UserContext() {
         }
 
+        /**
+         * Constructor of UserContext
+         * @param username username
+         * @param password password
+         */
         public UserContext(String username, String password) {
             this.username = username;
             this.password = password;

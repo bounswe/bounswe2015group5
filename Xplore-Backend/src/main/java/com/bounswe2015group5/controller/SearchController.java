@@ -17,7 +17,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Controller class for search functionality
+ * Uses RestController annotation to be treated as a controller.
+ * Uses RequestMapping annotation which is treated as ResponseBody semantically.
+ */
 @RestController
 @RequestMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(description = "The search controller", name = "Search Services")
@@ -29,6 +33,13 @@ public class SearchController {
     @Autowired
     private ContributionService contributionService;
 
+    /**
+     * Advanced search functionality.
+     * @param searchContext searchContext
+     * @param request HttpServletRequest
+     * @return resp
+     * @throws JsonProcessingException JsonProcessingException
+     */
     @ApiMethod(description = "logs-in and returns the principal")
     @RequestMapping(value = "/advanced", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -98,6 +109,9 @@ public class SearchController {
         return resp;
     }
 
+    /**
+     * Class that defines SearchContext
+     */
     public static class SearchContext {
         @ApiObjectField(description = "username", required = false)
         private String username;
@@ -117,6 +131,15 @@ public class SearchController {
         @ApiObjectField(description = "tags", required = true)
         private String content;
 
+        /**
+         * Constructor for SearchContext given its parameters
+         * @param username username
+         * @param title title
+         * @param afterDate afterDate
+         * @param beforeDate beforeDate
+         * @param tags tags
+         * @param content content
+         */
         public SearchContext(String username, String title, Date afterDate, Date beforeDate, List<TagController.TagContext> tags, String content) {
             this.username = username;
             this.title = title;

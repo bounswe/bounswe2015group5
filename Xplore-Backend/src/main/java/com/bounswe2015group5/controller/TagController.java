@@ -25,6 +25,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller class for tag functionality
+ * Uses RestController annotation to be treated as a controller.
+ * Uses RequestMapping annotation which is treated as ResponseBody semantically.
+ */
 @RestController
 @RequestMapping(value = "/tags", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(description = "The tags controller", name = "Tag Services")
@@ -41,12 +46,22 @@ public class TagController {
 
     private Logger log = Logger.getLogger(TagController.class);
 
+    /**
+     * Find all tags
+     * @return all tags
+     */
     @ApiMethod
     @RequestMapping(method = RequestMethod.GET)
     public @ApiResponseObject Iterable<Tag> findAll() {
         return tagService.listAllTags();
     }
 
+
+    /**
+     * Find a tag given its id
+     * @param id tag id
+     * @return tag
+     */
     @ApiMethod(description = "returns one tag with given id")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -54,6 +69,13 @@ public class TagController {
         return tagService.getTagById(id);
     }
 
+    /**
+     * Save functionality for tag
+     * @param tagContext context of tag
+     * @param uriComponentsBuilder Builder for uriComponents
+     * @param request HttpServletRequest
+     * @return tag
+     */
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -77,6 +99,10 @@ public class TagController {
         return tag;
     }
 
+    /**
+     * Delete tag given its id
+     * @param id tag id
+     */
     @ApiMethod
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -85,6 +111,12 @@ public class TagController {
         tagService.deleteTag(id);
     }
 
+    /**
+     * Find relations that involve the given tag id
+     * @param id tag id
+     * @param pageable Pageable
+     * @return relations
+     */
     @ApiMethod(description = "returns all relations of given tag id")
     @RequestMapping(value = "/{id}/relations", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -92,6 +124,11 @@ public class TagController {
         return relationService.getRelationsByTagId(id);
     }
 
+    /**
+     * Finds contributions that involve given tag
+     * @param id tag id
+     * @return contributions
+     */
     @ApiMethod(description = "returns all contributions related to given tag id")
     @RequestMapping(value = "/{id}/contributions", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -99,6 +136,11 @@ public class TagController {
         return relationService.getContributionsByTagId(id);
     }
 
+    /**
+     * Finds most related tags with given tag
+     * @param id tag id
+     * @return tags
+     */
     @ApiMethod(description = "returns other tags related to given tag id")
     @RequestMapping(value = "/{id}/tags", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -106,6 +148,9 @@ public class TagController {
         return relationService.findMostRelatedTagsWithTag(id);
     }
 
+    /**
+     * Defining class for TagContext
+     */
     @ApiObject
     public static class TagContext{
         @ApiObjectField(description = "name of the tag", required = true)
@@ -117,6 +162,11 @@ public class TagController {
         public TagContext() {
         }
 
+        /**
+         * Constructor
+         * @param name name
+         * @param concept concept
+         */
         public TagContext(String name, String concept) {
             this.name = name;
             this.concept = concept;
