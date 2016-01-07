@@ -16,13 +16,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.apache.http.client.CookieStore;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +42,7 @@ import java.util.Map;
 public class ConnectionManager {
 
     private Context context;
-    private RequestQueue requestQueue;
+    private RequestQueue requestQueue, sesRequestQueue;
     private String BASE_URL;
     private Response.ErrorListener errorListener;
 
@@ -45,11 +51,17 @@ public class ConnectionManager {
 
         // Instantiate the cache
         Cache cache = new DiskBasedCache(this.context.getCacheDir(), 1024 * 1024); // 1MB cap
-
         // Set up the network to use HttpURLConnection as the HTTP client.
         Network network = new BasicNetwork(new HurlStack());
+        this.requestQueue = new RequestQueue(cache, network, 1);
 
-        this.requestQueue = new RequestQueue(cache, network);
+
+        DefaultHttpClient httpclient = new DefaultHttpClient();
+        CookieStore cookieStore = new BasicCookieStore();
+        httpclient.setCookieStore( cookieStore );
+        HttpStack httpStack = new HttpClientStack( httpclient );
+        this.sesRequestQueue = Volley.newRequestQueue( context, httpStack );
+
         this.BASE_URL = context.getString(R.string.service_url);
         this.errorListener = new Response.ErrorListener() {
             @Override
@@ -96,7 +108,7 @@ public class ConnectionManager {
         mParams.put("password", pass);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
-        requestQueue.add(request);
+        this.sesRequestQueue.add(request);
     }
 
     // TODO ??
@@ -174,7 +186,7 @@ public class ConnectionManager {
         mParams.put("name",tagName);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
-        requestQueue.add(request);
+        sesRequestQueue.add(request);
     }
 
     public void getAllContributions(Response.Listener<JSONArray> responseListener){
@@ -239,8 +251,7 @@ public class ConnectionManager {
         mParams.put("referenseList", "");
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
-        requestQueue.add(request);
-
+        this.sesRequestQueue.add(request);
     }
 
     /**
@@ -279,7 +290,7 @@ public class ConnectionManager {
         String URL = BASE_URL + "contributions/" + contId + "/rates";
 
         JsonObjectRequest request = new JsonObjectRequest(URL,null,responseListener, errorListener);
-        requestQueue.add(request);
+        sesRequestQueue.add(request);
     }
 
     public void rateContribution(int contID, int rate, Response.Listener<JSONObject> responseListener){
@@ -290,7 +301,7 @@ public class ConnectionManager {
         mParams.put("vote","" + rate);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
-        requestQueue.add(request);
+        sesRequestQueue.add(request);
     }
 
     /**
@@ -309,7 +320,7 @@ public class ConnectionManager {
         mParams.put("username", username);
 
         customJsonArrayRequest request = new customJsonArrayRequest(URL, new JSONObject(mParams), responseListener, errorListener);
-        requestQueue.add(request);
+        this.sesRequestQueue.add(request);
     }
 
     /**
