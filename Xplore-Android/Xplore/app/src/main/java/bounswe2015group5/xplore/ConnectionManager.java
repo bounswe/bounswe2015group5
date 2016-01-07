@@ -87,7 +87,7 @@ public class ConnectionManager {
      * @param pass : password of the user.
      * @param responseListener : Listener saying what will happen after user logs in.
      */
-    public void login(final String email, final String pass, Response.Listener<JSONObject> responseListener){
+    public void login(final String email, final String pass, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
 
         String URL = BASE_URL + "user/login";
 

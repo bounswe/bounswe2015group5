@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/searchView"
+            android:visibility="invisible"
             android:layout_alignEnd="@+id/title"
             android:layout_alignParentEnd="true"
             android:maxWidth="550dp"/>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 /**
@@ -48,7 +49,15 @@ public class Splash extends Activity{
                         }
                     };
 
-            Globals.connectionManager.login(email, pass, responseListener);
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    startActivity(new Intent(Splash.this, Login.class));
+                    finish();
+                }
+            };
+
+            Globals.connectionManager.login(email, pass, responseListener, errorListener);
 
         } else {
             startActivity(new Intent(Splash.this, Login.class));
