@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+/**
+ * Defining class for Loader
+ * Implements ApplicationListener for ease
+ * Fills the database
+ */
 @Component
 public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
@@ -61,6 +66,11 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
             syria,
             turkishCourt;
 
+
+    /**
+     * Functions for loading the repositories simultaneously
+     * @param contextRefreshedEvent contextRefreshedEvent
+     */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadUsers();
@@ -71,6 +81,9 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         loadRates();
     }
 
+    /**
+     * Fills the tag repository appropriately.
+     */
     private void loadTags() {
         netNeutrality = new Tag();
         netNeutrality.setName("Net Neutrality");
@@ -138,6 +151,9 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         tagRepo.save(turkishCourt);
     }
 
+    /**
+     * Fills the contribution repository appropriately
+     */
     private void loadContributions() {
         cont1 = new Contribution();
         cont1.setTitle("Facebook’s Rebuttal to Mahesh Murthy on Free Basics, with Replies");
@@ -225,6 +241,9 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         contributionRepo.save(cont12);
     }
 
+    /**
+     * Fills the relation repository appropriately.
+     */
     private void loadRelations() {
 
         relationRepo.save(new Relation(india, cont1, hanefi));
@@ -277,6 +296,9 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         return (j != 0) ? gcd(j, i % j) : i;
     }
 
+    /**
+     * Fills the user repository appropriately.
+     */
     private void loadUsers() {
         hanefi = new User("hanefi", "hanefi", "hanefi@hanefi.com");
         abbas = new User("abbas", "abbas", "abbas@guclu.com");
@@ -292,11 +314,17 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         log.info("Saved USER Hanefi - id : " + hanefi.getUsername());
     }
 
+    /**
+     * Fills the comment repository appropriately.
+     */
     private void loadComments() {
         commentRepo.save(new Comment("A supporting photo: http://specials-images.forbesimg.com/imageserve/503151122/960x0.jpg?fit=scale", abbas, cont5));
 
     }
 
+    /**
+     * Fills the rate repository appropriately.
+     */
     private void loadRates(){
         contributionRepo.findAll().forEach(contribution -> {
             if (contribution.getId()%4 == 0)
