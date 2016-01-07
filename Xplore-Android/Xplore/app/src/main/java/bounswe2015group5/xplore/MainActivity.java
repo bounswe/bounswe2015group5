@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity{
 
         titleTextView = (TextView) findViewById(R.id.title);
 
-        pressTab(R.id.homeTabBtn);
+        pressTab(R.id.trendingTabBtn);
 
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
 

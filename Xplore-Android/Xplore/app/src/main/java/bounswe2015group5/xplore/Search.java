@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,14 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,6 +38,7 @@ public class Search extends Activity {
     private SearchResultAdapter adapter;
     private EditText searchView;
     public Tag selectedTag;
+    private AVLoadingIndicatorView loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class Search extends Activity {
         setContentView(R.layout.search);
 
         selectedTag = null;
+        loadingView = (AVLoadingIndicatorView) findViewById(R.id.searchLoadingView);
 
         searchView = (EditText) findViewById(R.id.searchView);
         searchView.addTextChangedListener(new TextWatcher() {
@@ -64,7 +71,7 @@ public class Search extends Activity {
 
         getAllTags();
 
-        TextView contributeBtn = (TextView) findViewById(R.id.contributeBtn);
+        TextView contributeBtn = (TextView) findViewById(R.id.searchDoneBtn);
         contributeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,8 +105,33 @@ public class Search extends Activity {
                         }
                     };
 
-                    Globals.connectionManager.createTag(searchView.getText().toString(), searchView.getText().toString(), responseListener);
+                    Response.ErrorListener errorListener = new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(Globals.appContext, "Tag is not selected. Please try again later.", Toast.LENGTH_SHORT).show();
+
+                            Log.d("SearchError",error.toString());
+                            Intent i = new Intent(Search.this, ContributionCreation.class);
+                            i.setFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
+                            finish();
+                        }
+                    };
+
+                    Globals.connectionManager.createTag(searchView.getText().toString(), searchView.getText().toString(), responseListener, errorListener);
                 }
+            }
+        });
+
+        ImageView backBtn = (ImageView) findViewById(R.id.searchBackBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(Search.this, ContributionCreation.class);
+                i.setFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
             }
         });
 
@@ -111,6 +143,7 @@ public class Search extends Activity {
             @Override
             public void onResponse(JSONArray response) {
                 if(response.length() > 0){
+                    stopAnim();
                     tags.clear();
                     for(int i=0; i<response.length(); i++){
                         tags.add(new Tag(response.optJSONObject(i)));
@@ -121,6 +154,10 @@ public class Search extends Activity {
         };
 
         Globals.connectionManager.getAllTags(responseListener);
+    }
+
+    public void stopAnim(){
+        loadingView.setVisibility(View.GONE);
     }
 }
 

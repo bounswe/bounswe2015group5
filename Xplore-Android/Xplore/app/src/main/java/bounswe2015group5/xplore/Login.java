@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,11 +92,18 @@ public class Login extends Activity {
 								e.printStackTrace();
 							}
 						} else
-							Toast.makeText(getApplicationContext(), "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
+							Toast.makeText(Globals.appContext, "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
 					}
 				};
 
-		Globals.connectionManager.login(email, pass, responseListener);
+		Response.ErrorListener errorListener = new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(Globals.appContext, "Something gone wrong. Please, try again later.", Toast.LENGTH_SHORT).show();
+			}
+		};
+
+		Globals.connectionManager.login(email, pass, responseListener, errorListener);
 
 	}
 

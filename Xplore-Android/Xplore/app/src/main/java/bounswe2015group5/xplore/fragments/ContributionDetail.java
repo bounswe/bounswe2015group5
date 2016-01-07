@@ -115,8 +115,7 @@ public class ContributionDetail extends BaseFragment {
             });
         }
 
-        // TODO
-        //fetchRateOfContribution();
+        fetchRateOfContribution();
         fetchTags();
         fetchComments();
         return parent;
