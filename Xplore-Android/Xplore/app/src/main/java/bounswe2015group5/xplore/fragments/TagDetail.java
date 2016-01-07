@@ -131,6 +131,7 @@ public class TagDetail extends BaseFragment{
                             tagBtn = tagButtonList[0];
                             position = computePosition(0);
                         } else{
+                            if(btnCnt >= TAG_COUNT) continue;
                             tagBtn = tagButtonList[btnCnt];
                             position = computePosition(btnCnt);
                             btnCnt++;
