@@ -9,6 +9,9 @@
                            refresh="refreshTags($select.search)"
                            refresh-delay="0">
             <div ng-bind-html="tag.name | highlight: $select.search"></div>
+            <small>
+                {{tag.concept}}
+            </small>
         </ui-select-choices>
     </ui-select>
 </form>
