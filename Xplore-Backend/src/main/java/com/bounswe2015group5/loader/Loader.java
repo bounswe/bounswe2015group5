@@ -320,6 +320,11 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     private void loadComments() {
         commentRepo.save(new Comment("A supporting photo: http://specials-images.forbesimg.com/imageserve/503151122/960x0.jpg?fit=scale", abbas, cont5));
 
+        commentRepo.save(new Comment("Mahesh is right at some point, Facebook will be generating revenue in the future :)", hanefi,cont1));
+        commentRepo.save(new Comment("This is just one of the many projects that is run by internet.org - you can dig further from here -> https://www.internet.org/projects",hasan,cont8));
+        commentRepo.save(new Comment("Obama on net neutrality: https://www.youtube.com/watch?v=uKcjQPVwfDk",hanefi,cont2));
+        commentRepo.save(new Comment("The Telecom Regulatory Authority of India (Trai) has invited comments from public till January 7 on its paper on differential data pricing - a key aspect of the raging debate on net neutrality.",abbas,cont2));
+        commentRepo.save(new Comment("THE INTERNET ISN'T ABOUT TO CHANGE, THE FCC JUST HAS MORE POWER TO STOP PROBLEMS!",abbas,cont9));
     }
 
     /**
