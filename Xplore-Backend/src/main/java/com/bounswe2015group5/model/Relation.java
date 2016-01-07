@@ -7,7 +7,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-
+/**
+ * Defining class for relation.
+ * Implements Serializable interface for ease
+ * Entity annotation used to ensure JPA will include any class annotated with it in the persistence management setup.
+ */
 @Entity
 public class Relation implements Serializable {
 
@@ -41,16 +45,29 @@ public class Relation implements Serializable {
     @ApiObjectField(description = "The Timestamp when relation is updated", required = true)
     public Date updatedAt;
 
+    /**
+     * Assigns createdAt variable the date
+     */
     @PrePersist
     void createdAt() {
         this.createdAt = this.updatedAt = new Date();
     }
 
+    /**
+     * Assigns updatedAt variable the date
+     */
     @PreUpdate
     void updatedAt() {
         this.updatedAt = new Date();
     }
 
+    /**
+     * Constructor for Relation
+     * Assigns the parameters to fields
+     * @param tag tag
+     * @param contribution contribution
+     * @param creator creator
+     */
     public Relation(Tag tag, Contribution contribution, User creator) {
         this.id = new RelationID(tag.getId(),contribution.getId());
         this.tag = tag;
@@ -105,6 +122,10 @@ public class Relation implements Serializable {
                 '}';
     }
 
+    /**
+     * Defining class for RelationID
+     * Embeddable annotation defines a class whose instances are stored as an intrinsic part of an owning entity and share the identity of the entity.
+     */
     @Embeddable
     public static class RelationID implements Serializable {
         private static final long serialVersionUID = 1L;
@@ -114,6 +135,11 @@ public class Relation implements Serializable {
         @GeneratedValue
         protected Integer contributionId;
 
+        /**
+         * Constructor for RelationID
+         * @param tagId tagID
+         * @param contributionId contributionID
+         */
         public RelationID(Integer tagId, Integer contributionId) {
             this.tagId = tagId;
             this.contributionId = contributionId;

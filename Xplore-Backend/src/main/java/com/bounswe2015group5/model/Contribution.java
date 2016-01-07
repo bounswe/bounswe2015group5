@@ -6,6 +6,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Defining class for contribution.
+ * Implements Serializable interface for ease
+ * Entity annotation used to ensure JPA will include any class annotated with it in the persistence management setup.
+ */
 @Entity
 public class Contribution implements Serializable{
 
@@ -37,6 +42,10 @@ public class Contribution implements Serializable{
     @ApiObjectField(description = "The Timestamp when contribution is updated", required = true)
     public Date updatedAt;
 
+    /**
+     * Returns the reference list
+     * @return reference list
+     */
     public String getReferenseList() {
         return referenseList;
     }
@@ -45,11 +54,17 @@ public class Contribution implements Serializable{
         this.referenseList = referenseList;
     }
 
+    /**
+     * Assigns createdAt variable the date
+     */
     @PrePersist
     void createdAt() {
         this.createdAt = this.updatedAt = new Date();
     }
 
+    /**
+     * Assigns updatedAt variable the date
+     */
     @PreUpdate
     void updatedAt() {
         this.updatedAt = new Date();
@@ -62,6 +77,13 @@ public class Contribution implements Serializable{
 //        this.referenseList = "asd";
 //    }
 
+    /**
+     * Constructor for contribution
+     * @param title title
+     * @param content content
+     * @param referenseList referenseList
+     * @param creator creator
+     */
     public Contribution(String title, String content, String referenseList, User creator) {
         this.title = title;
         this.content = content;
@@ -105,6 +127,11 @@ public class Contribution implements Serializable{
         this.creator = creator;
     }
 
+    /**
+     * Checks for equality
+     * @param o object o
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,6 +146,10 @@ public class Contribution implements Serializable{
 
     }
 
+    /**
+     * Returns hash code
+     * @return hashCode
+     */
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;

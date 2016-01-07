@@ -8,6 +8,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Defining class for comment.
+ * Implements Serializable interface for ease
+ * Entity annotation used to ensure JPA will include any class annotated with it in the persistence management setup.
+ */
 @Entity
 @ApiObject
 public class Comment implements Serializable{
@@ -56,11 +61,17 @@ public class Comment implements Serializable{
         this.contribution = contribution;
     }
 
+    /**
+     * Assigns createdAt variable the date
+     */
     @PrePersist
     void createdAt() {
         this.createdAt = this.updatedAt = new Date();
     }
 
+    /**
+     * Assigns updatedAt variable the date
+     */
     @PreUpdate
     void updatedAt() {
         this.updatedAt = new Date();
@@ -69,6 +80,12 @@ public class Comment implements Serializable{
     public Comment() {
     }
 
+    /**
+     * Constructor for comment class
+     * @param content content
+     * @param user user
+     * @param contribution contribution
+     */
     public Comment(String content, User user, Contribution contribution) {
         this.content = content;
         this.user = user;
