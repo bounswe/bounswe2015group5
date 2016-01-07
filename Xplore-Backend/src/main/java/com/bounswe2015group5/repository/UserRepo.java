@@ -6,6 +6,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository for users
+ * Repository tag indicates that the class is a "Repository" indeed.
+ * PagingAndSortingRepository provides additional methods to retrieve entities using the pagination and sorting abstraction.
+ */
 @Repository
 public interface UserRepo extends PagingAndSortingRepository<User,String> {
 

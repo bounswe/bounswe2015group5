@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for rates
+ * Repository tag indicates that the class is a "Repository" indeed.
+ * CrudRepository provides additional methods to retrieve entities using the pagination and sorting abstraction.
+ */
 @Repository
 public interface RateRepo extends CrudRepository<UserRate,UserRate.RateID>{
     List<UserRate> findByContributionId(@Param("id")Integer id);

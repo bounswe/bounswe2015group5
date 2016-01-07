@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+/**
+ * Repository for relations
+ * Repository tag indicates that the class is a "Repository" indeed.
+ * PagingAndSortingRepository provides additional methods to retrieve entities using the pagination and sorting abstraction.
+ */
 @Repository
 @SuppressWarnings("unused")
 public interface RelationRepo extends PagingAndSortingRepository<Relation,Relation.RelationID>{
