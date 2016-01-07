@@ -10,11 +10,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
+/**
+ * Does the configuration of conversion service.
+ * Implements ApplicationListener interface.
+ * Overrides onApplicationEvent
+ */
 @Component
 public class ConversionServiceConfiguration implements ApplicationListener<ContextRefreshedEvent>{
     @Autowired private Set<Converter<?, ?>> converters;
     @Autowired private ConversionService defaultConversionService;
 
+    /**
+     * Generates a generic conversion service and adds the converters to it.
+     * @param event object represents ContextRefreshedEvent
+     */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         GenericConversionService gcs = (GenericConversionService) defaultConversionService;
