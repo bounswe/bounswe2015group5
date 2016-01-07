@@ -19,6 +19,12 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepo userRepo;
 
+    /**
+     *
+     * @param s username
+     * @return User details of a user
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 

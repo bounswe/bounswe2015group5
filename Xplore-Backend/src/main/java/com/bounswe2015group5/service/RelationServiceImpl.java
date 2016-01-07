@@ -20,26 +20,50 @@ public class RelationServiceImpl implements  RelationService {
     @Autowired
     RelationRepo relationRepo;
 
+    /**
+     *
+     * @param contributionId contribution id
+     * @return list of tags related with contribution
+     */
     @Override
     public Iterable<Tag> getTagsByContributionId(int contributionId) {
         return relationRepo.findByContributionId(contributionId).stream().map(Relation::getTag).collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param tagId tag id
+     * @return list of contributions related with tag
+     */
     @Override
     public Iterable<Contribution> getContributionsByTagId(int tagId) {
         return relationRepo.findByTagId(tagId).stream().map(Relation::getContribution).collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param tagId tag id
+     * @return list of all relations of tag
+     */
     @Override
     public Iterable<Relation> getRelationsByTagId(int tagId) {
         return relationRepo.findByTagId(tagId);
     }
-
+    /**
+     *
+     * @param contributionId tag id
+     * @return list of all relations of contribution
+     */
     @Override
     public Iterable<Relation> getRelationsByContributionId(int contributionId) {
         return relationRepo.findByContributionId(contributionId);
     }
 
+    /**
+     *
+     * @param tagId tag id
+     * @return map of most related tags given tag id
+     */
     @Override
     public Map<Integer,Integer> findMostRelatedTagsWithTag(int tagId) {
         List<Contribution> contributions = relationRepo.findByTagId(tagId).
@@ -62,16 +86,29 @@ public class RelationServiceImpl implements  RelationService {
         return sortedMap;
     }
 
+    /**
+     * Saves relation
+     * @param relation relation to be saved
+     * @return relation is saved
+     */
     @Override
     public Relation saveRelation(Relation relation) {
         return relationRepo.save(relation);
     }
 
+    /**
+     * deletes relation
+     * @param relation relation to be deleted
+     */
     @Override
     public void deleteRelation(Relation relation) {
         relationRepo.delete(relation);
     }
 
+    /**
+     * Deletes relations in a list
+     * @param relations list of relations
+     */
     @Override
     public void deleteRelations(Iterable<Relation> relations) {
         relations.forEach(relation -> {
