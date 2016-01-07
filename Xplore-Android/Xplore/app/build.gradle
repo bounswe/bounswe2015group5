@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "bounswe2015group5.xplore"
@@ -33,4 +34,5 @@ dependencies {
     compile 'com.wang.avi:library:1.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'org.apache.httpcomponents:httpclient:4.5'
 }
