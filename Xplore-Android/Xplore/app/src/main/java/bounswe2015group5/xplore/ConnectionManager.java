@@ -2,6 +2,7 @@ package bounswe2015group5.xplore;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
@@ -54,6 +55,7 @@ public class ConnectionManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("CONNECTIONMANAGER_ERROR", error.toString());
+                Toast.makeText(Globals.appContext,"Something gone wrong. Please try again later.",Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -93,7 +95,7 @@ public class ConnectionManager {
         mParams.put("username", email);
         mParams.put("password", pass);
 
-        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(mParams), responseListener, errorListener);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(mParams), responseListener, errorListener);
         requestQueue.add(request);
     }
 
@@ -163,7 +165,7 @@ public class ConnectionManager {
         requestQueue.add(request);
     }
 
-    public void createTag(String tagName, String tagConcept, Response.Listener<JSONObject> responseListener){
+    public void createTag(String tagName, String tagConcept, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
 
         String URL = BASE_URL + "tags";
 

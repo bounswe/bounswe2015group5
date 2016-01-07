@@ -3,6 +3,7 @@
                 xmlns:autolabel="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/tools"
                 android:background="@drawable/background3"
                 android:backgroundTint="@color/backgraound_gray">
 
@@ -14,6 +15,7 @@
         android:layout_alignParentTop="true">
 
         <ImageView
+            android:id="@+id/searchBackBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/up_arrow"
@@ -27,12 +29,12 @@
             android:layout_height="30dp"
             android:layout_margin="3dp"
             android:background="@color/tab_btn_text"
-            android:layout_toStartOf="@+id/contributeBtn"
+            android:layout_toStartOf="@+id/searchDoneBtn"
             android:layout_centerVertical="true"
             />
 
         <TextView
-            android:id="@+id/contributeBtn"
+            android:id="@+id/searchDoneBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -59,6 +61,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/searchView"
             android:hint="Search for tags..."
+            android:padding="5dp"
             android:background="@drawable/edittext_style"
             android:layout_alignParentTop="true"/>
 
@@ -68,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/searchView"
             autolabel:max_labels="5"
-            autolabel:text_color="#FFFFFF"
+            autolabel:text_color="@color/tab_btn_text"
             autolabel:show_cross="true"
             autolabel:icon_cross="@drawable/cross"/>
 
@@ -82,6 +85,17 @@
         android:id="@+id/searchResultText"
         android:layout_below="@+id/searchLayout"
         android:background="@color/backgraound_gray"/>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/searchLoadingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:backgroundTint="@color/tab_btn_text"
+        app:indicator="BallZigZag"
+        app:indicator_color="@color/tab_btn_text"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/searchResultText"/>
 
     <ListView
         android:layout_width="match_parent"
