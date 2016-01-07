@@ -1,0 +1,48 @@
+<div class="panel-heading">
+    <h3 class="panel-title">Advanced search</h3>
+</div>
+<div class="panel-body">
+    <form name="advancedSearchForm" ng-controller="AdvancedSearchCtrl" ng-submit="advancedSearch()">
+        <fieldset class="form-group">
+            <label for="title">Title</label>
+            <input ng-model="searchData.title" id="title" type="text" class="form-control" placeholder="Title"
+                   title="Title"/>
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="content">Content</label>
+            <input ng-model="searchData.content" id="content" type="text" class="form-control" placeholder="Content"
+                   title="Content"/>
+        </fieldset>
+        <fieldset class="form-group">
+            <label>Tags</label>
+            <ui-select multiple
+                       id="tags"
+                       ng-model="searchData.tags"
+                       ng-disabled="disabled"
+                       theme="bootstrap">
+                <ui-select-match placeholder="Select tags..">{{$item.name}}</ui-select-match>
+                <ui-select-choices repeat="tag.id as tag in tags | filter: {name: $select.search}"
+                                   refresh="refreshTags()"
+                                   refresh-delay="0">
+                    <div ng-bind-html="tag.name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="dateStart">After</label>
+            <input ng-model="searchData.dateStart" id="dateStart" type="date" class="form-control" placeholder="Date"
+                   title="After"/>
+            <label for="dateEnd">Before</label>
+            <input ng-model="searchData.dateEnd" id="dateEnd" type="date" class="form-control" placeholder="Date"
+                   title="Before"/>
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="username">Username</label>
+            <input ng-model="searchData.username" id="username" type="text" class="form-control" placeholder="Username"
+                   title="Username"/>
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="submit" class="btn btn-primary pull-right" value="Search"/>
+        </fieldset>
+    </form>
+</div>

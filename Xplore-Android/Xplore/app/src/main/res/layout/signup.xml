@@ -41,7 +41,7 @@
         android:layout_below="@id/signup_email_mat"
         android:layout_alignStart="@id/signup_email_mat"
         android:layout_alignEnd="@id/signup_email_mat"
-        android:id="@+id/signup_name_mat"
+        android:id="@+id/signup_username_mat"
         app:mtf_image="@drawable/person_icon"
         app:mtf_labelColor="#ff888888"
         app:mtf_openKeyboardOnFocus="true"
@@ -53,36 +53,14 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/signup_name"
-            android:hint="Name"/>
+            android:hint="Username"/>
 
     </com.github.florent37.materialtextfield.MaterialTextField>
 
     <com.github.florent37.materialtextfield.MaterialTextField
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/signup_name_mat"
-        android:layout_alignStart="@id/signup_email_mat"
-        android:layout_alignEnd="@id/signup_email_mat"
-        android:id="@+id/signup_surname_mat"
-        app:mtf_image="@drawable/person_icon"
-        app:mtf_labelColor="#ff888888"
-        app:mtf_openKeyboardOnFocus="true"
-        app:mtf_animationDuration="1000">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/signup_surname"
-            android:hint="Surname"/>
-
-    </com.github.florent37.materialtextfield.MaterialTextField>
-
-    <com.github.florent37.materialtextfield.MaterialTextField
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/signup_surname_mat"
+        android:layout_below="@id/signup_username_mat"
         android:layout_alignEnd="@id/signup_email_mat"
         android:layout_alignStart="@+id/signup_email_mat"
         android:id="@+id/signup_pass_mat"

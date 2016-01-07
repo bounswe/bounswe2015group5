@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     tools:context=".MainActivity">
 
@@ -18,7 +19,6 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PlaceHolder"
             android:textSize="20sp"
             android:textColor="@color/tab_btn_text"
             android:textAlignment="gravity"
@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/searchView"
+            android:visibility="invisible"
             android:layout_alignEnd="@+id/title"
             android:layout_alignParentEnd="true"
             android:maxWidth="550dp"/>
@@ -85,28 +86,52 @@
 
     </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fabMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:src="@drawable/create_cont_fab"
+        android:src="@drawable/extend_plus"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/tab_btn_center"/>
+        android:layout_alignParentEnd="true"
+        fab:fab_addButtonColorNormal="@color/tab_btn_start"
+        fab:fab_addButtonColorPressed="@color/tab_btn_end"
+        fab:fab_addButtonPlusIconColor="@color/tab_btn_text"
+        fab:fab_addButtonSize="mini"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="left">
 
-    <!--<ListView-->
-        <!--android:id="@+id/left_drawer"-->
-        <!--android:layout_width="280dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="start"-->
-        <!--android:background="#009fe3"-->
-        <!--android:choiceMode="singleChoice"-->
-        <!--android:headerDividersEnabled="false"-->
-        <!--android:footerDividersEnabled="false"-->
-        <!--android:divider="@null"-->
-        <!--android:dividerHeight="0dp"-->
-        <!--/>-->
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMenuAddCont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/tab_btn_start"
+            fab:fab_title="Add Contribution"
+            fab:fab_colorPressed="@color/tab_btn_end"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMenuAddTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/tab_btn_start"
+            fab:fab_size="mini"
+            fab:fab_title="Add Tag"
+            fab:fab_colorPressed="@color/tab_btn_end"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="16dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/extend_plus"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:tint="@color/tab_btn_text"-->
+        <!--app:backgroundTint="@color/tab_btn_center"/>-->
 
 </RelativeLayout>

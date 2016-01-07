@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/profile_topLayout"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/profile_pic"
@@ -45,46 +46,18 @@
                 android:clickable="true"
                 />
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/profile_tagLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_pic"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/profile_tagSectionText"
-                android:layout_marginLeft="10dp"
-                android:text="Related Tags:"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/profile_tags"
-                android:text="Justice System, Russia, Terrorism"
-                android:textColor="@android:color/black"
-                android:layout_marginLeft="5dp"
-                />
-
-        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_tagLayout"
+            android:layout_below="@id/profile_topLayout"
             android:id="@+id/profile_contSectionText"
             android:text="Contributions"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="60dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,8 +72,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/profile_contDummyText"
                 android:text="This user does not have any contributions yet."
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_contributions"
+                android:orientation="vertical">
             </LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 </ScrollView>

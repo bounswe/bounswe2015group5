@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="7dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="50dp"
-        android:layout_height="75dp"
-        android:id="@+id/rate_layout"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:layout_alignParentStart="true"
-        android:weightSum="10">
+    <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="75dp"-->
+        <!--android:id="@+id/rate_layout"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:weightSum="10">-->
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/ext_cont_up_vote_btn"
-            android:src="@drawable/up_arrow"
-            android:layout_weight="3"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"/>
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:id="@+id/ext_cont_up_vote_btn"-->
+            <!--android:src="@drawable/up_arrow"-->
+            <!--android:layout_weight="3"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:background="@null"/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/ext_cont_rate"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:layout_weight="4"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="0"-->
+            <!--android:id="@+id/ext_cont_rate"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="#000000"-->
+            <!--android:layout_weight="4"/>-->
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/ext_cont_down_vote_btn"
-            android:rotation="180"
-            android:src="@drawable/up_arrow"
-            android:layout_weight="3"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"/>
-    </LinearLayout>
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:id="@+id/ext_cont_down_vote_btn"-->
+            <!--android:rotation="180"-->
+            <!--android:src="@drawable/up_arrow"-->
+            <!--android:layout_weight="3"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:background="@null"/>-->
+    <!--</LinearLayout>-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cont_layout"
-        android:layout_alignTop="@+id/rate_layout"
-        android:layout_alignBottom="@+id/rate_layout"
-        android:layout_toEndOf="@+id/rate_layout"
-        android:gravity="center">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/cont_layout"-->
+        <!--android:layout_alignTop="@+id/rate_layout"-->
+        <!--android:layout_alignBottom="@+id/rate_layout"-->
+        <!--android:layout_toEndOf="@+id/rate_layout"-->
+        <!--android:gravity="center">-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,5 +89,5 @@
             android:layout_alignEnd="@id/ext_cont_title"
             android:textColor="#000000"/>
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 </RelativeLayout>

@@ -1,22 +1,43 @@
 <div class="panel-heading">
-    <h3 class="panel-title">Comments</h3>
+    <h3 class="panel-title">Contribution Details</h3>
 </div>
 <div class="panel-body" ng-controller="ViewContributionCtrl">
-        <!-- Comment Form -->
-
-        <h4>{{contribution.title}}</h4>
-        <p>{{contribution.content}}</p>
-        <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
-
-        <ul class="list-inline">
-            <li>Tags:</li>
-            <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
-        </ul>
-        <br/>
-
-        <div ng-repeat="comment in comments">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>{{contribution.title}}</h4></div>
+        <div class="panel-body">
             <p>{{contribution.content}}</p>
-            <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
-            <br/>
+            <p>
+                <bold>by</bold>
+                {{contribution.creator.username}}
+            </p>
+            <p><span class="badge">{{contribution.createdAt}}</span></p>
+            <p><a ng-hide="!contribution.referenseList" ng-href="{{contribution.referenseList}}">Reference</a></p>
+            <label>Tags:</label>
+            <br>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default" ng-repeat="tag in tags"
+                        ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}
+                </button>
+            </div>
         </div>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="comment in comments">
+                <p>{{comment.content}}</p>
+                <span class="badge">{{comment.createdAt}}</span>
+                <p>by {{comment.user.username}}</p>
+                <button type="button" ng-show="$root.username == comment.user.username"
+                        ng-click="delete(comment.id)" class="btn btn-danger">Delete
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Comment Form -->
+
+    <form ng-submit="addANewComment()" ng-show="$root.username">
+        <label>Your comment:</label>
+        <textarea ng-model="commentContext.commentBody" class="form-control" rows="3"
+                  placeholder="Enter a new comment.." required></textarea>
+        <input type="submit" value="Comment" class="btn btn-warning">
+    </form>
 </div>

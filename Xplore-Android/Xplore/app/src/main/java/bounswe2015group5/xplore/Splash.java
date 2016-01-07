@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
 /**
  * Created by hakansahin on 09/11/15.
  */
@@ -25,18 +28,20 @@ public class Splash extends Activity{
 
         if(Globals.share.getBoolean("SignedIn", false)){
 
-            final String email = Globals.share.getString("Email", ""),
-                         pass = Globals.share.getString("Pass", "");
+            final String email = Globals.share.getString("username", ""),
+                         pass = Globals.share.getString("password", "");
 
-            Response.Listener<String> responseListener =
-                    new Response.Listener<String>() {
+            Response.Listener<JSONObject> responseListener =
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(String response) {
-                            if(response.toLowerCase().contains("success")) {
-                                if(!Globals.share.contains("ID")) getUserInfo();
-                                else {
+                        public void onResponse(JSONObject response) {
+                            if(response.toString().length() > 0) {
+
+//                                if(!Globals.share.contains("ID")) getUserInfo();
+//                                else {
                                     startActivity(new Intent(Splash.this, MainActivity.class));
-                                    finish();                                }
+                                    finish();
+//                                }
                             } else {
                                 startActivity(new Intent(Splash.this, Login.class));
                                 finish();
@@ -44,16 +49,20 @@ public class Splash extends Activity{
                         }
                     };
 
-            Globals.connectionManager.login(email, pass, responseListener);
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    startActivity(new Intent(Splash.this, Login.class));
+                    finish();
+                }
+            };
+
+            Globals.connectionManager.login(email, pass, responseListener, errorListener);
 
         } else {
             startActivity(new Intent(Splash.this, Login.class));
             finish();
         }
 
-    }
-
-    public void getUserInfo(){
-        Globals.connectionManager.getUserInfo(Splash.this);
     }
 }

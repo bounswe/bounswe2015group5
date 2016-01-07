@@ -2,22 +2,45 @@
     <h3 class="panel-title">Contributions</h3>
 </div>
 <div class="panel-body" ng-controller="ViewTagCtrl">
-        <form ng-submit="$state.go('contribute')">
-            <fieldset align="center" class="form-group">
-                <input type="submit"  class="btn btn-primary col-lg-pull-3" value="Add Contribution" />
-            </fieldset>
-        </form>
+    <form ng-show="$root.username" ng-submit="$state.go('contribute')">
+        <fieldset align="center" class="form-group">
+            <input type="submit" class="btn btn-primary col-lg-pull-3" value="Add Contribution"/>
+        </fieldset>
+    </form>
 
-        <div ng-repeat="contribution in contributions">
-            <h4>{{contribution.title}}</h4>
-            <p>{{contribution.content}}</p>
-            <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
-
-            <ul class="list-inline">
-                <li>Tags:</li>
-                <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
-            </ul>
-            <br/>
+    <div class="panel panel-default" ng-repeat="contribution in contributions | orderBy : '-rate'">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{contribution.title}}</h3>
         </div>
+        <div class="panel-body">
+            <p>{{contribution.content}}</p>
+            <p>{{contribution.creator.username}}</p>
+            <p><span class="badge"> {{contribution.createdAt}}</span></p>
+            <p>Rating: {{contribution.rate}}</p>
+            <p>Tags:</p>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default" ng-repeat="tag in contribution.tags"
+                        ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}
+                </button>
+            </div>
+            <hr>
+            <div class="btn-group btn-group-sm" role="group">
+                <!-- like button for each contribution -->
+                <button type="button" ng-show="$root.username" ng-disabled="contribution.currentUserVote == 1"
+                        ng-click="vote(contribution.id, 1)" class="btn btn-success">Like
+                </button>
+                <!-- dislike button for each contribution -->
+                <button type="button" ng-show="$root.username" ng-disabled="contribution.currentUserVote == -1"
+                        ng-click="vote(contribution.id, -1)" class="btn btn-danger">Dislike
+                </button>
+                <button type="button" ng-show="$root.username == contribution.creator.username"
+                        ng-click="delete(contribution.id)" class="btn btn-danger">Delete
+                </button>
+                <!-- the button which goes to comments of the contribution-->
+                <button class="btn btn-info" ui-sref="viewContribution({ contributionId: contribution.id })">Comments
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 

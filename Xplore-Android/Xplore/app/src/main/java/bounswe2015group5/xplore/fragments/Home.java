@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 
@@ -46,25 +47,6 @@ public class Home extends BaseFragment{
         RelativeLayout parent = (RelativeLayout) inflater.inflate(R.layout.home, null);
         expListView = (ExpandableListView) parent.findViewById(R.id.home_extend_cont_list);
 
-        FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
-        if(Globals.share.getBoolean("SignedIn",false)) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "ConributionCreation");
-                }
-            });
-        } else {
-            fab.setImageResource(R.drawable.signup_fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(getActivity(), Signup.class));
-                    getActivity().finishAffinity();
-                }
-            });
-        }
-
         // preparing list data
         prepareListData();
 
@@ -75,7 +57,6 @@ public class Home extends BaseFragment{
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                showProgressDialog();
                 prepareGroupItems(tagGroups.get(groupPosition).getID());
             }
         });
@@ -84,8 +65,7 @@ public class Home extends BaseFragment{
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
                 Contribution selected = listAdapter.getChild(groupPosition,childPosition);
-                showProgressDialog();
-                fetchComments(selected);
+                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected), "ContributionDetail", false);
                 return true;
             }
         });
@@ -93,11 +73,16 @@ public class Home extends BaseFragment{
         return parent;
     }
 
-    public static ContributionDetail newDetailFragment(Contribution c, ArrayList<Comment> comments){
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setTitle("Home");
+    }
+
+    public ContributionDetail newDetailFragment(Contribution contribution){
         ContributionDetail myDetailFragment = new ContributionDetail();
         Bundle args = new Bundle();
-        args.putSerializable("Contribution", c);
-        args.putSerializable("Comments", comments);
+        args.putSerializable("Contribution", contribution);
         myDetailFragment.setArguments(args);
 
         return myDetailFragment;
@@ -121,7 +106,7 @@ public class Home extends BaseFragment{
                                 e.printStackTrace();
                             }
                         } // TODO if response is empty, show a warning.
-                        hideProgressDialog();
+//                        hideProgressDialog();
                     }
                 };
 
@@ -150,41 +135,10 @@ public class Home extends BaseFragment{
                                 e.printStackTrace();
                             }
                         } // TODO if response is empty, show a warning.
-                        hideProgressDialog();
                     }
                 };
 
         // TODO construct an error listener. (hideProgressDialog)
         Globals.connectionManager.getContributionsByTagId(tagId, responseListener);
     }
-
-    public void fetchComments(final Contribution contribution){
-        commentList = new ArrayList<>();
-
-        Response.Listener<String> responseListener =
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(!response.isEmpty()){
-                            try {
-                                JSONArray jArray = new JSONArray(response);
-                                for(int i = 0; i < jArray.length(); i++)
-                                    commentList.add(new Comment(jArray.getJSONObject(i)));
-
-                                ((MainActivity) getActivity()).launchFragment(newDetailFragment(contribution, commentList), "ContributionDetail");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else{
-                            System.err.println("response is empty");
-                        }
-                        hideProgressDialog();
-                    }
-                };
-
-        // TODO construct an error listener. (hideProgressDialog)
-        Globals.connectionManager.commentsByContributionID(contribution.getId(), responseListener);
-    }
-
 }

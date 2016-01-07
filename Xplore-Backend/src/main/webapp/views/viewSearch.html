@@ -2,19 +2,31 @@
     <h3 class="panel-title">Contributions</h3>
 </div>
 <div class="panel-body" ng-controller="ViewSearchCtrl">
-        <!-- New Contribution Form -->
-
-        <div ng-repeat="contribution in contributions">
-            <h4>{{contribution.title}}</h4>
-            <p>{{contribution.content}}</p>
-            <p>by {{contribution.creator.username}} at {{contribution.creationDate}}</p>
-
-            <ul class="list-inline">
-                <li>Tags:</li>
-                <li ng-repeat="tag in contribution.tags" ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}</li>
-            </ul>
-            <br/>
+    <div class="panel panel-default" ng-repeat="contribution in contributions">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{contribution.title}}</h3>
         </div>
+        <div class="panel-body">
+            <p>{{contribution.content}}</p>
+            <p>{{contribution.creator.username}}</p>
+            <p>{{contribution.creationDate}}</p>
+            <p>Tags:</p>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default" ng-repeat="tag in contribution.tags"
+                        ui-sref="viewTag({ tagId: tag.id })">{{tag.name}}
+                </button>
+            </div>
+            <hr>
+            <div class="btn-group btn-group-sm" role="group">
+                <!-- like button for each contribution -->
+                <button type="button" class="btn btn-success">Like</button>
+                <!-- dislike button for each contribution -->
+                <button type="button" class="btn btn-danger">Dislike</button>
+                <!-- the button which goes to comments of the contribution-->
+                <button class="btn btn-info" ui-sref="viewContribution({ contributionId: contribution.id })">Comments
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
-
 

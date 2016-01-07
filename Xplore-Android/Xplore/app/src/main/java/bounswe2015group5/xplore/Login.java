@@ -11,6 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The Class Login is an Activity class that shows the login screen to users.
@@ -25,6 +29,8 @@ public class Login extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		XploreApp.initInstance(getApplicationContext());
 
 		setContentView(R.layout.login);
 
@@ -65,29 +71,44 @@ public class Login extends Activity {
 
 	private void attempLogin(final String email, final String pass) {
 
-		Response.Listener<String> responseListener =
-				new Response.Listener<String>() {
+		Response.Listener<JSONObject> responseListener =
+				new Response.Listener<JSONObject>() {
 					@Override
-					public void onResponse(String response) {
-						if(response.toLowerCase().contains("success")){
-							SharedPreferences.Editor editor = Globals.share.edit();
-							editor.putBoolean("SignedIn", true);
-							editor.putString("Email", email);
-							editor.putString("Pass", pass);
-							editor.apply();
+					public void onResponse(JSONObject response) {
+						if(response.toString().length() > 0){
 
-							getUserInfo();
+							try {
+								SharedPreferences.Editor editor = Globals.share.edit();
+								editor.putBoolean("SignedIn", true);
+								editor.putString("username", response.getString("username"));
+								editor.putString("password", response.getString("password"));
+								editor.apply();
 
+//								getUserInfo();
+
+								startActivity(new Intent(Login.this, MainActivity.class));
+								finishAffinity();
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
 						} else
-							Toast.makeText(getApplicationContext(), "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
+							Toast.makeText(Globals.appContext, "Unsuccessful Attempt", Toast.LENGTH_SHORT).show();
 					}
 				};
 
-		Globals.connectionManager.login(email, pass, responseListener);
+		Response.ErrorListener errorListener = new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(Globals.appContext, "Something gone wrong. Please, try again later.", Toast.LENGTH_SHORT).show();
+			}
+		};
+
+		Globals.connectionManager.login(email, pass, responseListener, errorListener);
 
 	}
 
-	public void getUserInfo(){
-		Globals.connectionManager.getUserInfo(Login.this);
-	}
+	// User Info is retrieved while logging in.
+//	public void getUserInfo(){
+//		//Globals.connectionManager.getUserInfo(Login.this);
+//	}
 }

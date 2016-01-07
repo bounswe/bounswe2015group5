@@ -18,4 +18,7 @@ public interface RelationService {
     Map<Integer,Integer> findMostRelatedTagsWithTag(int tagId);
 
     Relation saveRelation(Relation relation);
+
+    void deleteRelation(Relation relation);
+    void deleteRelations(Iterable<Relation> relations);
 }

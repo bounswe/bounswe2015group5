@@ -2,74 +2,56 @@ package bounswe2015group5.xplore.models;
 
 import org.json.JSONObject;
 
+import java.util.Date;
+
 /**
  * Created by Mert on 30.11.2015.
  */
 public class Comment {
-    private int type,userID,ID,contributionID;
-    private String content,surname,name,date;
+    private int ID;
+    private String content,username,email,createdAt;
+    private Contribution contribution;
 
     /**
      * Default constructor for Comment
      * @author Mert Oguz
      */
-    public Comment(){
-        type = 0;
-        userID = 0;
-        ID = 0;
-        contributionID = 0;
-        content = null;
-        surname = null;
-        name = null;
-        date = null;
-    }
+    public Comment(){}
 
     /**
      * Constructor that takes JSONObject for Comment
      * @author Mert Oguz
      */
     public Comment(JSONObject comment){
-            this.type = comment.optInt("Type");
-            this.userID = comment.optInt("UserID");
-            this.ID = comment.optInt("ID");
-            this.contributionID = comment.optInt("ContributionID");
-            this.content = comment.optString("Content");
-            this.surname = comment.optString("Surname");
-            this.name = comment.optString("Name");
-            this.date = comment.optString("Date");
+        this.ID = comment.optInt("id");
+        this.content = comment.optString("content");
+
+        JSONObject user = comment.optJSONObject("user");
+        this.username = user.optString("username");
+        this.email = user.optString("email");
+
+        this.contribution = new Contribution(comment.optJSONObject("contribution"));
+
+        this.createdAt = (new Date(Long.parseLong(comment.optString("createdAt")))).toString();
     }
 
-    public int getType(){
-        return type;
-    }
-    public int getUserID(){
-        return userID;
-    }
     public int getID(){
-        return ID;
+        return this.ID;
     }
-    public int getContributionID(){
-        return contributionID;
+    public Contribution getContribution(){
+        return this.contribution;
     }
     public String getContent(){
-        return content;
+        return this.content;
     }
-    public String getSurname(){
-        return surname;
+    public String getUsername(){
+        return this.username;
     }
-    public String getName(){
-        return name;
-    }
-    public String getDate(){
-        return (date == null) ? "Today" : date;
+    public String getEmail() { return this.email; }
+    public String getCreatedAt(){
+        return (this.createdAt == null) ? "Today" : this.createdAt;
     }
 
-    public void setType(int type){ this.type = type; }
-    public void setUserID(int userID){ this.userID = userID; }
-    public void setID(int ID){ this.ID = ID; }
-    public void setContributionID(int ContID){ this.contributionID = ContID; }
     public void setContent(String content){ this.content = content; }
-    public void setName(String name){ this.name = name; }
-    public void setSurname(String surname){ this.surname = surname; }
-    public void setDate(String date){ this.date = date; }
+    public void setUsername(String username){ this.username = username; }
 }

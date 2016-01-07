@@ -21,6 +21,9 @@ public class Contribution implements Serializable{
     @ApiObjectField(description = "content of the contribution", required = true)
     private String content;
 
+    @ApiObjectField(description = "referenseList of the contribution", required = false)
+    private String referenseList;
+
     @ManyToOne
     @JoinColumn(name = "creatorUser", referencedColumnName = "username")
     @ApiObjectField(description = "The User that created this contribution", required = true)
@@ -34,6 +37,14 @@ public class Contribution implements Serializable{
     @ApiObjectField(description = "The Timestamp when contribution is updated", required = true)
     public Date updatedAt;
 
+    public String getReferenseList() {
+        return referenseList;
+    }
+
+    public void setReferenseList(String referenseList) {
+        this.referenseList = referenseList;
+    }
+
     @PrePersist
     void createdAt() {
         this.createdAt = this.updatedAt = new Date();
@@ -44,9 +55,17 @@ public class Contribution implements Serializable{
         this.updatedAt = new Date();
     }
 
-    public Contribution(String title, String content, User creator) {
+//    public Contribution(String title, String content, User creator) {
+//        this.title = title;
+//        this.content = content;
+//        this.creator = creator;
+//        this.referenseList = "asd";
+//    }
+
+    public Contribution(String title, String content, String referenseList, User creator) {
         this.title = title;
         this.content = content;
+        this.referenseList = referenseList;
         this.creator = creator;
     }
 

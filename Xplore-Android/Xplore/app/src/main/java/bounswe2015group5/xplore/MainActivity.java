@@ -13,6 +13,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import bounswe2015group5.xplore.fragments.Home;
 import bounswe2015group5.xplore.fragments.Profile;
 import bounswe2015group5.xplore.fragments.Trending;
@@ -30,6 +34,8 @@ public class MainActivity extends FragmentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(Globals.instance == null) Globals.init();
+
         signedIn = Globals.share.getBoolean("SignedIn",false);
 
         setContentView(R.layout.activity_main);
@@ -37,19 +43,36 @@ public class MainActivity extends FragmentActivity{
 
         titleTextView = (TextView) findViewById(R.id.title);
 
-        pressTab(R.id.homeTabBtn);
+        pressTab(R.id.trendingTabBtn);
+
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
+
+        FloatingActionButton fabMenuAddTag = (FloatingActionButton) findViewById(R.id.fabMenuAddTag);
+
+        FloatingActionButton fabMenuAddCont = (FloatingActionButton) findViewById(R.id.fabMenuAddCont);
+        fabMenuAddCont.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fabMenu.collapse();
+                startActivity(new Intent(MainActivity.this, ContributionCreation.class));
+//                launchFragment(new ContributionCreation(), "Create Contribution", false);
+            }
+        });
+
     }
 
-    public void launchFragment(Fragment fragment, String title){
+    public void launchFragment(Fragment fragment, String title, boolean clearAll){
 
-//        for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
-//            fragmentManager.popBackStackImmediate();
+        if(clearAll)
+            for(int iterate = fragmentManager.getBackStackEntryCount(); iterate > 1; --iterate)
+                fragmentManager.popBackStackImmediate();
 
-        setTitle(title);
         getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment,title)
                         .addToBackStack(title)
                         .commit();
+
+        setTitle(title);
     }
 
     public void setTitle(String title){
@@ -70,7 +93,7 @@ public class MainActivity extends FragmentActivity{
                     fragment = new Home();
                 else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                launchFragment(fragment, fragmentTag);
+                launchFragment(fragment, fragmentTag,true);
             }
         });
 
@@ -83,7 +106,7 @@ public class MainActivity extends FragmentActivity{
                     fragment = new Trending();
                 else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                launchFragment(fragment, fragmentTag);
+                launchFragment(fragment, fragmentTag,true);
             }
         });
 
@@ -100,7 +123,7 @@ public class MainActivity extends FragmentActivity{
                     fragment = new Profile();
                 else fragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                launchFragment(fragment, fragmentTag);
+                launchFragment(fragment, fragmentTag,true);
             }
         });
 
@@ -110,14 +133,28 @@ public class MainActivity extends FragmentActivity{
             public void onClick(View view) {
 
                 if(signedIn){
-                    SharedPreferences.Editor editor = Globals.share.edit();
-                    editor.putBoolean("SignedIn",false);
-                    editor.clear();
-                    editor.apply();
+
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            SharedPreferences.Editor editor = Globals.share.edit();
+                            editor.putBoolean("SignedIn",false);
+                            editor.clear();
+                            editor.apply();
+
+                            startActivity(new Intent(MainActivity.this, Login.class));
+                            finish();
+                        }
+                    };
+
+                    Globals.connectionManager.logout(responseListener);
+
+                } else {
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                    finish();
                 }
 
-                startActivity(new Intent(MainActivity.this, Login.class));
-                finish();
             }
         });
     }
@@ -157,4 +194,9 @@ public class MainActivity extends FragmentActivity{
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    /**
+     * Created by hakansahin on 06/01/16.
+     */
+    public static class ContributionCreationActivity {}
 }

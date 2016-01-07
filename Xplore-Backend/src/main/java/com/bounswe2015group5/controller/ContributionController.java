@@ -2,6 +2,7 @@ package com.bounswe2015group5.controller;
 
 import com.bounswe2015group5.model.*;
 import com.bounswe2015group5.repository.CommentRepo;
+import com.bounswe2015group5.repository.RateRepo;
 import com.bounswe2015group5.repository.UserRepo;
 import com.bounswe2015group5.service.ContributionService;
 import com.bounswe2015group5.service.RelationService;
@@ -9,12 +10,12 @@ import com.bounswe2015group5.service.TagService;
 import org.jsondoc.core.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -32,6 +33,8 @@ public class ContributionController {
     CommentRepo commentRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    RateRepo rateRepo;
 
     @ApiMethod(description = "returns one contribution with given id")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -48,26 +51,82 @@ public class ContributionController {
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public @ApiResponseObject ResponseEntity<Void> save(@ApiBodyObject @RequestBody Contribution contribution, UriComponentsBuilder uriComponentsBuilder) {
+    public @ApiResponseObject Contribution save(
+            @ApiBodyObject @RequestBody ContributionContext contributionContext, UriComponentsBuilder uriComponentsBuilder, HttpServletRequest request) {
+        User user = (User)request.getSession(false).getAttribute("username");
+        if(user == null){
+            return null;
+        }
+        Contribution contribution = new Contribution(contributionContext.getTitle(),
+                contributionContext.getContent(),contributionContext.getReferenseList(),user);
         contributionService.saveContribution(contribution);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path("/contributions/{id}").buildAndExpand(contribution.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return contribution;
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(uriComponentsBuilder.path("/contributions/{id}").buildAndExpand(contribution.getId()).toUri());
+//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @ApiObject
+    public static class ContributionContext{
+        @ApiObjectField(description = "Contribution title", required = true)
+        private String title;
+
+        @ApiObjectField(description = "Contribution content", required = true)
+        private String content;
+
+        @ApiObjectField(description = "References of the contribution", required = true)
+        private String referenseList;
+
+        public ContributionContext() {
+        }
+
+
+        public ContributionContext(String title, String content, String referenseList) {
+            this.title = title;
+            this.content = content;
+            this.referenseList = referenseList;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getReferenseList() {
+            return referenseList;
+        }
+
+        public void setReferenseList(String referenseList) {
+            this.referenseList = referenseList;
+        }
     }
 
     @ApiMethod
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void delete(@ApiPathParam(name = "id") @PathVariable int id) {
+        relationService.deleteRelations(relationService.getRelationsByContributionId(id));
+        commentRepo.delete(commentRepo.findByContributionId(id));
         contributionService.deleteContribution(id);
     }
 
     @ApiMethod(description = "returns all relations of given contribution id")
     @RequestMapping(value = "/{id}/relations", method = RequestMethod.GET)
     public @ApiResponseObject
-    Iterable<Relation> findRelationsByTagID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
-        return relationService.getRelationsByTagId(id);
+    Iterable<Relation> findRelationsByContributionID(@ApiPathParam(name = "id") @PathVariable int id, Pageable pageable) {
+        return relationService.getRelationsByContributionId(id);
     }
 
     @ApiMethod(description = "returns all tags related to given contribution id")
@@ -75,6 +134,53 @@ public class ContributionController {
     public @ApiResponseObject
     Iterable<Tag> findTagsByContributionID(@ApiPathParam(name = "id") @PathVariable int id) {
         return relationService.getTagsByContributionId(id);
+    }
+
+    @ApiMethod(description = "returns all rates related to given contribution id")
+    @RequestMapping(value = "/{id}/rates", method = RequestMethod.GET)
+    public @ApiResponseObject
+    RateResponse rateContribution(@ApiPathParam(name = "id") @PathVariable int id, HttpServletRequest request) {
+        Integer up=0,down=0,current=0;
+        String username = null;
+        try {
+            username = UserController.currentUser(request).getUsername();
+        } catch (Exception e) {
+        }
+
+        System.out.println("--------*************username :    " + username);
+
+        for (UserRate userRate : rateRepo.findByContributionId(id)) {
+            if(userRate.getValue()==+1)
+                up++;
+            else if (userRate.getValue()==-1)
+                down++;
+
+            if (userRate.getUser().getUsername().equals(username))
+                current = userRate.getValue();
+        }
+        return new RateResponse(up,down,current);
+    }
+
+    @ApiMethod(description = "returns all rates related to given contribution id")
+    @RequestMapping(value = "/{id}/rates", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
+    public @ApiResponseObject
+    RateResponse addRate(@ApiPathParam(name = "id") @PathVariable int id,
+                         @ApiBodyObject @RequestBody VotingContext votingContext,
+                         HttpServletRequest request) {
+        int vote = votingContext.getVote();
+        if(vote == 0 || vote ==-1 || vote ==1){
+            Contribution contribution = contributionService.getContributionById(id);
+            String username = null;
+            try {
+                username = UserController.currentUser(request).getUsername();
+
+                User user = userRepo.findOne(username);
+                rateRepo.save(new UserRate(contribution,user,vote));
+            } catch (Exception e) {
+            }
+        }
+
+        return rateContribution(id,request);
     }
 
     @ApiMethod(description = "returns all comments related to given contribution id")
@@ -103,8 +209,11 @@ public class ContributionController {
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ApiResponseObject java.util.List<Comment>
     saveComment(@ApiPathParam(name = "id") @PathVariable int id,
-                @ApiBodyObject @RequestBody CommentContext commentContext) {
-        User user = userRepo.findOne(commentContext.getUsername());
+                @ApiBodyObject @RequestBody CommentContext commentContext, HttpServletRequest request) {
+        User user = (User)request.getSession(false).getAttribute("username");
+        if(user == null){
+            return null;
+        }
         Contribution contribution = contributionService.getContributionById(id);
         String commentBody = commentContext.getCommentBody();
 
@@ -140,13 +249,6 @@ public class ContributionController {
             this.username = username;
         }
 
-//        public int getContributionId() {
-//            return contributionId;
-//        }
-//
-//        public void setContributionId(int contributionId) {
-//            this.contributionId = contributionId;
-//        }
 
         public String getCommentBody() {
             return commentBody;
@@ -154,6 +256,68 @@ public class ContributionController {
 
         public void setCommentBody(String commentBody) {
             this.commentBody = commentBody;
+        }
+    }
+
+    @ApiObject
+    public static class RateResponse {
+        private Integer up;
+        private Integer down;
+        private Integer currentUser;
+
+        public RateResponse() {
+            up=down=currentUser=0;
+        }
+
+        public RateResponse(Integer up, Integer down, Integer currentUser) {
+            this.up = up;
+            this.down = down;
+            this.currentUser = currentUser;
+        }
+
+        public Integer getUp() {
+            return up;
+        }
+
+        public void setUp(Integer up) {
+            this.up = up;
+        }
+
+        public Integer getDown() {
+            return down;
+        }
+
+        public void setDown(Integer down) {
+            this.down = down;
+        }
+
+        public Integer getCurrentUser() {
+            return currentUser;
+        }
+
+        public void setCurrentUser(Integer currentUser) {
+            this.currentUser = currentUser;
+        }
+    }
+
+    @ApiObject
+    public static class VotingContext {
+        @ApiObjectField(description = "Value of the vote", required = true)
+        private Integer vote;
+
+        public VotingContext() {
+        }
+
+        public VotingContext(Integer vote) {
+            this.vote = vote;
+        }
+
+        public Integer getVote() {
+            return vote;
+        }
+
+        public void setVote(Integer vote) {
+            this.vote = vote;
         }
     }
 }

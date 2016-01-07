@@ -1,23 +1,18 @@
 package bounswe2015group5.xplore.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -25,7 +20,6 @@ import java.util.ArrayList;
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
-import bounswe2015group5.xplore.Signup;
 import bounswe2015group5.xplore.adapters.ContributionListAdapter;
 import bounswe2015group5.xplore.models.Contribution;
 
@@ -34,6 +28,9 @@ import bounswe2015group5.xplore.models.Contribution;
  */
 public class ContributionList extends BaseFragment {
 
+    private RelativeLayout parent;
+    private int TAG_ID;
+    private String TAG_NAME;
     private ArrayList<Contribution> contributions;
     private ContributionListAdapter listAdapter;
     private Boolean isContListLoaded;
@@ -46,103 +43,74 @@ public class ContributionList extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        RelativeLayout parent = (RelativeLayout) inflater.inflate(R.layout.contribution_list, null);
+        parent = (RelativeLayout) inflater.inflate(R.layout.contribution_list, null);
 
-        contList = (PullToRefreshListView) parent.findViewById(R.id.pull_to_refresh_listview);
+        TAG_ID = getArguments().getInt("TAGID");
+
+        ((MainActivity) getActivity()).setTitle("Contributions");
+
+        if(!isContListLoaded) populateContributions(TAG_ID);
+        contList = (PullToRefreshListView) parent.findViewById(R.id.contributionList);
         contList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                populateData();
+                populateContributions(TAG_ID);
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
-        if(Globals.share.getBoolean("SignedIn",false)) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((MainActivity) getActivity()).launchFragment(new ContributionCreation(), "ConributionCreation");
-                }
-            });
-        } else {
-            fab.setImageResource(R.drawable.signup_fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(getActivity(), Signup.class));
-                    getActivity().finishAffinity();
-                }
-            });
-        }
-
-        listAdapter = new ContributionListAdapter(getActivity().getApplicationContext(), contributions);
-        contList.getRefreshableView().setAdapter(listAdapter);
-
-        if(!isContListLoaded){
-            showProgressDialog();
-            populateData();
-        }
 
         contList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Contribution selected = (Contribution) adapterView.getItemAtPosition(position);
-                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected.getTitle(), selected.getContent(),
-                        selected.getCreatorUsername(), selected.getDate()), "ContributionDetail");
+                ((MainActivity) getActivity()).launchFragment(newDetailFragment(selected), "ContributionDetail", false);
             }
         });
+
+        listAdapter = new ContributionListAdapter(Globals.appContext, contributions);
+        contList.getRefreshableView().setAdapter(listAdapter);
 
         return parent;
     }
 
-    public static ContributionDetail newDetailFragment(String title, String content, String nameSurname, String date){
+    public ContributionDetail newDetailFragment(Contribution contribution){
         ContributionDetail myDetailFragment = new ContributionDetail();
         Bundle args = new Bundle();
-        args.putString("title",title);
-        args.putString("content", content);
-        args.putString("nameSurname",nameSurname);
-        args.putString("date", date);
-
+        args.putSerializable("Contribution", contribution);
         myDetailFragment.setArguments(args);
 
         return myDetailFragment;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        populateData();
-    }
-
-    private void populateData() {
+    private void populateContributions(int tagId) {
 
         Response.Listener<JSONArray> responseListener =
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("LOG", response.toString());
-                        if(!response.toString().isEmpty()){
-                            contributions.clear();
-                            try {
-                                int numContributions = response.length();
-                                for(int i = 0; i < numContributions; i++){
-                                    JSONObject jsonObject = response.getJSONObject(i);
+                        if(response.length() > 0){
 
-                                    contributions.add(new Contribution(jsonObject));
-                                    listAdapter.notifyDataSetChanged();
-                                }
-                                isContListLoaded = true;
-                                contList.onRefreshComplete();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            stopAnim();
+                            contributions.clear();
+                            for(int i = 0; i < response.length(); i++){
+                                JSONObject contributionJSON = response.optJSONObject(i);
+                                if(contributionJSON == null) continue;
+
+                                contributions.add(new Contribution(contributionJSON));
+                                listAdapter.notifyDataSetChanged();
                             }
-                        } else //unsuccessful register attempt
-                            Toast.makeText(getActivity().getApplicationContext(), "Unsuccessful Register Attempt", Toast.LENGTH_SHORT).show();
-                        hideProgressDialog();
+                        } // TODO if response is empty, show a warning.
+                        contList.onRefreshComplete();
                     }
                 };
 
-        Globals.connectionManager.getAllContributions(responseListener);
+        Globals.connectionManager.getContributionsByTagId(tagId, responseListener);
+    }
+
+
+    public void stopAnim(){
+        parent.findViewById(R.id.contListLoadingView).setVisibility(View.GONE);
+        parent.findViewById(R.id.contListLoadingText).setVisibility(View.GONE);
+
+        contList.setVisibility(View.VISIBLE);
     }
 }

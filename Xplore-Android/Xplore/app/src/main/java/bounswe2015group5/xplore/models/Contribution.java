@@ -5,13 +5,14 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 /**
  * Last updated by Mert Oguz on 7/11/2015.
  */
 public class Contribution implements Serializable {
 
-    private int ID, type, clientRate = 0, rate;
-    private String title, content, date, creatorUsername, creatorEmail, createdAt, updatedAt;
+    public int ID, clientRate = 0, rate;
+    private String title, content, creatorUsername, creatorEmail, createdAt, updatedAt;
     private ArrayList<Tag> tags;
 
     /**
@@ -26,14 +27,13 @@ public class Contribution implements Serializable {
         JSONObject creator      = contribution.optJSONObject("creator");
         this.creatorUsername    = creator.optString("username");
         this.creatorEmail       = creator.optString("email");
-        this.createdAt          = contribution.optString("createdAt");
+        this.createdAt          = (new Date(Long.parseLong(contribution.optString("createdAt")))).toString();
 
         // TODO set these values.
         this.rate = 0;
         this.clientRate = 0;
         this.tags = new ArrayList<Tag>();
 
-//            this.date       = contribution.getString("Date");
 //            this.type       = contribution.getInt("Type");
 //            this.clientRate = contribution.optInt("ClientRate");
 //            this.rate       = contribution.getInt("Rate");

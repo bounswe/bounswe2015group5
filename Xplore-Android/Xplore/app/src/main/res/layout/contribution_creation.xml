@@ -1,69 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:autolabel="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        xmlns:autolabel="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background3"
+        android:backgroundTint="@color/backgraound_gray">
+
+    <RelativeLayout
+        android:id="@+id/actionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tab_btn_center"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/delete_btn"
+            android:backgroundTint="@color/tab_btn_text"
+            android:id="@+id/backBtn"
+            android:padding="5dp"
+            android:layout_centerVertical="true"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="30dp"
+            android:layout_margin="3dp"
+            android:background="@color/tab_btn_text"
+            android:layout_toStartOf="@+id/contributeBtn"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/contributeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:text="Contribute"
+            android:textColor="@color/tab_btn_text"
+            android:textAlignment="gravity"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/conTitle"
-        android:layout_alignParentTop="true"
-        android:editable="true"
+        android:layout_below="@+id/actionBarLayout"
         android:hint="Title"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="5dp"
+        android:padding="7dp"
+        android:background="@drawable/edittext_style"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:inputType="textMultiLine"
+        android:lines="5"
         android:ems="10"
         android:id="@+id/conText"
         android:layout_below="@+id/conTitle"
         android:hint="Write Something ..."
-        android:gravity="top"/>
+        android:gravity="top"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="7dp"
+        android:background="@drawable/edittext_style"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/conTag"
+        android:layout_below="@+id/conText"
+        android:hint="Tags..."
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="7dp"
+        android:ems="10"
+        android:background="@drawable/edittext_style"/>
 
     <com.dpizarro.autolabel.library.AutoLabelUI
         android:id="@+id/conTagLabels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/conText"
+        android:layout_below="@+id/conTag"
         autolabel:max_labels="5"
         autolabel:text_color="#FFFFFF"
         autolabel:show_cross="true"
         autolabel:icon_cross="@drawable/cross"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/linearLayout">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/conTag"
-            android:hint="Tag"
-            android:layout_weight="90"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Tag"
-            android:id="@+id/addTagBtn"
-            android:layout_weight="3"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:id="@+id/createBtn"
-            android:layout_weight="7"/>
-
-    </LinearLayout>
 </RelativeLayout>
