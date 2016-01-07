@@ -20,25 +20,45 @@
             android:id="@+id/addtagtocont_existing_tags"
             android:orientation="vertical">
         </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="or"
             android:id="@+id/addtagtocont_or"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_below="@+id/addtagtocont_existing_tags"
             />
-        <Button
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create a new tag"
-            android:id="@+id/addtagtocont_addtagbtn"
-            android:layout_below="@+id/addtagtocont_or"/>
+            android:layout_below="@+id/addtagtocont_or"
+            android:layout_margin="5dp">
 
+            <EditText
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:hint="New Tag"
+                android:id="@+id/newTagEdtTxt"
+                android:background="@drawable/edittext_style"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create tag"
+                android:clickable="true"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:id="@+id/addtagtocont_addtagbtn"
+                android:background="@color/tab_btn_end"
+                android:textColor="@color/tab_btn_text"
+                android:layout_below="@+id/newTagEdtTxt"/>
 
-
+        </RelativeLayout>
 
     </RelativeLayout>
 </ScrollView>

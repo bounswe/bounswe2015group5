@@ -106,18 +106,19 @@
             android:id="@+id/fabMenuAddCont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            fab:fab_size="mini"
             fab:fab_colorNormal="@color/tab_btn_start"
             fab:fab_title="Add Contribution"
             fab:fab_colorPressed="@color/tab_btn_end"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabMenuAddTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/tab_btn_start"
-            fab:fab_size="mini"
-            fab:fab_title="Add Tag"
-            fab:fab_colorPressed="@color/tab_btn_end"/>
+        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+            <!--android:id="@+id/fabMenuAddTag"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--fab:fab_colorNormal="@color/tab_btn_start"-->
+            <!--fab:fab_size="mini"-->
+            <!--fab:fab_title="Add Tag"-->
+            <!--fab:fab_colorPressed="@color/tab_btn_end"/>-->
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

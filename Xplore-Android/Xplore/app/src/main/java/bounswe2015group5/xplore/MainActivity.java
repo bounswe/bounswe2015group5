@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity{
 
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
 
-        FloatingActionButton fabMenuAddTag = (FloatingActionButton) findViewById(R.id.fabMenuAddTag);
+//        FloatingActionButton fabMenuAddTag = (FloatingActionButton) findViewById(R.id.fabMenuAddTag);
 
         FloatingActionButton fabMenuAddCont = (FloatingActionButton) findViewById(R.id.fabMenuAddCont);
         fabMenuAddCont.setOnClickListener(new View.OnClickListener() {
