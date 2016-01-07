@@ -21,7 +21,7 @@ public class ConversionServiceConfiguration implements ApplicationListener<Conte
     @Autowired private ConversionService defaultConversionService;
 
     /**
-     * Generates a generic conversion service and adds converters to it.
+     * Generates a generic conversion service and adds the converters to it.
      * @param event object represents ContextRefreshedEvent
      */
     @Override
