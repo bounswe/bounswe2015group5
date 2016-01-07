@@ -1,5 +1,6 @@
 package bounswe2015group5.xplore.fragments;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import org.json.JSONArray;
 import org.w3c.dom.Text;
 
 
+import bounswe2015group5.xplore.EditProfile;
 import bounswe2015group5.xplore.Globals;
 import bounswe2015group5.xplore.MainActivity;
 import bounswe2015group5.xplore.R;
@@ -47,6 +49,14 @@ public class Profile extends BaseFragment {
         tvEmail.setText(Globals.share.getString("email", ""));
 
         edit = (TextView) parent.findViewById(R.id.profile_editProfile);
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EditProfile.class);
+                startActivity(intent);
+            }
+        });
         dummy = (TextView) parent.findViewById(R.id.profile_contDummyText);
         contributions = (LinearLayout) parent.findViewById(R.id.profile_contributions);
 

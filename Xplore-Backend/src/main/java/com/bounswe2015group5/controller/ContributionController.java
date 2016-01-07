@@ -17,7 +17,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+/**
+ * Controller class for contribution functionality.
+ * Uses RestController annotation to be treated as a controller.
+ * Uses RequestMapping annotation which is treated as ResponseBody semantically.
+ */
 @RestController
 @RequestMapping(value = "/contributions", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(description = "The contributions controller", name = "Contribution Services")
@@ -36,18 +40,36 @@ public class ContributionController {
     @Autowired
     RateRepo rateRepo;
 
+    /**
+     * Finds a contribution given its id.
+     * ContributionService is used to enable this process.
+     * @param id id of the contribution
+     * @return returns the corresponding contribution.
+     */
     @ApiMethod(description = "returns one contribution with given id")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ApiResponseObject Contribution findOne(@ApiPathParam(name = "id") @PathVariable int id) {
         return contributionService.getContributionById(id);
     }
 
+    /**
+     * Finds and lists all contributions.
+     * @return all the contributions
+     */
     @ApiMethod
     @RequestMapping(method = RequestMethod.GET)
     public @ApiResponseObject Iterable<Contribution> findAll() {
         return contributionService.listAllContributions();
     }
 
+    /**
+     * Saves the contribution using contributionService
+     * Creates the contribution object giving its title,content,reference list and user.
+     * @param contributionContext context of the contribution
+     * @param uriComponentsBuilder Builder for uriComponents
+     * @param request Http Servlet Request
+     * @return contribution saved
+     */
     @ApiMethod
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -67,6 +89,9 @@ public class ContributionController {
 //        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
+    /**
+     * Class that defines the context of the contribution.
+     */
     @ApiObject
     public static class ContributionContext{
         @ApiObjectField(description = "Contribution title", required = true)
@@ -82,37 +107,73 @@ public class ContributionController {
         }
 
 
+        /**
+         * Constructor for ContributionContext class
+         * @param title title of contribution
+         * @param content content of contribution
+         * @param referenseList reference list of contribution
+         */
         public ContributionContext(String title, String content, String referenseList) {
             this.title = title;
             this.content = content;
             this.referenseList = referenseList;
         }
 
+        /**
+         * Get functionality for title of contribution
+         * @return title
+         */
         public String getTitle() {
             return title;
         }
 
+        /**
+         * Set functionality for title of contribution
+         * @param title title
+         */
         public void setTitle(String title) {
             this.title = title;
         }
 
+        /**
+         * Get functionality for content of contribution
+         * @return content
+         */
         public String getContent() {
             return content;
         }
 
+        /**
+         * Set functionality for content of contribution
+         * @param content content
+         */
         public void setContent(String content) {
             this.content = content;
         }
 
+        /**
+         * Get functionality for reference list of contribution
+         * @return reference list
+         */
         public String getReferenseList() {
             return referenseList;
         }
 
+        /**
+         * Set functionality for reference list of contribution
+         * @param referenseList reference list
+         */
         public void setReferenseList(String referenseList) {
             this.referenseList = referenseList;
         }
     }
 
+    /**
+     * Deletes a contribution from its repository given its id.
+     * Deletes its relations also.
+     * Uses contributionService to do this.
+     * @param id contribution id
+     */
     @ApiMethod
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -122,6 +183,12 @@ public class ContributionController {
         contributionService.deleteContribution(id);
     }
 
+    /**
+     * Finds the relations of a given contribution
+     * @param id contribution id
+     * @param pageable pageable
+     * @return relations of the contribution
+     */
     @ApiMethod(description = "returns all relations of given contribution id")
     @RequestMapping(value = "/{id}/relations", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -129,6 +196,11 @@ public class ContributionController {
         return relationService.getRelationsByContributionId(id);
     }
 
+    /**
+     * Finds the tags that are related with the contribution given its id.
+     * @param id contribution id
+     * @return tags of the contribution
+     */
     @ApiMethod(description = "returns all tags related to given contribution id")
     @RequestMapping(value = "/{id}/tags", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -136,6 +208,12 @@ public class ContributionController {
         return relationService.getTagsByContributionId(id);
     }
 
+    /**
+     * Rate functionality of the contribution
+     * @param id contribution id
+     * @param request HttpServletRequest
+     * @return RateResponse
+     */
     @ApiMethod(description = "returns all rates related to given contribution id")
     @RequestMapping(value = "/{id}/rates", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -161,6 +239,13 @@ public class ContributionController {
         return new RateResponse(up,down,current);
     }
 
+    /**
+     * Adds the rating given to a contribution
+     * @param id contribution id
+     * @param votingContext votingContext
+     * @param request HttpServletRequest
+     * @return rateContribution
+     */
     @ApiMethod(description = "returns all rates related to given contribution id")
     @RequestMapping(value = "/{id}/rates", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
     public @ApiResponseObject
@@ -183,6 +268,11 @@ public class ContributionController {
         return rateContribution(id,request);
     }
 
+    /**
+     * Finds all comments related to given contribution id
+     * @param id contribution id
+     * @return comments
+     */
     @ApiMethod(description = "returns all comments related to given contribution id")
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -190,6 +280,12 @@ public class ContributionController {
         return commentRepo.findByContributionId(id);
     }
 
+    /**
+     * Adds a tag to a given contribution
+     * @param id contribution id
+     * @param tagId tag id
+     * @return tag
+     */
     @ApiMethod(description = "Adds a tag to given contribution")
     @RequestMapping(value = "/{id}/addTag/{tagId}", method = RequestMethod.GET)
     public @ApiResponseObject
@@ -205,6 +301,13 @@ public class ContributionController {
         return relationService.getTagsByContributionId(id);
     }
 
+    /**
+     * Save functionality for comment
+     * @param id contribution id
+     * @param commentContext context of comment
+     * @param request HttpServletRequest
+     * @return comment
+     */
     @ApiMethod
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ApiResponseObject java.util.List<Comment>
@@ -223,6 +326,9 @@ public class ContributionController {
         return  commentRepo.findByContributionId(id);
     }
 
+    /**
+     * Class that defines context for comment
+     */
     @ApiObject
     public static class CommentContext {
         @ApiObjectField(description = "username of creator of the comment", required = true)
@@ -235,30 +341,52 @@ public class ContributionController {
         public CommentContext() {
         }
 
+        /**
+         * Constructor for CommentContext
+         * @param username username
+         * @param commentBody commentBody
+         */
         public CommentContext(String username, String commentBody) {
 
             this.username = username;
             this.commentBody = commentBody;
         }
 
+        /**
+         * Get functionality for username.
+         * @return username
+         */
         public String getUsername() {
             return username;
         }
 
+        /**
+         * Set functionality for username.
+         */
         public void setUsername(String username) {
             this.username = username;
         }
 
-
+        /**
+         * Get functionality for commentbody.
+         * @return commentbody
+         */
         public String getCommentBody() {
             return commentBody;
         }
 
+        /**
+         * Set functionality for commentbody
+         * @param commentBody commentbody
+         */
         public void setCommentBody(String commentBody) {
             this.commentBody = commentBody;
         }
     }
 
+    /**
+     * Class that defines RateResponse
+     */
     @ApiObject
     public static class RateResponse {
         private Integer up;
@@ -269,6 +397,12 @@ public class ContributionController {
             up=down=currentUser=0;
         }
 
+        /**
+         * Constructor
+         * @param up up
+         * @param down down
+         * @param currentUser currentUser
+         */
         public RateResponse(Integer up, Integer down, Integer currentUser) {
             this.up = up;
             this.down = down;
@@ -300,6 +434,9 @@ public class ContributionController {
         }
     }
 
+    /**
+     * Class that defines votingContext.
+     */
     @ApiObject
     public static class VotingContext {
         @ApiObjectField(description = "Value of the vote", required = true)
@@ -312,10 +449,19 @@ public class ContributionController {
             this.vote = vote;
         }
 
+        /**
+         * Get functionality for vote
+         * @return vote
+         */
         public Integer getVote() {
             return vote;
         }
 
+        /**
+         * Set functionality for vote
+         *
+         * @param vote vote
+         */
         public void setVote(Integer vote) {
             this.vote = vote;
         }

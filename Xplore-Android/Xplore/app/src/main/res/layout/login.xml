@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="match_parent">
 
     <ImageView
@@ -9,19 +10,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/icon"
         android:src="@drawable/logo"
+        android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        />
 
     <com.github.florent37.materialtextfield.MaterialTextField
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/icon"
         android:layout_marginBottom="5dp"
         android:id="@+id/login_email_mat"
-        android:layout_centerHorizontal="true"
         app:mtf_image="@drawable/mail_icon"
+        android:layout_gravity="center"
         app:mtf_labelColor="#ff888888"
         app:mtf_openKeyboardOnFocus="true"
         app:mtf_animationDuration="1000">
@@ -30,6 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
+            android:layout_gravity="center"
+
             android:ems="10"
             android:id="@+id/login_email"
             android:editable="true"
@@ -40,10 +42,9 @@
     <com.github.florent37.materialtextfield.MaterialTextField
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login_email_mat"
-        android:layout_alignEnd="@id/login_email_mat"
         android:layout_marginBottom="10dp"
         android:id="@+id/login_pass_mat"
+        android:layout_gravity="center"
         app:mtf_image="@drawable/password_icon"
         app:mtf_labelColor="#ff888888"
         app:mtf_openKeyboardOnFocus="true"
@@ -62,18 +63,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Login"
+        android:layout_marginBottom="10dp"
         android:id="@+id/loginBtn"
-        android:layout_below="@id/login_pass_mat"
-        android:layout_alignStart="@id/login_email_mat"
-        android:layout_alignEnd="@id/login_pass_mat"/>
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/signUp"
-        android:layout_above="@+id/forgotPass"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:text="Sign Up for Xplore"
         android:layout_marginBottom="10dp"
         android:clickable="true"
@@ -84,10 +84,9 @@
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
         android:id="@+id/forgotPass"
+        android:layout_gravity="center"
         android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="5dp"
         android:textSize="15dp"/>
 
     <TextView
@@ -96,10 +95,8 @@
         android:text="Continue As a Guest"
         android:id="@+id/guestLogin"
         android:clickable="true"
-        android:layout_below="@+id/loginBtn"
-        android:layout_marginTop="5dp"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:textSize="15dp"/>
 
 
-</RelativeLayout>
+</LinearLayout>
